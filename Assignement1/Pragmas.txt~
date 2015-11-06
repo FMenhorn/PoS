@@ -1,0 +1,80 @@
+#################################################
+GCC:
+
+Function Specific Option Pragmas
+#pragma GCC optimize ("string"...)
+This pragma allows you to set global optimization options for functions defined later in the source file. One or more strings can be specified. Each function that is defined after this point is as if attribute((optimize("STRING"))) was specified for that function. The parenthesis around the options is optional. See Function Attributes, for more information about the optimize attribute and the attribute syntax.
+
+Loop specific pragma:
+#pragma GCC ivdep
+With this pragma, the programmer asserts that there are no loop-carried dependencies which would prevent consecutive iterations of the following loop from executing concurrently with SIMD (single instruction multiple data) instructions.
+
+For example, the compiler can only unconditionally vectorize the following loop with the pragma:
+
+     void foo (int n, int *a, int *b, int *c)
+     {
+       int i, j;
+     #pragma GCC ivdep
+       for (i = 0; i < n; ++i)
+         a[i] = b[i] + c[i];
+     }
+In this example, using the restrict qualifier had the same effect. In the following example, that would not be possible. Assume k < -m or k >= m. Only with the pragma, the compiler knows that it can unconditionally vectorize the following loop:
+
+     void ignore_vec_dep (int *a, int k, int c, int m)
+     {
+     #pragma GCC ivdep
+       for (int i = 0; i < m; i++)
+         a[i] = a[i + k] * c;
+     }
+
+#################################################
+ICC:
+(see user guide)
+
+#pragma simd
+User-mandated vectorization or “vectorization using #pragma simd”, is a feature that
+allows the user to instruct the compiler to enforce vectorization of loops. Pragma simd
+is designed to minimize the amount of source code changes needed in order to obtain
+vectorized code. Pragma simd supplements automatic vectorization just like OpenMP
+parallelization supplements automatic parallelization. Similar to the way that OpenMP
+can be used to parallelize loops that the compiler does not normally auto-parallelize,
+pragma simd can be used to vectorize loops that the compiler does not normally autovectorize
+even with the use of vectorization hints such as “#pragma vector always” or
+“#pragma ivdep”. You must add the pragma to a loop, recompile, and the loop is
+vectorized. 
+
+#pragma ivdep 
+may be used to tell the compiler that it may safely ignore any
+potential data dependencies. (The compiler will not ignore proven
+dependencies). Use of this pragma when there are in fact dependencies may
+lead to incorrect results. 
+
+#pragma loop count (n) 
+may be used to advise the compiler of the typical trip
+count of the loop. This may help the compiler to decide whether vectorization is
+worthwhile, or whether or not it should generate alternative code paths for the loop.
+
+#pragma vector always 
+asks the compiler to vectorize the loop if it is safe to do
+so, whether or not the compiler thinks that will improve performance.
+
+#pragma vector align 
+asserts that data within the following loop is aligned (to a
+16 byte boundary, for SSE instruction sets).
+
+#pragma vector nontemporal 
+gives a hint to the compiler that data will not be
+reused, and therefore to use streaming stores that bypass cache
+
+#pragma unroll
+Controls loop unrolling, for improved performance.
+
+When unroll is in effect, the optimizer determines and applies the best unrolling factor for each loop; in some cases, the loop control might be modified to avoid unnecessary branching. The compiler remains the final arbiter of whether the loop is unrolled.
+
+#pragma unroll_and_jam
+The unroll_and_jam pragma partially unrolls one or more loops higher in the nest than the innermost loop and fuses/jams the resulting loops back together. This transformation allows more reuses in the loop.
+This pragma is not effective on innermost loops. Ensure that the immediately following loop is not the innermost loop after compiler-initiated interchanges are completed.
+Specifying this pragma is a hint to the compiler that the unroll and jam sequence is legal and profitable. The compiler enables this transformation whenever possible.
+The unroll_and_jam pragma must precede the for statement for each for loop it affects. If n is specified, the optimizer unrolls the loop n times. If n is omitted or if it is outside the allowed range, the optimizer assigns the number of times to unroll the loop. The compiler generates correct code by comparing n and the loop count.
+This pragma is supported only when compiler option O3 is set. The unroll_and_jam pragma overrides any setting of loop unrolling from the command line.
+When unrolling a loop increases register pressure and code size it may be necessary to prevent unrolling of a nested loop or an imperfect nested loop. In such cases, use the nounroll_and_jam pragma. The nounroll_and_jam pragma hints to the compiler not to unroll a specified loop.
