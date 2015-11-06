@@ -1,0 +1,29 @@
+Some links/hacks:
+
+SuperMUC:
+	General:
+	https://www.lrz.de/services/compute/supermuc/
+	Modules:
+	https://www.lrz.de/services/compute/supermuc/software/
+	Batch:
+	https://www.lrz.de/services/compute/supermuc/loadleveler/
+
+	Connection:
+	ssh <in.tum.username>@lxhalle.informatik.tu-muenchen.de
+	ssh h039y39@supermuc.lrz.de
+
+SSH key generation (if you hate typing login password all the time):
+	cd ~/.ssh
+	ssh-keygen rsa
+	(don't set a password, just enter, enter, enter, enter, enter till key is generated)
+	copy publickey (usually id_rsa.pub) to remote ~/.ssh
+
+scp links:
+	http://www.hypexr.org/linux_scp_help.php
+
+See Task4.2.ods for compiler flags.
+
+Don't forget to 
+	make clean && make
+after changing the makefile!
+
