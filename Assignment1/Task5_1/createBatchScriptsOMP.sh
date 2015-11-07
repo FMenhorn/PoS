@@ -19,5 +19,5 @@ do
 	"\n. /etc/profile" \
 	"\n. /etc/profile.d/modules.sh" \
 	"\nexport OMP_NUM_THREADS=$indexVar" \
-	"\n\$(HOME)/PoS/Assignment1/lulesh2.0.3/lulesh2.0" > job_nthreads$indexVar.cmd
+	"\n\$HOME/PoS/Assignment1/lulesh2.0.3/lulesh2.0" > job_nthreads$indexVar.cmd
 done
