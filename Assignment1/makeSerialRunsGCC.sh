@@ -1,3 +1,5 @@
+#!/bin/bash
+
 make clean && make CXXFLAGS="-march=native" && ./lulesh2.0 
 make clean && make CXXFLAGS="-fomit-frame-pointer" && ./lulesh2.0 
 make clean && make CXXFLAGS="-floop-block" && ./lulesh2.0 

@@ -1,3 +1,5 @@
+#!/bin/bash
+
 make clean && make CXXFLAGS="-march=native" && ./lulesh2.0 
 make clean && make CXXFLAGS="-xHost" && ./lulesh2.0 
 make clean && make CXXFLAGS="-unroll" && ./lulesh2.0 
