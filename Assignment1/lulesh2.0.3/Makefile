@@ -10,7 +10,7 @@ MPI_LIB = /opt/local/lib
 
 SERCXX = g++ -DUSE_MPI=0
 MPICXX = mpig++ -DUSE_MPI=1
-CXX = $(MPICXX)
+CXX = $(SERCXX)
 
 SOURCES2.0 = \
 	lulesh.cc \
@@ -29,8 +29,9 @@ LDFLAGS = -g -O3 -fopenmp
 #LDFLAGS = -g -O3 
 
 #common places you might find silo on the Livermore machines.
-#SILO_INCDIR = /opt/local/include
-#SILO_LIBDIR = /opt/local/lib
+#SILO_INCDIR = /usr/include
+#SILO_LIBDIR = /usr/lib/x86_64-linux-gnu
+#HDF5_LIBDIR = /usr/lib/x86_64-linux-gnu/hdf5/serial
 #SILO_INCDIR = ./silo/4.9/1.8.10.1/include
 #SILO_LIBDIR = ./silo/4.9/1.8.10.1/lib
 
@@ -40,7 +41,7 @@ LDFLAGS = -g -O3 -fopenmp
 
 #below is and example of how to make with silo, hdf5 to get vizulization by default all this is turned off.  All paths are Livermore specific.
 #CXXFLAGS = -g -DVIZ_MESH -I${SILO_INCDIR} -Wall -Wno-pragmas
-#LDFLAGS = -g -L${SILO_LIBDIR} -Wl,-rpath -Wl,${SILO_LIBDIR} -lsiloh5 -lhdf5
+#LDFLAGS = -g -L${SILO_LIBDIR} -Wl,-rpath -Wl,${SILO_LIBDIR} -lsiloh5 -L${HDF5_LIBDIR} -lhdf5
 
 .cc.o: lulesh.h
 	@echo "Building $<"
