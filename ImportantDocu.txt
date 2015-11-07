@@ -18,6 +18,23 @@ SSH key generation (if you hate typing login password all the time):
 	(don't set a password, just enter, enter, enter, enter, enter till key is generated)
 	copy publickey (usually id_rsa.pub) to remote ~/.ssh
 
+GIT:
+	Connection to Supermuc:
+	ssh <in.tum.username>@lxhalle.informatik.tu-muenchen.de
+	ssh -R <port-number>:github.com:9418 h039y39@supermuc.lrz.de
+
+	Configuration on Supermuc:
+	module load git (currently loaded automatically on login via "~/.profile")
+	git clone git://localhost:<port-number>/<git-repo>
+
+	For <port-number> use arbitrary number between 10000 and 65535.
+	For <git-repo> use the url of the git reository, but just the part after "https://github.com/". 
+	(e.g. from "https://github.com/FMenhorn/PoS.git" just "FMenhorn/PoS.git")
+	
+	Use on Supermuc:
+	git <command>
+
+
 scp links:
 	http://www.hypexr.org/linux_scp_help.php
 
