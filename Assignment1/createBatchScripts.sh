@@ -4,9 +4,9 @@ for indexVar in {1..16}
 do
 	echo -e "#!/bin/bash" \
 	"\n#@ wall_clock_limit = 00:20:00"\
-	"\n#@ job_name = pos-lulesh-openmp"\
+	"\n#@ job_name = pos-lulesh-openmp$indexVar"\
 	"\n#@ job_type = MPICH"\
-	"\n#@ class = micro"\
+	"\n#@ class = test"\
 	"\n#@ output ="\
 	"\npos_lulesh_openmp_nthreads$indexVar-\$(jobid).out" \
 	"\n#@ error =" \
@@ -21,5 +21,5 @@ do
 	"\n. /etc/profile" \
 	"\n. /etc/profile.d/modules.sh" \
 	"\nexport OMP_NUM_THREADS=$indexVar" \
-	"\n./lulesh2.0" > job_nthreads$indexVar.cmd
+	"\n\$(HOME)/PoS/Assignment1/lulesh2.0.3/lulesh2.0" > job_nthreads$indexVar.cmd
 done
