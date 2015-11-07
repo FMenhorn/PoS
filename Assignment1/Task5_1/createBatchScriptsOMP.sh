@@ -1,5 +1,7 @@
 #!/bin/bash
 
+jobType="ONLY_OMP"
+
 for indexVar in {1..16}
 do
 	echo -e "#!/bin/bash" \
@@ -7,8 +9,8 @@ do
 	"\n#@ job_name = pos-lulesh-openmp$indexVar"\
 	"\n#@ job_type = MPICH"\
 	"\n#@ class = test"\
-	"\n#@ output = pos_lulesh_openmp_nthreads$indexVar-\$(jobid).out" \
-	"\n#@ error = pos_lulesh_openmp_nthreads$indexVar-\$(jobid).out" \
+	"\n#@ output = pos_lulesh_openmp_nthreads$indexVar-jobid\$(jobid).out" \
+	"\n#@ error = pos_lulesh_openmp_nthreads$indexVar-jobid\$(jobid).out" \
 	"\n#@ node = 1" \
 	"\n#@ total_tasks = 16" \
 	"\n#@ node_usage = not_shared" \
@@ -19,5 +21,7 @@ do
 	"\n. /etc/profile" \
 	"\n. /etc/profile.d/modules.sh" \
 	"\nexport OMP_NUM_THREADS=$indexVar" \
-	"\n\$HOME/PoS/Assignment1/lulesh2.0.3/lulesh2.0" > job_nthreads$indexVar.cmd
+	"\n\$HOME/PoS/Assignment1/lulesh2.0.3/lulesh2.0 > ncpus1-nthreads$indexVar-jobid\$(jobid).out"\
+	"\n mkdir -p \$HOME/PoS/output"\
+	"\n\$HOME/PoS/Assignment1/extractPerformanceMeasure.sh tmp.out > \$HOME/PoS/output/$jobType-ncpus1-nthreads$indexVar.csv" > job_nthreads$indexVar.cmd
 done
