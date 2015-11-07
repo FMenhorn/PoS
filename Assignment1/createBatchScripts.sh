@@ -7,10 +7,8 @@ do
 	"\n#@ job_name = pos-lulesh-openmp$indexVar"\
 	"\n#@ job_type = MPICH"\
 	"\n#@ class = test"\
-	"\n#@ output ="\
-	"\npos_lulesh_openmp_nthreads$indexVar-\$(jobid).out" \
-	"\n#@ error =" \
-	"\npos_lulesh_openmp_nthreads$indexVar-\$(jobid).out" \
+	"\n#@ output = pos_lulesh_openmp_nthreads$indexVar-\$(jobid).out" \
+	"\n#@ error = pos_lulesh_openmp_nthreads$indexVar-\$(jobid).out" \
 	"\n#@ node = 1" \
 	"\n#@ total_tasks = 16" \
 	"\n#@ node_usage = not_shared" \
