@@ -1,1 +1,5 @@
+GCC:
 -march=native -floop-strip-mine
+
+ICC:
+-march=native -xHost
