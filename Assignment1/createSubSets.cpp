@@ -8,6 +8,10 @@ using namespace std;
 
 ofstream myfile;
 void print( vector<string> l){
+	myfile << "echo \"#########";
+	for(vector<string>::iterator it=l.begin(); it!=l.end() ; ++it)
+            myfile << *it;
+    myfile << "\""<< endl;
 	myfile << "make clean && make CXXFLAGS=\"";
     for(vector<string>::iterator it=l.begin(); it!=l.end() ; ++it)
             myfile << *it << " ";
@@ -30,6 +34,7 @@ void subset(string arr[], int size, int left, int index, vector<string> &l){
 int main(){
 	
 	myfile.open ("makeSerialRunsGCC.sh");
+	myfile << "#!/bin/bash\n\n";
     //string array[4]={"-march=native", "-xHost", "-unroll", "-ipo"};
     string array[7]={"-march=native","-fomit-frame-pointer","-floop-block","-floop-interchange","-floop-strip-mine","-funroll-loops","-flto"};
     vector<string> lt;
