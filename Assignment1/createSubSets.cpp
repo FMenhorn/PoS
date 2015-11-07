@@ -29,11 +29,12 @@ void subset(string arr[], int size, int left, int index, vector<string> &l){
 
 int main(){
 	
-	myfile.open ("makeSerialRunsICC.sh");
-    string array[4]={"-march=native", "-xHost", "-unroll", "-ipo"};
+	myfile.open ("makeSerialRunsGCC.sh");
+    //string array[4]={"-march=native", "-xHost", "-unroll", "-ipo"};
+    string array[7]={"-march=native","-fomit-frame-pointer","-floop-block","-floop-interchange","-floop-strip-mine","-funroll-loops","-flto"};
     vector<string> lt;
-    for(int i = 1; i < 5; i++){   
-		subset(array,4,i,0,lt);
+    for(int i = 1; i < 8; i++){   
+		subset(array,7,i,0,lt);
 	}
 	myfile.close();
 
