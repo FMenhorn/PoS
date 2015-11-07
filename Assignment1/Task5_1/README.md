@@ -6,7 +6,7 @@ make -f ../Task5_1/MakefileOMP_GCC
 ```
 set number of threads with
 ```
-OMP_NUM_THREADS=<numthreads>
+export OMP_NUM_THREADS=<numthreads>
 ```
 run with
 ```
