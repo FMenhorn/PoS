@@ -37,10 +37,11 @@ do
 			"\n#load the mpi lib we want"\
 			"\nmodule unload mpi.ibm"\
 			"\nmodule load mpi.intel" \
+			"\nmodule load gcc/4.9" \
 			"\n"\
 			"\n#needed in this job"\
 			"\nexport OMP_NUM_THREADS=$nthreadsVar" \
-			"\n\$HOME/PoS/Assignment1/lulesh2.0.3_PRODUCTION/lulesh2.0_OMP_GCC  > $tempFileName"\
+			"\n\$HOME/PoS/Assignment1/lulesh2.0.3_PRODUCTION/lulesh2.0_OMP_ICC  > $tempFileName"\
 			"\necho \"Run finished. Contents of temp. file ($tempFileName):\"; echo"\
 			"\ncat $tempFileName"\
 			"\n"\

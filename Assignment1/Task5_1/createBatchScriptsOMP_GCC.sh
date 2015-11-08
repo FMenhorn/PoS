@@ -37,6 +37,7 @@ do
 			"\n#load the mpi lib we want"\
 			"\nmodule unload mpi.ibm"\
 			"\nmodule load mpi.intel" \
+			"\nmodule load gcc/4.9" \
 			"\n"\
 			"\n#needed in this job"\
 			"\nexport OMP_NUM_THREADS=$nthreadsVar" \
