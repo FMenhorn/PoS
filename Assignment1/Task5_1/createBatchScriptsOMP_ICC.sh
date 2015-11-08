@@ -1,6 +1,6 @@
 #!/bin/bash
 
-jobType="51-ONLY_OMP" #this means only omp
+jobType="518-ONLY_OMP_ICC" #this means only omp
 outFolder="\$HOME/PoS/output"
 
 for indexVar in {1..16}
@@ -8,7 +8,7 @@ do
         fileNameBase="jobtype$jobType-ncpus1-nthreads$indexVar-jobid\$JOB_ID"
         tempFileName="$fileNameBase.out"
         outFileName="$fileNameBase.csv"
-        batchFileName="job_nthreads$indexVar.cmd"
+        batchFileName="job-jobtype$jobType-nthreads$indexVar.cmd"
 
         echo -e "#!/bin/bash" \
         "\n#@ wall_clock_limit = 00:20:00"\
@@ -28,7 +28,7 @@ do
         "\n. /etc/profile" \
         "\n. /etc/profile.d/modules.sh" \
         "\nexport OMP_NUM_THREADS=$indexVar" \
-        "\n\$HOME/PoS/Assignment1/lulesh2.0.3/lulesh2.0 > $tempFileName"\
+        "\n\$HOME/PoS/Assignment1/lulesh2.0.3_PRODUCTION/lulesh2.0_OMP_ICC > $tempFileName"\
         "\necho \"Run finished. Contents of temp. file ($tempFileName):\"; echo"\
         "\ncat $tempFileName"\
         "\nmkdir -p $outFolder"\
