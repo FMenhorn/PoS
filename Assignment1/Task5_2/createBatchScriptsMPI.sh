@@ -1,13 +1,13 @@
 #!/bin/bash
 
-jobType="52-ONLY_MPI" #this means only omp
+jobType="52-MPI" #this means only mpi
 outFolder="\$HOME/PoS/output"
 
 for nthreadsVar in 1
 do
 	for ncpusVar in 1 8 27
 	do
-		if ((nthreadsVar * ncpusVar < 28))
+		if ((nthreadsVar * ncpusVar < 33))
 		then
 			fileNameBase="jobtype$jobType-ncpus$ncpusVar-nthreads$nthreadsVar-jobid\$JOB_ID"
 			tempFileName="$fileNameBase.out"
@@ -22,7 +22,7 @@ do
 			"\n#@ output = pos_lulesh_ncpus$ncpusVar-_nthreads$nthreadsVar-jobid\$(jobid).out" \
 			"\n#@ error = pos_lulesh_ncpus$ncpusVar-_nthreads$nthreadsVar-jobid\$(jobid).out" \
 			"\n#@ node = 1" \
-			"\n#@ total_tasks = 27" \
+			"\n#@ total_tasks = 32" \
 			"\n#@ node_usage = not_shared" \
 			"\n#@ energy_policy_tag = lulesh" \
 			"\n#@ minimize_time_to_solution = yes" \
