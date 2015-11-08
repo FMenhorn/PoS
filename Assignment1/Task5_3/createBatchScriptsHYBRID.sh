@@ -9,10 +9,11 @@ do
 	do
 		if ((nthreadsVar * ncpusVar < 33))
 		then
-			fileNameBase="jobtype$jobType-ncpus$ncpusVar-nthreads$nthreadsVar-jobid\$JOB_ID"
+			fileNameBaseBase="jobtype$jobType-ncpus$ncpusVar-nthreads$nthreadsVar"
+			fileNameBase="$fileNameBaseBase-jobid\$JOB_ID"
 			tempFileName="$fileNameBase.out"
 			outFileName="$fileNameBase.csv"
-			batchFileName="$fileNameBase.cmd"
+			batchFileName="$fileNameBaseBase.cmd"
 
 			echo -e "#!/bin/bash" \
 			"\n#@ wall_clock_limit = 00:20:00"\
