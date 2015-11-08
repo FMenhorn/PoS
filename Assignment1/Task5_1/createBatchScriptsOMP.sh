@@ -1,9 +1,15 @@
 #!/bin/bash
 
 jobType="ONLY_OMP"
+outFolder="\$HOME/PoS/output"
 
 for indexVar in {1..16}
 do
+	fileNameBase="ncpus1-nthreads$indexVar-jobid\$(jobid)"
+	tempFileName="$fileNameBase.out"
+	outFileName="$fileNameBase.csv"
+	batchFileName="job_nthreads$indexVar.cmd"
+
 	echo -e "#!/bin/bash" \
 	"\n#@ wall_clock_limit = 00:20:00"\
 	"\n#@ job_name = pos-lulesh-openmp$indexVar"\
@@ -17,11 +23,13 @@ do
 	"\n#@ energy_policy_tag = lulesh" \
 	"\n#@ minimize_time_to_solution = yes" \
 	"\n#@ island_count = 1" \
+	"\n#@ environment = \$jobid" \
 	"\n#@ queue" \
 	"\n. /etc/profile" \
 	"\n. /etc/profile.d/modules.sh" \
 	"\nexport OMP_NUM_THREADS=$indexVar" \
-	"\n\$HOME/PoS/Assignment1/lulesh2.0.3/lulesh2.0 > ncpus1-nthreads$indexVar-jobid\$(jobid).out"\
-	"\n mkdir -p \$HOME/PoS/output"\
-	"\n\$HOME/PoS/Assignment1/extractPerformanceMeasure.sh tmp.out > \$HOME/PoS/output/$jobType-ncpus1-nthreads$indexVar.csv" > job_nthreads$indexVar.cmd
+	"\n\$HOME/PoS/Assignment1/lulesh2.0.3/lulesh2.0 > $tempFileName"\
+	"\ncat $tempFileName"\
+	"\nmkdir -p $outFolder"\
+	"\n\$HOME/PoS/Assignment1/extractPerformanceMeasure.sh $tempFileName > $outFolder/$outFileName" > "$batchFileName"
 done
