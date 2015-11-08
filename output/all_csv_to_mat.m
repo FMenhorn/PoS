@@ -7,7 +7,7 @@ for i = 1:numel(my_structs)
 names{i} = my_structs(i).name;
 end
 
-data = zeros(N_data,9);
+data = zeros(N_data,7);
 
 for i = 1:N_data
 data(i,:) = dlmread(names{i},';');

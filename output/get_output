@@ -1,0 +1,5 @@
+On lxhalle run:
+scp -r h039y39@supermuc.lrz.de:~/PoS/output/* ~/OUT
+
+On local machine run:
+scp -r rueth@lxhalle.in.tum.de:~/OUT/* output
