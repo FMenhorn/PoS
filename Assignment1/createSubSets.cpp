@@ -12,7 +12,7 @@ void print( vector<string> l){
 	for(vector<string>::iterator it=l.begin(); it!=l.end() ; ++it)
             myfile << *it;
     myfile << "\""<< endl;
-	myfile << "make clean && make CXXFLAGS=\"";
+	myfile << "make clean && make CXXFLAGS=\"-O3 -I. ";
     for(vector<string>::iterator it=l.begin(); it!=l.end() ; ++it)
             myfile << *it << " ";
     myfile << "\" && ./lulesh2.0 \n";
@@ -33,13 +33,13 @@ void subset(string arr[], int size, int left, int index, vector<string> &l){
 
 int main(){
 	
-	myfile.open ("makeSerialRunsGCC.sh");
+	myfile.open ("makeSerialRunsICC.sh");
 	myfile << "#!/bin/bash\n\n";
-    //string array[4]={"-march=native", "-xHost", "-unroll", "-ipo"};
-    string array[7]={"-march=native","-fomit-frame-pointer","-floop-block","-floop-interchange","-floop-strip-mine","-funroll-loops","-flto"};
+    string array[4]={"-march=native", "-xHost", "-unroll", "-ipo"};
+    //string array[7]={"-march=native","-fomit-frame-pointer","-floop-block","-floop-interchange","-floop-strip-mine","-funroll-loops","-flto"};
     vector<string> lt;
-    for(int i = 1; i < 8; i++){   
-		subset(array,7,i,0,lt);
+    for(int i = 1; i < 5; i++){   
+		subset(array,4,i,0,lt);
 	}
 	myfile.close();
 
