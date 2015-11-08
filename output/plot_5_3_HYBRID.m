@@ -25,7 +25,8 @@ for i = 1:numel(procs_unique)
     end
 end
 
-figure(1)
+figure(3)
+title('HYBRID scaling')
 subplot(1,3,1)
 hold on
 xlabel('no cores')
@@ -39,7 +40,7 @@ XlogTicks=0:1:4;
 LogTicks=2.^XlogTicks;
 TheLogTicks=LogTicks;
 set(gca,'XTick',TheLogTicks)
-xlim([0,16]) 
+xlim([1,16]) 
 for i = 1:numel(procs_unique)
     for j = 1:numel(threads_unique)        
         if ~isnan(mean_FOM(i,j)) && mean_FOM(i,j)~=0
@@ -53,7 +54,8 @@ for i = 1:numel(procs_unique)
     end
 end
 
-legend(legendhandles,legendentries)
+lh = legend(legendhandles,legendentries);
+set(lh,'location','southoutside');
 
 hold off
 
@@ -71,7 +73,7 @@ XlogTicks=0:1:4;
 LogTicks=2.^XlogTicks;
 TheLogTicks=LogTicks;
 set(gca,'XTick',TheLogTicks)
-xlim([0,16]) 
+xlim([1,16]) 
 for i = 1:numel(procs_unique)
     for j = 1:numel(threads_unique)        
         if ~isnan(mean_FOM(i,j)) && mean_FOM(i,j)~=0
@@ -85,7 +87,8 @@ for i = 1:numel(procs_unique)
     end
 end
 
-legend(legendhandles,legendentries)
+lh = legend(legendhandles,legendentries);
+set(lh,'location','southoutside');
 
 hold off
 
@@ -117,7 +120,8 @@ for i = 1:numel(procs_unique)
     end
 end
 
-legend(legendhandles,legendentries)
+lh = legend(legendhandles,legendentries);
+set(lh,'location','southoutside');
 
 hold off
 end

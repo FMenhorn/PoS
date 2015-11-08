@@ -4,7 +4,7 @@ function [ h ] = plot_5_2_MPI( datastruct )
 
 decider = datastruct.assignment_id == 52;
 
-time = datastruct.time(decider);
+time = datastruct.FOM_line(decider);
 proc = datastruct.num_cpu(decider);
 
 procs_unique = unique(proc);
@@ -15,19 +15,19 @@ for i = 1:numel(procs_unique)
     
 end
 
-figure(1)
+figure(2)
 hold on
-    h=plot(procs_unique, 1./mean_time, '*');
+title('MPI scaling')
+    h=plot(procs_unique, mean_time, '*');
     xlabel('no cpus')
-    ylabel('1/time')    
+    ylabel('FOM')    
     set(gca,'xScale','log')
     set(gca,'yScale','log')
     XlogTicks=0:1:4;
     LogTicks=2.^XlogTicks;
     TheLogTicks=LogTicks;
     set(gca,'XTick',TheLogTicks)
-    xlim([0,16]) 
-    ylim([0,1])
+    xlim([1,16])     
 hold off
 
 end

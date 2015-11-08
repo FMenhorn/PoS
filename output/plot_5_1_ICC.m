@@ -26,8 +26,8 @@ hold on
     LogTicks=2.^XlogTicks;
     TheLogTicks=LogTicks;
     set(gca,'XTick',TheLogTicks)
-    xlim([0,16])
-    ylim([0,1])
+    xlim([1,16])
+    ylim([10^-2,10^0])
 hold off
 
 end
