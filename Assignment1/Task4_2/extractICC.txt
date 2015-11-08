@@ -1,0 +1,60 @@
+#########-march=native
+Elapsed time         =      24.73 (s)
+Grind time (us/z/c)  = 0.98258218 (per dom)  (0.98258218 overall)
+FOM                  =  1017.7266 (z/s)
+#########-xHost
+Elapsed time         =      24.82 (s)
+Grind time (us/z/c)  = 0.98617283 (per dom)  (0.98617283 overall)
+FOM                  =   1014.021 (z/s)
+#########-unroll
+Elapsed time         =      26.74 (s)
+Grind time (us/z/c)  =  1.0627917 (per dom)  ( 1.0627917 overall)
+FOM                  =  940.91816 (z/s)
+#########-ipo
+Elapsed time         =      28.80 (s)
+Grind time (us/z/c)  =  1.1446255 (per dom)  ( 1.1446255 overall)
+FOM                  =   873.6482 (z/s)
+#########-march=native-xHost
+Elapsed time         =      24.92 (s)
+Grind time (us/z/c)  = 0.99037148 (per dom)  (0.99037148 overall)
+FOM                  =  1009.7221 (z/s)
+#########-march=native-unroll
+Elapsed time         =      24.83 (s)
+Grind time (us/z/c)  =  0.9865879 (per dom)  ( 0.9865879 overall)
+FOM                  =  1013.5944 (z/s)
+#########-march=native-ipo
+Elapsed time         =      28.51 (s)
+Grind time (us/z/c)  =  1.1328372 (per dom)  ( 1.1328372 overall)
+FOM                  =  882.73938 (z/s)
+#########-xHost-unroll
+Elapsed time         =      24.72 (s)
+Grind time (us/z/c)  = 0.98223597 (per dom)  (0.98223597 overall)
+FOM                  =  1018.0853 (z/s)
+#########-xHost-ipo
+Elapsed time         =      28.47 (s)
+Grind time (us/z/c)  =  1.1312542 (per dom)  ( 1.1312542 overall)
+FOM                  =  883.97461 (z/s)
+#########-unroll-ipo
+Elapsed time         =      29.00 (s)
+Grind time (us/z/c)  =    1.15248 (per dom)  (   1.15248 overall)
+FOM                  =  867.69404 (z/s)
+#########-march=native-xHost-unroll
+Elapsed time         =      24.68 (s)
+Grind time (us/z/c)  = 0.98058043 (per dom)  (0.98058043 overall)
+FOM                  =  1019.8042 (z/s)
+#########-march=native-xHost-ipo
+Elapsed time         =      28.40 (s)
+Grind time (us/z/c)  =  1.1284863 (per dom)  ( 1.1284863 overall)
+FOM                  =   886.1428 (z/s)
+#########-march=native-unroll-ipo
+Elapsed time         =      28.26 (s)
+Grind time (us/z/c)  =  1.1230297 (per dom)  ( 1.1230297 overall)
+FOM                  =  890.44841 (z/s)
+#########-xHost-unroll-ipo
+Elapsed time         =      28.71 (s)
+Grind time (us/z/c)  =   1.140865 (per dom)  (  1.140865 overall)
+FOM                  =  876.52789 (z/s)
+#########-march=native-xHost-unroll-ipo
+Elapsed time         =      28.60 (s)
+Grind time (us/z/c)  =  1.1367121 (per dom)  ( 1.1367121 overall)
+FOM                  =  879.73024 (z/s)
