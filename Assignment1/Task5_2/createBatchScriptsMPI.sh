@@ -7,22 +7,23 @@ for nthreadsVar in 1
 do
 	for ncpusVar in 1 8 27
 	do
-		if ((nthreadsVar * ncpusVar < 33))
+		if ((nthreadsVar * ncpusVar < 21))
 		then
-			fileNameBase="jobtype$jobType-ncpus$ncpusVar-nthreads$nthreadsVar-jobid\$JOB_ID"
+			fileNameBaseBase="jobtype$jobType-ncpus$ncpusVar-nthreads$nthreadsVar"
+			fileNameBase="$fileNameBaseBase-jobid\$JOB_ID"
 			tempFileName="$fileNameBase.out"
 			outFileName="$fileNameBase.csv"
-			batchFileName="$fileNameBase.cmd"
+			batchFileName="$fileNameBaseBase.cmd"
 
 			echo -e "#!/bin/bash" \
 			"\n#@ wall_clock_limit = 00:20:00"\
 			"\n#@ job_name = pos-lulesh-openmp$nthreadsVar"\
 			"\n#@ job_type = MPICH"\
-			"\n#@ class = fattest"\
+			"\n#@ class = test"\
 			"\n#@ output = pos_lulesh_ncpus$ncpusVar-_nthreads$nthreadsVar-jobid\$(jobid).out" \
 			"\n#@ error = pos_lulesh_ncpus$ncpusVar-_nthreads$nthreadsVar-jobid\$(jobid).out" \
 			"\n#@ node = 1" \
-			"\n#@ total_tasks = 32" \
+			"\n#@ total_tasks = 20" \
 			"\n#@ node_usage = not_shared" \
 			"\n#@ energy_policy_tag = lulesh" \
 			"\n#@ minimize_time_to_solution = yes" \
