@@ -49,7 +49,7 @@ LDFLAGS = -g -O3
 
 all: $(LULESH_EXEC)
 
-lulesh2.0: $(OBJECTS2.0)
+lulesh2.0_MPI: $(OBJECTS2.0)
 	@echo "Linking"
 	$(CXX) $(OBJECTS2.0) $(LDFLAGS) -lm -o $@
 
