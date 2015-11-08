@@ -15,7 +15,7 @@ nprocs=${nprocs_tmp%%-*}
 nthreads_tmp=${1##*nthreads}
 nthreads=${nthreads_tmp%%-*}
 
-result="$jobid;$jobtype;$nprocs;$nthreads;"
+result="$jobid;$jobtype;$nprocs;$nthreads"
 for string_line in "$time_line" "$grind_time_line" "$FOM_line"
 do
 
