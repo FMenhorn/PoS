@@ -26,14 +26,14 @@ for i = 1:numel(procs_unique)
 end
 
 figure(3)
-title('HYBRID scaling')
+hold on
 subplot(1,3,1)
 hold on
 xlabel('no cores')
 ylabel('FOM') 
 set(gca,'xScale','log')
 set(gca,'yScale','log')
-color = {'r*','b*'};
+color = {'r*-','b*-'};
 legendentries = {'1 processor','8 processors'};
 legendhandles = [0,0];
 XlogTicks=0:1:4;
@@ -42,16 +42,24 @@ TheLogTicks=LogTicks;
 set(gca,'XTick',TheLogTicks)
 xlim([1,16]) 
 for i = 1:numel(procs_unique)
+    last_num_cores = 0;
+    last_mean_FOM = 0;
     for j = 1:numel(threads_unique)        
         if ~isnan(mean_FOM(i,j)) && mean_FOM(i,j)~=0
             num_procs = procs_unique(i);
             num_threads = threads_unique(j);
             num_cores = num_procs * num_threads;
-            mean_FOM(i,j);
-            h = plot(num_cores, mean_FOM(i,j),color{i});
+            mean_FOM(i,j);              
+            if last_num_cores == 0
+                last_num_cores = num_cores;
+                last_mean_FOM = mean_FOM(i,j);
+            end
+            h = plot([last_num_cores,num_cores], [last_mean_FOM,mean_FOM(i,j)],color{i});            
+            last_num_cores=num_cores;
+            last_mean_FOM=mean_FOM(i,j);
             legendhandles(i) = h;
         end
-    end
+    end    
 end
 
 lh = legend(legendhandles,legendentries);
@@ -62,11 +70,12 @@ hold off
 
 subplot(1,3,2)
 hold on
+title('HYBRID scaling')
 xlabel('no threads per processor')
 ylabel('1/grindtime') 
 set(gca,'xScale','log')
 set(gca,'yScale','log')
-color = {'r*','b*'};
+color = {'r*-','b*-'};
 legendentries = {'1 processor','8 processors'};
 legendhandles = [0,0];
 XlogTicks=0:1:4;
@@ -75,13 +84,21 @@ TheLogTicks=LogTicks;
 set(gca,'XTick',TheLogTicks)
 xlim([1,16]) 
 for i = 1:numel(procs_unique)
+    last_num_threads = 0;
+    last_mean_grind= 0;
     for j = 1:numel(threads_unique)        
         if ~isnan(mean_FOM(i,j)) && mean_FOM(i,j)~=0
             num_procs = procs_unique(i);
             num_threads = threads_unique(j);
             num_cores = num_procs * num_threads;
             mean_FOM(i,j);
-            h = plot(num_threads, 1./mean_grind(i,j),color{i});
+            if last_num_threads == 0
+                last_num_threads = num_threads;
+                last_mean_grind = mean_grind(i,j);
+            end            
+            h = plot([last_num_threads, num_threads], [1./last_mean_grind,1./mean_grind(i,j)],color{i});
+            last_num_threads=num_threads;
+            last_mean_grind=mean_grind(i,j);            
             legendhandles(i) = h;
         end
     end
@@ -99,7 +116,7 @@ xlabel('no cores')
 ylabel('1/time') 
 set(gca,'xScale','log')
 set(gca,'yScale','log')
-color = {'r*','b*'};
+color = {'r*-','b*-'};
 legendentries = {'1 processor','8 processors'};
 legendhandles = [0,0];
 XlogTicks=0:1:4;
@@ -108,13 +125,21 @@ TheLogTicks=LogTicks;
 set(gca,'XTick',TheLogTicks)
 xlim([0,16]) 
 for i = 1:numel(procs_unique)
+    last_num_cores = 0;
+    last_mean_time= 0;
     for j = 1:numel(threads_unique)        
         if ~isnan(mean_FOM(i,j)) && mean_FOM(i,j)~=0
             num_procs = procs_unique(i);
             num_threads = threads_unique(j);
             num_cores = num_procs * num_threads;
             mean_FOM(i,j);
-            h = plot(num_cores, 1./mean_time(i,j),color{i});
+            if last_num_cores == 0
+                last_num_cores = num_cores;
+                last_mean_time = mean_time(i,j);
+            end  
+            h = plot([last_num_cores,num_cores], [1./last_mean_time,1./mean_time(i,j)],color{i});
+            last_num_cores = num_cores;
+            last_mean_time = mean_time(i,j);
             legendhandles(i) = h;
         end
     end
@@ -123,6 +148,7 @@ end
 lh = legend(legendhandles,legendentries);
 set(lh,'location','southoutside');
 
+hold off
 hold off
 end
 

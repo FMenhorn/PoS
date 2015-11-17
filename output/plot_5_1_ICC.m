@@ -17,7 +17,7 @@ end
 
 figure(1)
 hold on
-    h=plot(threads_unique, 1./mean_time, '*');
+    h=plot(threads_unique, 1./mean_time, '*-');
     xlabel('no threads')
     ylabel('1/time')    
     set(gca,'xScale','log')

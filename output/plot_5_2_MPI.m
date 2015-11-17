@@ -18,7 +18,7 @@ end
 figure(2)
 hold on
 title('MPI scaling')
-    h=plot(procs_unique, mean_time, '*');
+    h=plot(procs_unique, mean_time, '*-');    
     xlabel('no cpus')
     ylabel('FOM')    
     set(gca,'xScale','log')
