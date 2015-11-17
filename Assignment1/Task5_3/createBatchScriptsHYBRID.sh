@@ -1,11 +1,11 @@
 #!/bin/bash
 
-jobType="518-OMP_ICC" #this means only omp
+jobType="53-HYBRID" #this means hybrid
 outFolder="\$HOME/PoS/output"
 
 for nthreadsVar in 1 2 4 8 16 32
 do
-	for ncpusVar in 1
+	for ncpusVar in 1 8 27
 	do
 		if ((nthreadsVar * ncpusVar < 21))
 		then
@@ -37,11 +37,10 @@ do
 			"\n#load the mpi lib we want"\
 			"\nmodule unload mpi.ibm"\
 			"\nmodule load mpi.intel" \
-			"\nmodule load gcc/4.9" \
 			"\n"\
 			"\n#needed in this job"\
 			"\nexport OMP_NUM_THREADS=$nthreadsVar" \
-			"\n\$HOME/PoS/Assignment1/lulesh2.0.3_PRODUCTION/lulesh2.0_OMP_ICC  > $tempFileName"\
+			"\nmpiexec -n $ncpusVar \$HOME/PoS/Assignment1/lulesh2.0.3_PRODUCTION/lulesh2.0_HYBRID  > $tempFileName"\
 			"\necho \"Run finished. Contents of temp. file ($tempFileName):\"; echo"\
 			"\ncat $tempFileName"\
 			"\n"\

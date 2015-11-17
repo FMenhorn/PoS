@@ -20,7 +20,7 @@ for string_line in "$time_line" "$grind_time_line" "$FOM_line"
 do
 
 	tmp=${string_line##*=}
-	b=${tmp%%(*}
+	b=`echo ${tmp%%(*} | sed 's/ //g'`
 	result="$result;$b"
 done
 echo "$result"

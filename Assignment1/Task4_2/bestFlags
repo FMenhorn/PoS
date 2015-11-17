@@ -1,5 +1,5 @@
 GCC:
--march=native -floop-strip-mine
+-march=native -floop-strip-mine -funroll-loops
 
 ICC:
--march=native -xHost
+-march=native -xHost -unroll
