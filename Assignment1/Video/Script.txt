@@ -1,0 +1,21 @@
+Task4_2:
+
+gprof output for gcc and icc:
+	GCC: 
+	CalcHourGlassPerElem(): two nested totally independent loops over all elements and all directions(?)
+
+	ICC:
+	EvalEOSForElems(): multiple nested for loops with if statements at third loop level
+
+Compiler flags:
+	2^#flags
+	Too expensive to test all combinations
+	icc xHost march=native unroll
+
+#pragmas:
+	no data dependencies
+	gcc: loop size known
+	     8*single = schöne chunks
+
+
+
