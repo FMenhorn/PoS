@@ -8,14 +8,24 @@ gprof output for gcc and icc:
 	EvalEOSForElems(): multiple nested for loops with if statements at third loop level
 
 Compiler flags:
+	Number of flags
+	gcc: 220 flags
+	icc: 90 flags
 	2^#flags
 	Too expensive to test all combinations
-	icc xHost march=native unroll
+	GCC-flags:
+		-march=native -floop-strip-mine -funroll-loops
+	ICC-Flags:
+		-march=native -xHost -unroll
 
 #pragmas:
 	no data dependencies
 	gcc: loop size known
 	     8*single = schöne chunks
+	     #pragma GCC ivdep over inner loop
+	
+	icc:
+	     #pragma unroll_and_jam over inner loops
 
 
 
