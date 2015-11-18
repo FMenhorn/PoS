@@ -1,3 +1,5 @@
+Introduction about lulesh and performance measures
+
 Task4_2:
 
 gprof output for gcc and icc:
@@ -27,5 +29,52 @@ Compiler flags:
 	icc:
 	     #pragma unroll_and_jam over inner loops
 
+Task5_1_1:
 
+Linear scalability:
+	NO, for both gcc and icc. Compare with reference line: It is linear but has higher slope.
+
+Maximum Performance:
+	Show plots of omp scaling for 1/time	
+	FOM: for the whole system cells/second
+	Grindtime1: time per zone per cells
+	Grindtime2: time per zone per (cells*numRanks)
+
+Task5_2_2:
+
+MPI valid combinations:
+	Less than 20 threads
+	MPI processes only in n^3: 
+			1x1x1 MPI: 1	
+			2x2x2 MPI: 8
+			3x3x3= 27 > 20 !
+
+Was linear scalability achieved?
+	No, again
+
+Maximum performance for which processor count?
+	Show plots	
+	Performance=#cells per second
+
+How does the performance compare with OpenMP?
+	Show table
+
+Task5_3_2:
+
+Hyprid valid combinations:
+	1 MPI: 1 2 4 8 16 (32 too high (Fat Test NODE))	
+	2x2x2 MPI: 8 16 (32 too high again (Fat Test NODE))
+
+Linear scalability:
+	Plots
+
+Fastest solution:
+	OpenMP, domain size is not increasing
+
+Maximum performance:
+	Show plots
+	probably OpenMP
+
+Would we have guessed it:
+	No! think of something here
 
