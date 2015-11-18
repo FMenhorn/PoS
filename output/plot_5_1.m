@@ -46,7 +46,7 @@ hold on
     GCC_h_FOM=plot(GCC_threads_unique, GCC_mean_FOM, 'r*-');
     ICC_h_FOM=plot(ICC_threads_unique, ICC_mean_FOM, 'b*-'); 
     
-    xlabel('# threads')
+    xlabel('#threads')
     ylabel('FOM')
     set(gca,'xScale','log')
     set(gca,'yScale','log')
@@ -56,9 +56,9 @@ hold on
     set(gca,'XTick',TheLogTicks)
     xlim([1,16])        
     %linear function for comparison
-    plot(GCC_threads_unique, GCC_mean_FOM(1)*GCC_threads_unique, 'k--');     
+    REF_h_FOM=plot(GCC_threads_unique, GCC_mean_FOM(1)*GCC_threads_unique, 'k--');     
     
-    hl_FOM = legend([GCC_h_FOM,ICC_h_FOM],'GCC FOM','ICC FOM');
+    hl_FOM = legend([GCC_h_FOM,ICC_h_FOM,REF_h_FOM],'GCC FOM','ICC FOM','O(#threads)');
     set(hl_FOM,'location','southoutside');
 hold off    
 
@@ -67,7 +67,7 @@ hold on
     GCC_h_time = plot(GCC_threads_unique, 1./GCC_mean_time, 'rx-');
     ICC_h_time = plot(GCC_threads_unique, 1./ICC_mean_time, 'bx-');
     
-    xlabel('# threads')
+    xlabel('#threads')
     ylabel('1/time')
     set(gca,'xScale','log')
     set(gca,'yScale','log')
@@ -77,9 +77,9 @@ hold on
     set(gca,'XTick',TheLogTicks)
     xlim([1,16])        
     %linear function for comparison
-    plot(GCC_threads_unique, 1./GCC_mean_time(1)*GCC_threads_unique, 'k--');  
+    REF_h_time = plot(GCC_threads_unique, 1./GCC_mean_time(1)*GCC_threads_unique, 'k--');  
         
-    hl_time = legend([GCC_h_time,ICC_h_time],'GCC 1/time','ICC 1/time');
+    hl_time = legend([GCC_h_time,ICC_h_time,REF_h_time],'GCC 1/time','ICC 1/time','O(#threads)');
     set(hl_time,'location','southoutside');
 hold off    
 
@@ -88,7 +88,7 @@ hold on
     GCC_h_grind = plot(GCC_threads_unique, 1./GCC_mean_grind, 'ro-');        
     ICC_h_grind = plot(GCC_threads_unique, 1./ICC_mean_grind, 'bo-');
     
-    xlabel('# threads')    
+    xlabel('#threads')    
     ylabel('1/grind')
     set(gca,'xScale','log')
     set(gca,'yScale','log')
@@ -98,9 +98,9 @@ hold on
     set(gca,'XTick',TheLogTicks)
     xlim([1,16])        
     %linear function for comparison
-    plot(GCC_threads_unique, 1./GCC_mean_grind(1)*GCC_threads_unique, 'k--');   
+    REF_h_grind=plot(GCC_threads_unique, 1./GCC_mean_grind(1)*GCC_threads_unique, 'k--');   
         
-    hl_grind = legend([GCC_h_grind,ICC_h_grind],'GCC 1/grind','ICC 1/grind');
+    hl_grind = legend([GCC_h_grind,ICC_h_grind,REF_h_grind],'GCC 1/grind','ICC 1/grind','O(#threads)');
     set(hl_grind,'location','southoutside');
     
     title('OMP scaling')    
