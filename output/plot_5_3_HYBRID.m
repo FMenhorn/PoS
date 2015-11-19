@@ -70,7 +70,7 @@ hold off
 subplot(1,3,2)
 hold on
 title('HYBRID scaling')
-grind_str_xlabel = '#threads per cpu';
+grind_str_xlabel = '#threads per mpi process';
 xlabel(grind_str_xlabel)
 ylabel('1/grindtime') 
 set(gca,'xScale','log')
