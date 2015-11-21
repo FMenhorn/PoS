@@ -1,0 +1,20 @@
+-O2 flags
+
+Use 2 binaries
+
+lulesh2.0-ibm-mpi.openmp
+
+module load totalview
+
+####TOTALVIEW
+poe linux
+task 27
+nodes 2
+
+pick binary in tab program details->file name
+
+Tab Debug Options -> DO NOT ENABLE Reverse Debugging
+
+Tab Environment-> dont care
+
+->Next->Preview Launch
