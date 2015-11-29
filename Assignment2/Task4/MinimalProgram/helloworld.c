@@ -4,10 +4,21 @@
 #endif
 #include <omp.h>
 
+void f(int thread_id)
+{
+	if(thread_id==3)
+	{
+		printf("\tthread: %d: I'm the best thread!\n",thread_id);
+	}
+	else
+	{
+		printf("\tthread: %d: Just one thread among others...\n",thread_id);
+	}
+}
 
 int main (int argc, char* argv[])
 {
-  int rank, size;
+  int rank, size, thread, num_threads;
 
 #if USE_MPI
   MPI_Init (&argc, &argv);	/* starts MPI */
@@ -18,15 +29,17 @@ int main (int argc, char* argv[])
   size = 1;
 #endif
 
-#pragma omp parallel 
+#pragma omp parallel private(thread,num_threads)
 {
 #ifdef _OPENMP
-  int thread = omp_get_thread_num();
-  int num_threads = omp_get_num_threads();
+  thread = omp_get_thread_num();
+  num_threads = omp_get_num_threads();
   printf( "Hello world from process %d of %d - thread %d of %d\n", rank, size, thread, num_threads );
 #else
+  int thread = 0;
   printf( "Hello world from process %d of %d\n", rank, size );
 #endif
+  f(thread);
 }
 
 #if USE_MPI
