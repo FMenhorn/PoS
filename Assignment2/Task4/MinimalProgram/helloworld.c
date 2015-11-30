@@ -20,6 +20,12 @@ int main (int argc, char* argv[])
 {
   int rank, size, thread, num_threads;
 
+printf("serial dummy statements...\n");
+int a = 1;
+a = a+1;
+a = 10*a;
+printf("no more dummy stuff!\n");
+
 #if USE_MPI
   MPI_Init (&argc, &argv);	/* starts MPI */
   MPI_Comm_rank (MPI_COMM_WORLD, &rank);	/* get current process id */
@@ -27,6 +33,10 @@ int main (int argc, char* argv[])
 #else
   rank = 0;
   size = 1;
+#endif
+
+#ifdef _OPENMP
+printf("opening parallel region");
 #endif
 
 #pragma omp parallel private(thread,num_threads)
@@ -41,6 +51,10 @@ int main (int argc, char* argv[])
 #endif
   f(thread);
 }
+
+#ifdef _OPENMP
+printf("parallel region closed!");
+#endif
 
 #if USE_MPI
   MPI_Finalize();
