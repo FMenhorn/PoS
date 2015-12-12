@@ -1,0 +1,14 @@
+\frametitle{Amplification and error propogation}
+\framesubtitle{Definition}
+\begin{itemize}
+\item From: \url{http://floating-point-gui.de/errors/propagation/}
+\item[] "While the errors in single floating-point numbers are very small, even simple calculations on them can contain pitfalls that increase the error in the result way beyond just having the individual errors “add up”.
+\item[] In general:
+\begin{itemize}
+\item Multiplication and division are “safe” operations
+\item Addition and subtraction are dangerous, because when numbers of different magnitudes are involved, digits of the smaller-magnitude number are lost.
+\item This loss of digits can be inevitable and benign (when the lost digits also insignificant for the final result) or catastrophic (when the loss is magnified and distorts the result strongly).
+\item The more calculations are done (especially when they form an iterative algorithm) the more important it is to consider this kind of problem.
+\item $[...]$ "
+\end{itemize}
+\end{itemize}
