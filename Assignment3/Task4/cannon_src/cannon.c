@@ -356,7 +356,9 @@ int main (int argc, char **argv) {
 		free(C_array);
 	}
 	free(A_local_block);
+	free(A_local_block_copy);
 	free(B_local_block);
+	free(B_local_block_copy);
 	free(C_local_block);
 
 	// finalize MPI
