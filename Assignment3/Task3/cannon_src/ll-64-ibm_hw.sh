@@ -40,7 +40,7 @@ date
 mpiexec -n 64 ./cannon$arch_ending $cannon_matrices_path/4096x4096-1.in $cannon_matrices_path/4096x4096-2.in | tee 4096_$JOB_ID.out
 date
 
-if [ ! -f $outfile]; then
+if [ ! -f $outfile ] ; then
 	touch $outfile
 fi
 
