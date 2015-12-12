@@ -1,4 +1,4 @@
-function [] = plot_all_data(ROOTPATH)
+function [] = plot_all_data(ROOTPATH, figuretitle)
     datastruct = all_csv_to_mat(ROOTPATH);
 
     x = sort(unique(datastruct.size));
@@ -18,14 +18,18 @@ function [] = plot_all_data(ROOTPATH)
         y2(i) = y2(i)/n(i);
     end
 
+	yref = y1(1)/x(1).^3 * x.^3;
+
     figure(1)
     hold on
     plot(x,y1,'o-',x,y2,'x-')
-    legend('computation time','MPI time')
+	plot(x,yref,'--')
+    legend('computation time','MPI time','O(n^3)','Location','southoutside')
     set(gca,'xScale','log')
     set(gca,'yScale','log')
     xlabel('problem size')
     ylabel('time in seconds')
+	title(figuretitle)
     TheLogTicks=x;
     set(gca,'XTick',TheLogTicks)
     hold off
