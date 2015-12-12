@@ -5,7 +5,7 @@ y1 = zeros(numel(x),1);
 y2 = zeros(numel(x),1);
 n = zeros(numel(x),1);
 
-for i = 1:numel(datastruct.job_id)
+for i = 1:numel(datastruct.size)
     j = x==datastruct.size(i);
     y1(j) = y1(j) + datastruct.computation_time(i);
     y2(j) = y2(j) + datastruct.MPI_time(i);
