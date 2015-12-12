@@ -214,7 +214,9 @@ int main (int argc, char **argv) {
 		MPI_Irecv(B_local_block_copy, B_local_block_size, MPI_DOUBLE,
 				(coordinates[0] + 1) % sqrt_size, 0,
 				column_communicator, &recv_column_request);
+		mpi_time += MPI_Wtime() - start;
 
+		start = MPI_Wtime();
 		for(C_index = 0, A_row = 0; A_row < A_local_block_rows; A_row++){
 			for(B_column = 0; B_column < B_local_block_columns; B_column++, C_index++){
 				for(A_column = 0; A_column < A_local_block_columns; A_column++){
@@ -225,7 +227,6 @@ int main (int argc, char **argv) {
 		}
 		compute_time += MPI_Wtime() - start;
 		start = MPI_Wtime();
-
 
 		MPI_Wait(&send_row_request, &status);
 		MPI_Wait(&send_column_request, &status);
@@ -238,6 +239,8 @@ int main (int argc, char **argv) {
 		tmp_pointer = B_local_block;
 		B_local_block = B_local_block_copy;
 		B_local_block_copy = tmp_pointer;
+
+        mpi_time += MPI_Wtime() - start;
 
 		///MPI_Irecv(void *buf, int count, MPI_Datatype datatype,
 		///			int source, int tag,
@@ -255,7 +258,6 @@ int main (int argc, char **argv) {
 //		MPI_Sendrecv_replace(B_local_block, B_local_block_size, MPI_DOUBLE,
 //				(coordinates[0] + sqrt_size - 1) % sqrt_size, 0,
 //				(coordinates[0] + 1) % sqrt_size, 0, column_communicator, &status);
-		mpi_time += MPI_Wtime() - start;
 	}
 
 	// get C parts from other processes at rank 0
