@@ -36,6 +36,7 @@
 
 \usepackage{listings}
 \lstset{language=C++,
+				breaklines=true,
 				tabsize=8,
 				showtabs=true,
                 basicstyle=\ttfamily,
@@ -137,16 +138,44 @@ Challenges in getting an accurate baseline and changes to the Load-Leveler batch
 \subsection{MPI Non-Blocking Operations}
 \begin{frame}{\insertsubsection}
 \begin{itemize}
-\item Which non-blocking operations were used?
+	\item Send/Receive
+	\begin{itemize}
+	\item \lstinline[basicstyle=\scriptsize\bf]{MPI_Isend}
+	\item \lstinline[basicstyle=\scriptsize\bf]{MPI_Irecv}
+	\end{itemize}
+
+	\item Synchronization
+	\begin{itemize}
+	\item \lstinline[basicstyle=\scriptsize\bf]{MPI_Wait}
+	\item \lstinline[basicstyle=\scriptsize]{MPI_Probe}
+	\end{itemize}
+	
 \end{itemize}
 \end{frame}
 \subsection{Optimizations}
 \begin{frame}{\insertsubsection}
 \begin{itemize}
-\item Was communication and computation overlap achieved?
-\item What is the theoretical maximum overlap that can be achieved? Explain.
+\item \textbf{What is overlap?}\\
+	We do not wait for either task to be completed, but try to do communication and computation at the same time. We are hiding communication time by doing computation in the meantime.
+\item \textbf{What is the theoretical maximum overlap that can be achieved?}\\
+Bounds for pure communication time: $$\max\left(0, T_\text{MPI}^\text{blocking} - T_\text{computation}\right) \leq T_\text{MPI}^\text{non-blocking} \leq T_\text{MPI}^\text{blocking}$$
+Overheads:
+\begin{itemize}
+\item Copying into and from buffers
+\item Initialization
+\end{itemize}
+Maximum overlap depends on amount of $T_\text{computation}$. As soon as $T_\text{computation}>T_\text{MPI}^\text{blocking}$, we can theoretically achieve 100\% overlap.
+
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{\insertsubsection \ (cond.)}
+\begin{itemize}
+\item \textbf{Was communication and computation overlap achieved?}
 \end{itemize}
 \end{frame}
+
 \subsection{Scaling}
 \begin{frame}{\insertsubsection}
 \begin{itemize}
@@ -164,9 +193,29 @@ Challenges in getting an accurate baseline and changes to the Load-Leveler batch
 \subsection{MPI One-Sided Operations}
 \begin{frame}{\insertsubsection}
 \begin{itemize}
-\item Which one-sided operations were used?
+	\item Initialization
+	\begin{itemize}
+		\item \lstinline[basicstyle=\scriptsize\bf]{MPI_Win_create}
+		\item \lstinline[basicstyle=\scriptsize\bf]{MPI_Win_free}
+	\end{itemize}
+	
+	\item Remote Memory Access
+	\begin{itemize}
+		\item \lstinline[basicstyle=\scriptsize\bf]{MPI_Put}
+		\item \lstinline[basicstyle=\scriptsize]{MPI_Get}
+		\item \lstinline[basicstyle=\scriptsize]{MPI_Accumulate}                 
+	\end{itemize}
+
+	\item Synchronization
+	\begin{itemize}
+		\item \lstinline[basicstyle=\scriptsize\bf]{MPI_Win_fence}
+		\item \lstinline[basicstyle=\scriptsize]{MPI_Win_post  /  MPI_Win_start /  MPI_Win_complete  / MPI_Win_wait}
+		\item \lstinline[basicstyle=\scriptsize]{MPI_Win_lock / MPI_Win_unlock}
+	\end{itemize}
 \end{itemize}
 \end{frame}
+
+
 \subsection{Optimizations}
 \begin{frame}{\insertsubsection}
 \begin{itemize}

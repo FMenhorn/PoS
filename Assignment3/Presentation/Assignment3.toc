@@ -7,8 +7,8 @@
 \beamer@sectionintoc {2}{MPI Point-to-Point Communication}{7}{0}{2}
 \beamer@subsectionintoc {2}{1}{MPI Non-Blocking Operations}{8}{0}{2}
 \beamer@subsectionintoc {2}{2}{Optimizations}{9}{0}{2}
-\beamer@subsectionintoc {2}{3}{Scaling}{10}{0}{2}
-\beamer@sectionintoc {3}{MPI One-Sided Communication}{11}{0}{3}
-\beamer@subsectionintoc {3}{1}{MPI One-Sided Operations}{12}{0}{3}
-\beamer@subsectionintoc {3}{2}{Optimizations}{13}{0}{3}
-\beamer@subsectionintoc {3}{3}{Scaling}{14}{0}{3}
+\beamer@subsectionintoc {2}{3}{Scaling}{11}{0}{2}
+\beamer@sectionintoc {3}{MPI One-Sided Communication}{12}{0}{3}
+\beamer@subsectionintoc {3}{1}{MPI One-Sided Operations}{13}{0}{3}
+\beamer@subsectionintoc {3}{2}{Optimizations}{14}{0}{3}
+\beamer@subsectionintoc {3}{3}{Scaling}{15}{0}{3}

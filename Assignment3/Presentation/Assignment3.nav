@@ -28,25 +28,27 @@
 \headcommand {\beamer@subsectionentry {0}{2}{2}{9}{Optimizations}}\headcommand {\beamer@subsectionpages {8}{8}}
 \headcommand {\slideentry {2}{2}{1}{9/9}{Optimizations}{0}}
 \headcommand {\beamer@framepages {9}{9}}
-\headcommand {\beamer@subsectionentry {0}{2}{3}{10}{Scaling}}\headcommand {\beamer@subsectionpages {9}{9}}
-\headcommand {\slideentry {2}{3}{1}{10/10}{Scaling}{0}}
+\headcommand {\slideentry {2}{2}{2}{10/10}{Optimizations}{0}}
 \headcommand {\beamer@framepages {10}{10}}
-\headcommand {\sectionentry {3}{MPI One-Sided Communication}{11}{MPI One-Sided Communication}{0}}
-\headcommand {\beamer@sectionpages {7}{10}}
-\headcommand {\beamer@subsectionpages {10}{10}}
-\headcommand {\slideentry {3}{0}{2}{11/11}{}{0}}
+\headcommand {\beamer@subsectionentry {0}{2}{3}{11}{Scaling}}\headcommand {\beamer@subsectionpages {9}{10}}
+\headcommand {\slideentry {2}{3}{1}{11/11}{Scaling}{0}}
 \headcommand {\beamer@framepages {11}{11}}
-\headcommand {\beamer@subsectionentry {0}{3}{1}{12}{MPI One-Sided Operations}}\headcommand {\beamer@subsectionpages {11}{11}}
-\headcommand {\slideentry {3}{1}{1}{12/12}{MPI One-Sided Operations}{0}}
+\headcommand {\sectionentry {3}{MPI One-Sided Communication}{12}{MPI One-Sided Communication}{0}}
+\headcommand {\beamer@sectionpages {7}{11}}
+\headcommand {\beamer@subsectionpages {11}{11}}
+\headcommand {\slideentry {3}{0}{2}{12/12}{}{0}}
 \headcommand {\beamer@framepages {12}{12}}
-\headcommand {\beamer@subsectionentry {0}{3}{2}{13}{Optimizations}}\headcommand {\beamer@subsectionpages {12}{12}}
-\headcommand {\slideentry {3}{2}{1}{13/13}{Optimizations}{0}}
+\headcommand {\beamer@subsectionentry {0}{3}{1}{13}{MPI One-Sided Operations}}\headcommand {\beamer@subsectionpages {12}{12}}
+\headcommand {\slideentry {3}{1}{1}{13/13}{MPI One-Sided Operations}{0}}
 \headcommand {\beamer@framepages {13}{13}}
-\headcommand {\beamer@subsectionentry {0}{3}{3}{14}{Scaling}}\headcommand {\beamer@subsectionpages {13}{13}}
-\headcommand {\slideentry {3}{3}{1}{14/14}{Scaling}{0}}
+\headcommand {\beamer@subsectionentry {0}{3}{2}{14}{Optimizations}}\headcommand {\beamer@subsectionpages {13}{13}}
+\headcommand {\slideentry {3}{2}{1}{14/14}{Optimizations}{0}}
 \headcommand {\beamer@framepages {14}{14}}
-\headcommand {\beamer@partpages {1}{14}}
-\headcommand {\beamer@subsectionpages {14}{14}}
-\headcommand {\beamer@sectionpages {11}{14}}
-\headcommand {\beamer@documentpages {14}}
-\headcommand {\def \inserttotalframenumber {14}}
+\headcommand {\beamer@subsectionentry {0}{3}{3}{15}{Scaling}}\headcommand {\beamer@subsectionpages {14}{14}}
+\headcommand {\slideentry {3}{3}{1}{15/15}{Scaling}{0}}
+\headcommand {\beamer@framepages {15}{15}}
+\headcommand {\beamer@partpages {1}{15}}
+\headcommand {\beamer@subsectionpages {15}{15}}
+\headcommand {\beamer@sectionpages {12}{15}}
+\headcommand {\beamer@documentpages {15}}
+\headcommand {\def \inserttotalframenumber {15}}
