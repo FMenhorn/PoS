@@ -7,7 +7,7 @@
 int main (int argc, char **argv) {
 	FILE *fp;
 	double **A = NULL, **B = NULL, **C = NULL, *A_array = NULL, *B_array = NULL, *C_array = NULL;
-	double *A_local_block = NULL,*A_local_block_copy = NULL, *B_local_block = NULL, *B_local_block_copy = NULL, *C_local_block = NULL;
+	double *A_local_block = NULL,*A_local_block_even = NULL,*A_local_block_odd = NULL, *B_local_block = NULL, *B_local_block_even = NULL,*B_local_block_odd = NULL, *C_local_block = NULL;
 	int A_rows, A_columns, A_local_block_rows, A_local_block_columns, A_local_block_size;
 	int B_rows, B_columns, B_local_block_rows, B_local_block_columns, B_local_block_size;
 	int rank, size, sqrt_size, matrices_a_b_dimensions[4];
@@ -119,21 +119,26 @@ int main (int argc, char **argv) {
 	A_local_block_columns = A_columns / sqrt_size;
 	A_local_block_size = A_local_block_rows * A_local_block_columns;
 	A_local_block = (double *) malloc (A_local_block_size * sizeof(double));
-	A_local_block_copy = (double *) malloc (A_local_block_size * sizeof(double));
+	A_local_block_even = (double *) malloc (A_local_block_size * sizeof(double));
+	A_local_block_odd = (double *) malloc (A_local_block_size * sizeof(double));
 
 	// local metadata for B
 	B_local_block_rows = B_rows / sqrt_size;
 	B_local_block_columns = B_columns / sqrt_size;
 	B_local_block_size = B_local_block_rows * B_local_block_columns;
 	B_local_block = (double *) malloc (B_local_block_size * sizeof(double));
-	B_local_block_copy = (double *) malloc (B_local_block_size * sizeof(double));
+	B_local_block_even = (double *) malloc (B_local_block_size * sizeof(double));
+	B_local_block_odd = (double *) malloc (B_local_block_size * sizeof(double));
 
 	//Create Windows
-	MPI_Win win_A;
-	MPI_Win win_B;
-	MPI_Win_create(A_local_block_copy, A_local_block_size*sizeof(double), sizeof(double), MPI_INFO_NULL, row_communicator, &win_A);
-	MPI_Win_create(B_local_block_copy, B_local_block_size*sizeof(double), sizeof(double), MPI_INFO_NULL, column_communicator, &win_B);
-
+	MPI_Win win_A_even;
+	MPI_Win win_B_even;
+	MPI_Win_create(A_local_block_even, A_local_block_size*sizeof(double), sizeof(double), MPI_INFO_NULL, row_communicator, &win_A_even);
+	MPI_Win_create(B_local_block_even, B_local_block_size*sizeof(double), sizeof(double), MPI_INFO_NULL, column_communicator, &win_B_even);
+	MPI_Win win_A_odd;
+	MPI_Win win_B_odd;
+	MPI_Win_create(A_local_block_odd, A_local_block_size*sizeof(double), sizeof(double), MPI_INFO_NULL, row_communicator, &win_A_odd);
+	MPI_Win_create(B_local_block_odd, B_local_block_size*sizeof(double), sizeof(double), MPI_INFO_NULL, column_communicator, &win_B_odd);
 	// local metadata for C
 	C_local_block = (double *) malloc (A_local_block_rows * B_local_block_columns * sizeof(double));
 	// C needs to be initialized at 0 (accumulates partial dot-products)
@@ -195,23 +200,44 @@ int main (int argc, char **argv) {
 	double compute_time = 0, mpi_time = 0, start;
 	int C_index, A_row, A_column, B_column;
 	double* tmp_pointer = NULL;
-	memcpy(A_local_block_copy, A_local_block, A_local_block_size*sizeof(double));
-	memcpy(B_local_block_copy, B_local_block, B_local_block_size*sizeof(double));
+	memcpy(A_local_block_even, A_local_block, A_local_block_size*sizeof(double));
+	memcpy(B_local_block_even, B_local_block, B_local_block_size*sizeof(double));
+	MPI_Win_fence(0,win_A_even);
+	MPI_Win_fence(0,win_B_even);
+	MPI_Win_fence(0,win_A_odd);
+	MPI_Win_fence(0,win_B_odd);
 	for(cannon_block_cycle = 0; cannon_block_cycle < sqrt_size; cannon_block_cycle++){
 		// compute partial result for this block cycle
 		start = MPI_Wtime();
 
 		//Horizontal
-		MPI_Win_fence(0,win_A);
-		MPI_Get(A_local_block,A_local_block_size, MPI_DOUBLE,
-				(coordinates[1] + sqrt_size - 1) % sqrt_size, 0,
-				A_local_block_size, MPI_DOUBLE, win_A);
+		if(cannon_block_cycle%2==0){
+			MPI_Win_fence(0,win_A_even);
+			A_local_block = A_local_block_even;
+			MPI_Win_fence(0,win_B_even);
+			B_local_block = B_local_block_even;
+			MPI_Put(A_local_block_even,A_local_block_size, MPI_DOUBLE,
+					(coordinates[1] + sqrt_size - 1) % sqrt_size, 0,
+					A_local_block_size, MPI_DOUBLE, win_A_odd);
 
-		//Vertical
-		MPI_Win_fence(0,win_B);
-		MPI_Get(B_local_block,B_local_block_size, MPI_DOUBLE,
-				(coordinates[0] + sqrt_size - 1) % sqrt_size, 0,
-				B_local_block_size, MPI_DOUBLE, win_B);
+			//Vertical
+			MPI_Put(B_local_block_even,B_local_block_size, MPI_DOUBLE,
+					(coordinates[0] + sqrt_size - 1) % sqrt_size, 0,
+					B_local_block_size, MPI_DOUBLE, win_B_odd);
+		}else{
+			MPI_Win_fence(0,win_A_odd);
+			A_local_block = A_local_block_odd;
+			MPI_Win_fence(0,win_B_odd);
+			B_local_block = B_local_block_odd;
+			MPI_Put(A_local_block_odd,A_local_block_size, MPI_DOUBLE,
+					(coordinates[1] + sqrt_size - 1) % sqrt_size, 0,
+					A_local_block_size, MPI_DOUBLE, win_A_even);
+
+			//Vertical
+			MPI_Put(B_local_block_odd,B_local_block_size, MPI_DOUBLE,
+					(coordinates[0] + sqrt_size - 1) % sqrt_size, 0,
+					B_local_block_size, MPI_DOUBLE, win_B_even);
+		}
 		mpi_time += MPI_Wtime() - start;
 
 		start = MPI_Wtime();
@@ -227,15 +253,27 @@ int main (int argc, char **argv) {
 
 		start = MPI_Wtime();
 
-		MPI_Win_fence(0,win_A);
-		memcpy(A_local_block_copy,A_local_block,A_local_block_size*sizeof(double));
-
-		MPI_Win_fence(0,win_B);
-		memcpy(B_local_block_copy,B_local_block,B_local_block_size*sizeof(double));
+//		if(cannon_block_cycle%2==0){
+//			MPI_Win_fence(0,win_A_even);
+//			MPI_Win_fence(0,win_B_even);
+//			A_local_block_odd = A_local_block_even;
+//			B_local_block_odd = B_local_block_even;
+//		}else{
+//			MPI_Win_fence(0,win_A_odd);
+//			MPI_Win_fence(0,win_B_odd);
+//			A_local_block = A_local_block_odd;
+//			B_local_block = B_local_block_odd;
+//		}
 
         mpi_time += MPI_Wtime() - start;
 	}
-
+	if(cannon_block_cycle%2==0){
+		MPI_Win_fence(0,win_A_even);
+		MPI_Win_fence(0,win_B_even);
+	}else{
+		MPI_Win_fence(0,win_A_odd);
+		MPI_Win_fence(0,win_B_odd);
+	}
 	// get C parts from other processes at rank 0
 	if(rank == 0) {
 		for(i = 0; i < A_local_block_rows * B_local_block_columns; i++){
@@ -333,12 +371,16 @@ int main (int argc, char **argv) {
 		free(B_array);
 		free(C_array);
 	}
-	MPI_Win_free(&win_A);
-	MPI_Win_free(&win_B);
-	free(A_local_block);
-	free(A_local_block_copy);
-	free(B_local_block);
-	free(B_local_block_copy);
+	MPI_Win_free(&win_A_odd);
+	MPI_Win_free(&win_A_even);
+	MPI_Win_free(&win_B_odd);
+	MPI_Win_free(&win_B_even);
+	//free(A_local_block);
+	free(A_local_block_odd);
+	free(A_local_block_even);
+	//free(B_local_block);
+	free(B_local_block_odd);
+	free(B_local_block_even);
 	free(C_local_block);
 
 	// finalize MPI
