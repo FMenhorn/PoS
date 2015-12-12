@@ -9,16 +9,15 @@ end
 data = [];
 
 for i = 1:N_data
-data = [data; dlmread(names{i},';',1)];
+data = [data; dlmread(names{i},',',1)];
 end
 
-columnnames = { 'job_id',...
-                'size',...
+columnnames = { 'size',...
                 'computation_time',...
                 'MPI_time'};
 
 datastruct = struct();
-for i = 1:4
+for i = 1:3
     datastruct.(columnnames{i}) = data(:,i);
 end
     
