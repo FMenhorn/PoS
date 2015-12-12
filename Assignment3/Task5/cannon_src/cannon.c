@@ -195,19 +195,21 @@ int main (int argc, char **argv) {
 	double compute_time = 0, mpi_time = 0, start;
 	int C_index, A_row, A_column, B_column;
 	double* tmp_pointer = NULL;
+	memcpy(A_local_block_copy, A_local_block, A_local_block_size*sizeof(double));
+	memcpy(B_local_block_copy, B_local_block, B_local_block_size*sizeof(double));
 	for(cannon_block_cycle = 0; cannon_block_cycle < sqrt_size; cannon_block_cycle++){
 		// compute partial result for this block cycle
 		start = MPI_Wtime();
 
 		//Horizontal
 		MPI_Win_fence(0,win_A);
-		MPI_Put(A_local_block,A_local_block_size, MPI_DOUBLE,
+		MPI_Get(A_local_block,A_local_block_size, MPI_DOUBLE,
 				(coordinates[1] + sqrt_size - 1) % sqrt_size, 0,
 				A_local_block_size, MPI_DOUBLE, win_A);
 
 		//Vertical
 		MPI_Win_fence(0,win_B);
-		MPI_Put(B_local_block,B_local_block_size, MPI_DOUBLE,
+		MPI_Get(B_local_block,B_local_block_size, MPI_DOUBLE,
 				(coordinates[0] + sqrt_size - 1) % sqrt_size, 0,
 				B_local_block_size, MPI_DOUBLE, win_B);
 		mpi_time += MPI_Wtime() - start;
@@ -226,22 +228,10 @@ int main (int argc, char **argv) {
 		start = MPI_Wtime();
 
 		MPI_Win_fence(0,win_A);
-//		int i;
-//		for(i = 0; i < A_local_block_size; i++){
-//			A_local_block[i] = A_local_block_copy[i];
-//		}
+		memcpy(A_local_block_copy,A_local_block,A_local_block_size*sizeof(double));
 
 		MPI_Win_fence(0,win_B);
-//		for(i = 0; i < B_local_block_size; i++){
-//			B_local_block[i] = B_local_block_copy[i];
-//		}
-
-		tmp_pointer = A_local_block;
-		A_local_block = A_local_block_copy;
-		A_local_block_copy = tmp_pointer;
-		tmp_pointer = B_local_block;
-		B_local_block = B_local_block_copy;
-		B_local_block_copy = tmp_pointer;
+		memcpy(B_local_block_copy,B_local_block,B_local_block_size*sizeof(double));
 
         mpi_time += MPI_Wtime() - start;
 	}
