@@ -11,7 +11,7 @@
 #	d.) strip of newline followed by 'Computation time: ' and replace with a ,
 #	e.) repeat c-d for 'MPI time:        '.
 
-# Reads this from argument #1 and puts in arg #2
+# Reads this from argument #1 and puts in standard output.
 
 
 sed -e '{
@@ -24,6 +24,6 @@ sed -e '{
 		N
 		s/\nMPI time:         /,/
 		}
-	}' $1 > $2
+	}' $1
 
 
