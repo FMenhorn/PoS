@@ -261,6 +261,11 @@ int main (int argc, char **argv) {
 		MPI_Send(C_local_block, A_local_block_rows * B_local_block_columns, MPI_DOUBLE, 0, 0, cartesian_grid_communicator);
 	}
 
+	double mpi_time_temp = 0;
+        MPI_Reduce(&mpi_time, &mpi_time_temp, 1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
+        double compute_time_temp = 0;
+        MPI_Reduce(&compute_time, &compute_time_temp, 1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
+
 	// generating output at rank 0
 	if (rank == 0) {
 		// convert the ID array into the actual C matrix
@@ -278,9 +283,9 @@ int main (int argc, char **argv) {
 		}
 
 		printf("(%d,%d)x(%d,%d)=(%d,%d)\n", A_rows, A_columns, B_rows, B_columns, A_rows, B_columns);
-		printf("Computation time: %lf\n", compute_time);
-		printf("MPI time:         %lf\n", mpi_time);
-
+		printf("Computation time: %lf\n", compute_time/size);
+		printf("MPI time:         %lf\n", mpi_time/size);
+		
 		if (argc == 4){
 			// present results on the screen
 			printf("\nA( %d x %d ):\n", A_rows, A_columns);
