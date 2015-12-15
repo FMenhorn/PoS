@@ -1,0 +1,15 @@
+sources: 
+(1) https://software.intel.com/en-us/blogs/2014/08/06/one-sided-communication
+(2) https://fs.hlrs.de/projects/par/par_prog_ws/pdf/mpi_1sided_1.pdf
+
+One sided communication:
+
+realized by MPI 2 standard via Remote Memory Access (RMA)
+
+all Operations:
+-> (2) slide 6
+
+useful Operations?
+MPI_Get/MPI_Put -> non blocking
+MPI_Win_create, MPI_Win_free -> create and delete shared memory region
+MPI_Win_fence -> for synchronization ("In a simple word, between two MPI_Win_fence calls, all RMA operations are completed.")
