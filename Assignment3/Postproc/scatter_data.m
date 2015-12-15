@@ -1,4 +1,4 @@
-function [] = plot_all_data(ROOTPATH, figuretitle)
+function [] = scatter_data(ROOTPATH, figuretitle)
     datastruct = all_csv_to_mat(ROOTPATH);
 
     x = sort(unique(datastruct.size));
@@ -33,12 +33,13 @@ function [] = plot_all_data(ROOTPATH, figuretitle)
 
 	yref = y1(1)/x(1).^3 * x.^3;
 
-    figure(1)    
+    figure(1)
     set(gcf,'OuterPosition',[0 0 800 600])
     hold on
-    plot(x,y1,'bo-',x,y2,'rx-')    
-	plot(x,yref,'g--')      
+    plot(x,y1,'bo',x,y2,'rx')      
+	plot(x,yref,'g--')   
     legend('computation time','MPI time','O(n^3)','Location','southoutside')
+    plot(datastruct.size,datastruct.computation_time,'b.',datastruct.size,datastruct.MPI_time,'r.')
     set(gca,'xScale','log')
     set(gca,'yScale','log')
     xlabel('problem size')

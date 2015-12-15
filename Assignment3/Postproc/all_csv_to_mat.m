@@ -1,5 +1,5 @@
 function [datastruct] = all_csv_to_mat(ROOTPATH)
-    my_structs = dir([ROOTPATH,'*.csv'])
+    my_structs = dir([ROOTPATH,'*.csv']);
 
     N_data = numel(my_structs);
     names = cell(N_data,1);
@@ -10,7 +10,7 @@ function [datastruct] = all_csv_to_mat(ROOTPATH)
     data = [];
 
     for i = 1:N_data
-    data = [data; dlmread([ROOTPATH,names{i}],',',1)];
+    data = [data; dlmread([ROOTPATH,names{i}],',')];
     end
 
     columnnames = { 'size',...
