@@ -31,13 +31,16 @@ function [] = scatter_data(ROOTPATH, figuretitle)
         e2(i) = sqrt(e2(i)/(n(i)-1));
     end
 
-	yref = y1(1)/x(1).^3 * x.^3;
+	yref1 = y1(1)/x(1).^3 * x.^3;
+    yref2 = y2(1)/x(1).^2 * x.^2;
 
     figure(1)
     set(gcf,'OuterPosition',[0 0 800 600])
     hold on
     plot(x,y1,'bo',x,y2,'rx')      
-	plot(x,yref,'g--')   
+	plot(x,yref1,'g--')      
+    plot(x,yref2,'k--')  
+    legend('computation time','MPI time','O(n^3)','O(n^2)','Location','southoutside') 
     legend('computation time','MPI time','O(n^3)','Location','southoutside')
     plot(datastruct.size,datastruct.computation_time,'b.',datastruct.size,datastruct.MPI_time,'r.')
     set(gca,'xScale','log')
