@@ -1,4 +1,5 @@
 function [datastruct] = all_csv_to_mat(ROOTPATH)
+    disp(['reading from path ',ROOTPATH])
     my_structs = dir([ROOTPATH,'*.csv']);
 
     N_data = numel(my_structs);
@@ -21,5 +22,6 @@ function [datastruct] = all_csv_to_mat(ROOTPATH)
     for i = 1:3
         datastruct.(columnnames{i}) = data(:,i);
     end
+    disp('done.')
 end
     
