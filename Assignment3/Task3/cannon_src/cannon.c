@@ -7,7 +7,7 @@
 int main (int argc, char **argv) {
 	FILE *fp;
 	double **A = NULL, **B = NULL, **C = NULL, *A_array = NULL, *B_array = NULL, *C_array = NULL;
-	double *A_local_block = NULL,*A_local_block_copy = NULL, *B_local_block = NULL, *B_local_block_copy = NULL, *C_local_block = NULL;
+	double *A_local_block = NULL, *B_local_block = NULL, *C_local_block = NULL;
 	int A_rows, A_columns, A_local_block_rows, A_local_block_columns, A_local_block_size;
 	int B_rows, B_columns, B_local_block_rows, B_local_block_columns, B_local_block_size;
 	int rank, size, sqrt_size, matrices_a_b_dimensions[4];
@@ -119,14 +119,12 @@ int main (int argc, char **argv) {
 	A_local_block_columns = A_columns / sqrt_size;
 	A_local_block_size = A_local_block_rows * A_local_block_columns;
 	A_local_block = (double *) malloc (A_local_block_size * sizeof(double));
-	A_local_block_copy = (double *) malloc (A_local_block_size * sizeof(double));
 
 	// local metadata for B
 	B_local_block_rows = B_rows / sqrt_size;
 	B_local_block_columns = B_columns / sqrt_size;
 	B_local_block_size = B_local_block_rows * B_local_block_columns;
 	B_local_block = (double *) malloc (B_local_block_size * sizeof(double));
-	B_local_block_copy = (double *) malloc (B_local_block_size * sizeof(double));
 
 	// local metadata for C
 	C_local_block = (double *) malloc (A_local_block_rows * B_local_block_columns * sizeof(double));
@@ -188,26 +186,9 @@ int main (int argc, char **argv) {
 	int cannon_block_cycle;
 	double compute_time = 0, mpi_time = 0, start;
 	int C_index, A_row, A_column, B_column;
-	MPI_Request send_row_request;
-	MPI_Request send_column_request;
-	MPI_Request recv_row_request;
-	MPI_Request recv_column_request;
 	for(cannon_block_cycle = 0; cannon_block_cycle < sqrt_size; cannon_block_cycle++){
 		// compute partial result for this block cycle
 		start = MPI_Wtime();
-
-		//Horizontal Isend
-		///MPI_Isend(void* buf, int count, MPI_Datatype datatype,
-		///		int dest,int tag,
-		///		MPI_Comm, comm, MPI_Request *request)
-		MPI_Isend(A_local_block, A_local_block_size, MPI_DOUBLE,
-				(coordinates[1] + sqrt_size - 1) % sqrt_size, 0,
-				row_communicator, &send_row_request);
-		//Vertical Isend
-		MPI_Isend(B_local_block, B_local_block_size, MPI_DOUBLE,
-				(coordinates[0] + sqrt_size - 1) % sqrt_size, 0,
-				column_communicator, &send_column_request);
-
 		for(C_index = 0, A_row = 0; A_row < A_local_block_rows; A_row++){
 			for(B_column = 0; B_column < B_local_block_columns; B_column++, C_index++){
 				for(A_column = 0; A_column < A_local_block_columns; A_column++){
@@ -218,34 +199,14 @@ int main (int argc, char **argv) {
 		}
 		compute_time += MPI_Wtime() - start;
 		start = MPI_Wtime();
-		MPI_Irecv(A_local_block, A_local_block_size, MPI_DOUBLE,
-				(coordinates[1] + 1) % sqrt_size, 0,
-				row_communicator, &recv_row_request);
-		MPI_Irecv(B_local_block, B_local_block_size, MPI_DOUBLE,
-				(coordinates[0] + 1) % sqrt_size, 0,
-				column_communicator, &recv_column_request);
-
-		MPI_Wait(&send_row_request, &status);
-		MPI_Wait(&send_column_request, &status);
-		MPI_Wait(&recv_row_request, &status);
-		MPI_Wait(&recv_column_request, &status);
-
-		///MPI_Irecv(void *buf, int count, MPI_Datatype datatype,
-		///			int source, int tag,
-		///			MPI_Comm comm, MPI_Request *request)
-
 		// rotate blocks horizontally
-//		MPI_Sendrecv_replace(A_local_block, A_local_block_size, MPI_DOUBLE,
-//				(coordinates[1] + sqrt_size - 1) % sqrt_size, 0,
-//				(coordinates[1] + 1) % sqrt_size, 0, row_communicator, &status);
-//		///MPI_Sendrecv_replace(void *buf, int count, MPI_Datatype datatype,
-//		///                       int dest, int sendtag, int source, int recvtag,
-//		///                       MPI_Comm comm, MPI_Status *status)
-//
-//		// rotate blocks vertically
-//		MPI_Sendrecv_replace(B_local_block, B_local_block_size, MPI_DOUBLE,
-//				(coordinates[0] + sqrt_size - 1) % sqrt_size, 0,
-//				(coordinates[0] + 1) % sqrt_size, 0, column_communicator, &status);
+		MPI_Sendrecv_replace(A_local_block, A_local_block_size, MPI_DOUBLE, 
+				(coordinates[1] + sqrt_size - 1) % sqrt_size, 0, 
+				(coordinates[1] + 1) % sqrt_size, 0, row_communicator, &status);
+		// rotate blocks vertically
+		MPI_Sendrecv_replace(B_local_block, B_local_block_size, MPI_DOUBLE, 
+				(coordinates[0] + sqrt_size - 1) % sqrt_size, 0, 
+				(coordinates[0] + 1) % sqrt_size, 0, column_communicator, &status);
 		mpi_time += MPI_Wtime() - start;
 	}
 
@@ -262,7 +223,7 @@ int main (int argc, char **argv) {
 	} else {
 		MPI_Send(C_local_block, A_local_block_rows * B_local_block_columns, MPI_DOUBLE, 0, 0, cartesian_grid_communicator);
 	}
-	
+
 	double mpi_time_temp = 0;
         MPI_Reduce(&mpi_time, &mpi_time_temp, 1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
         double compute_time_temp = 0;
@@ -285,8 +246,8 @@ int main (int argc, char **argv) {
 		}
 
 		printf("(%d,%d)x(%d,%d)=(%d,%d)\n", A_rows, A_columns, B_rows, B_columns, A_rows, B_columns);
-		printf("Computation time: %lf\n", compute_time/size);
-		printf("MPI time:         %lf\n", mpi_time/size);
+		printf("Computation time: %lf\n", compute_time_temp/size);
+		printf("MPI time:         %lf\n", mpi_time_temp/size);
 
 		if (argc == 4){
 			// present results on the screen
