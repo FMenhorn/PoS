@@ -1,0 +1,5 @@
+[1] Config.pm:321> INFO - This is Biber 1.9
+[1] Config.pm:324> INFO - Logfile is 'Assignment3.pdf.blg'
+[117] biber:277> INFO - === Di Dez 22, 2015, 08:58:21
+[324] Utils.pm:160> ERROR - Cannot find control file 'Assignment3.pdf.bcf'! - did you pass the "backend=biber" option to BibLaTeX?
+[325] Biber.pm:111> INFO - ERRORS: 1

@@ -1,0 +1,15 @@
+[1] Config.pm:321> INFO - This is Biber 1.9
+[1] Config.pm:324> INFO - Logfile is 'Assignment3.blg'
+[114] biber:277> INFO - === Di Dez 22, 2015, 08:58:29
+[114] Biber.pm:334> INFO - Reading 'Assignment3.bcf'
+[362] Biber.pm:636> INFO - Found 1 citekeys in bib section 0
+[425] Biber.pm:3052> INFO - Processing section 0
+[491] Biber.pm:3190> INFO - Looking for bibtex format file 'References/refs.bib' for section 0
+[493] bibtex.pm:979> INFO - Decoding LaTeX character macros into UTF-8
+[494] bibtex.pm:853> INFO - Found BibTeX data source 'References/refs.bib'
+[599] UCollate.pm:66> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
+[599] UCollate.pm:66> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[599] Biber.pm:2929> INFO - Sorting list 'nty' of type 'entry' with scheme 'nty' and locale 'en-US'
+[599] Biber.pm:2933> INFO - No sort tailoring available for locale 'en-US'
+[606] bbl.pm:517> INFO - Writing 'Assignment3.bbl' with encoding 'UTF-8'
+[607] bbl.pm:606> INFO - Output to Assignment3.bbl

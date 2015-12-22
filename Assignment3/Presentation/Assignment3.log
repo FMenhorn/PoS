@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2015/dev/Debian) (preloaded format=pdflatex 2015.8.2)  12 DEC 2015 16:51
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2015/dev/Debian) (preloaded format=pdflatex 2015.8.2)  22 DEC 2015 10:34
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1770,25 +1770,242 @@ Package: beamerfontthemestructurebold 2010/06/17  (rcs-revision d02a7cf4d8ae)
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
 (hyperref)                removing `\\' on input line 90.
 
-\tikzscale@accuracy=\skip135
+(/usr/share/texlive/texmf-dist/tex/latex/biblatex/biblatex.sty
+Package: biblatex 2014/06/25 v2.9a programmable bibliographies (PK/JW/AB)
+
+(/usr/share/texlive/texmf-dist/tex/latex/biblatex/biblatex2.sty
+Package: biblatex2 2014/06/25 v2.9a programmable bibliographies (biber) (PK/JW/
+AB)
+
+(/usr/share/texlive/texmf-dist/tex/latex/logreq/logreq.sty
+Package: logreq 2010/08/04 v1.0 xml request logger
+\lrq@indent=\count308
+
+(/usr/share/texlive/texmf-dist/tex/latex/logreq/logreq.def
+File: logreq.def 2010/08/04 v1.0 logreq spec v1.0
+))
+(/usr/share/texlive/texmf-dist/tex/latex/base/ifthen.sty
+Package: ifthen 2014/09/29 v1.1c Standard LaTeX ifthen package (DPC)
+)
+\c@tabx@nest=\count309
+\c@listtotal=\count310
+\c@listcount=\count311
+\c@liststart=\count312
+\c@liststop=\count313
+\c@citecount=\count314
+\c@citetotal=\count315
+\c@multicitecount=\count316
+\c@multicitetotal=\count317
+\c@instcount=\count318
+\c@maxnames=\count319
+\c@minnames=\count320
+\c@maxitems=\count321
+\c@minitems=\count322
+\c@citecounter=\count323
+\c@savedcitecounter=\count324
+\c@uniquelist=\count325
+\c@uniquename=\count326
+\c@refsection=\count327
+\c@refsegment=\count328
+\c@maxextratitle=\count329
+\c@maxextratitleyear=\count330
+\c@maxextrayear=\count331
+\c@maxextraalpha=\count332
+\c@abbrvpenalty=\count333
+\c@highnamepenalty=\count334
+\c@lownamepenalty=\count335
+\c@maxparens=\count336
+\c@parenlevel=\count337
+\blx@tempcnta=\count338
+\blx@tempcntb=\count339
+\blx@tempcntc=\count340
+\blx@maxsection=\count341
+\blx@maxsegment@0=\count342
+\blx@notetype=\count343
+\blx@parenlevel@text=\count344
+\blx@parenlevel@foot=\count345
+\blx@sectionciteorder@0=\count346
+\labelnumberwidth=\skip135
+\labelalphawidth=\skip136
+\biblabelsep=\skip137
+\bibitemsep=\skip138
+\bibnamesep=\skip139
+\bibinitsep=\skip140
+\bibparsep=\skip141
+\bibhang=\skip142
+\blx@bcfin=\read3
+\blx@bcfout=\write8
+\c@mincomprange=\count347
+\c@maxcomprange=\count348
+\c@mincompwidth=\count349
+Package biblatex Info: Trying to load biblatex default data model...
+Package biblatex Info: ... file 'blx-dm.def' found.
+
+(/usr/share/texlive/texmf-dist/tex/latex/biblatex/blx-dm.def)
+Package biblatex Info: Trying to load biblatex custom data model...
+Package biblatex Info: ... file 'biblatex-dm.cfg' not found.
+\c@afterword=\count350
+\c@savedafterword=\count351
+\c@annotator=\count352
+\c@savedannotator=\count353
+\c@author=\count354
+\c@savedauthor=\count355
+\c@bookauthor=\count356
+\c@savedbookauthor=\count357
+\c@commentator=\count358
+\c@savedcommentator=\count359
+\c@editor=\count360
+\c@savededitor=\count361
+\c@editora=\count362
+\c@savededitora=\count363
+\c@editorb=\count364
+\c@savededitorb=\count365
+\c@editorc=\count366
+\c@savededitorc=\count367
+\c@foreword=\count368
+\c@savedforeword=\count369
+\c@holder=\count370
+\c@savedholder=\count371
+\c@introduction=\count372
+\c@savedintroduction=\count373
+\c@namea=\count374
+\c@savednamea=\count375
+\c@nameb=\count376
+\c@savednameb=\count377
+\c@namec=\count378
+\c@savednamec=\count379
+\c@translator=\count380
+\c@savedtranslator=\count381
+\c@shortauthor=\count382
+\c@savedshortauthor=\count383
+\c@shorteditor=\count384
+\c@savedshorteditor=\count385
+\c@labelname=\count386
+\c@savedlabelname=\count387
+\c@institution=\count388
+\c@savedinstitution=\count389
+\c@lista=\count390
+\c@savedlista=\count391
+\c@listb=\count392
+\c@savedlistb=\count393
+\c@listc=\count394
+\c@savedlistc=\count395
+\c@listd=\count396
+\c@savedlistd=\count397
+\c@liste=\count398
+\c@savedliste=\count399
+\c@listf=\count400
+\c@savedlistf=\count401
+\c@location=\count402
+\c@savedlocation=\count403
+\c@organization=\count404
+\c@savedorganization=\count405
+\c@origlocation=\count406
+\c@savedoriglocation=\count407
+\c@origpublisher=\count408
+\c@savedorigpublisher=\count409
+\c@publisher=\count410
+\c@savedpublisher=\count411
+\c@language=\count412
+\c@savedlanguage=\count413
+\c@pageref=\count414
+\c@savedpageref=\count415
+\shorthandwidth=\skip143
+\shortjournalwidth=\skip144
+\shortserieswidth=\skip145
+\shorttitlewidth=\skip146
+\shortauthorwidth=\skip147
+\shorteditorwidth=\skip148
+Package biblatex Info: Trying to load compatibility code...
+Package biblatex Info: ... file 'blx-compat.def' found.
+
+(/usr/share/texlive/texmf-dist/tex/latex/biblatex/blx-compat.def
+File: blx-compat.def 2014/06/25 v2.9a biblatex compatibility (PK/JW/AB)
+)
+Package biblatex Info: Trying to load generic definitions...
+Package biblatex Info: ... file 'biblatex.def' found.
+
+(/usr/share/texlive/texmf-dist/tex/latex/biblatex/biblatex.def
+File: biblatex.def 
+\c@textcitecount=\count416
+\c@textcitetotal=\count417
+\c@textcitemaxnames=\count418
+\c@biburlnumpenalty=\count419
+\c@biburlucpenalty=\count420
+\c@biburllcpenalty=\count421
+\c@smartand=\count422
+)
+Package biblatex Info: Trying to load bibliography style 'numeric'...
+Package biblatex Info: ... file 'numeric.bbx' found.
+
+(/usr/share/texlive/texmf-dist/tex/latex/biblatex/bbx/numeric.bbx
+File: numeric.bbx 2014/06/25 v2.9a biblatex bibliography style (PK/JW/AB)
+Package biblatex Info: Trying to load bibliography style 'standard'...
+Package biblatex Info: ... file 'standard.bbx' found.
+
+(/usr/share/texlive/texmf-dist/tex/latex/biblatex/bbx/standard.bbx
+File: standard.bbx 2014/06/25 v2.9a biblatex bibliography style (PK/JW/AB)
+\c@bbx:relatedcount=\count423
+\c@bbx:relatedtotal=\count424
+))
+Package biblatex Info: Trying to load citation style 'numeric'...
+Package biblatex Info: ... file 'numeric.cbx' found.
+
+(/usr/share/texlive/texmf-dist/tex/latex/biblatex/cbx/numeric.cbx
+File: numeric.cbx 2014/06/25 v2.9a biblatex citation style (PK/JW/AB)
+Package biblatex Info: Redefining '\cite'.
+Package biblatex Info: Redefining '\parencite'.
+Package biblatex Info: Redefining '\footcite'.
+Package biblatex Info: Redefining '\footcitetext'.
+Package biblatex Info: Redefining '\smartcite'.
+Package biblatex Info: Redefining '\supercite'.
+Package biblatex Info: Redefining '\textcite'.
+Package biblatex Info: Redefining '\textcites'.
+Package biblatex Info: Redefining '\cites'.
+Package biblatex Info: Redefining '\parencites'.
+Package biblatex Info: Redefining '\smartcites'.
+)
+Package biblatex Info: Trying to load configuration file...
+Package biblatex Info: ... file 'biblatex.cfg' found.
+
+(/usr/share/texlive/texmf-dist/tex/latex/biblatex/biblatex.cfg
+File: biblatex.cfg 
+)))
+\tikzscale@accuracy=\skip149
+Package biblatex Info: Trying to load language 'english'...
+Package biblatex Info: ... file 'english.lbx' found.
+
+(/usr/share/texlive/texmf-dist/tex/latex/biblatex/lbx/english.lbx
+File: english.lbx 2014/06/25 v2.9a biblatex localization (PK/JW/AB)
+)
+
+Package biblatex Warning: Patching footnotes failed.
+(biblatex)                Footnote detection will not work.
+
+
+Package biblatex Warning: 'babel/polyglossia' detected but 'csquotes' missing.
+(biblatex)                Loading 'csquotes' recommended.
+
+\@quotelevel=\count425
+\@quotereset=\count426
 (./Assignment3.aux)
 \openout1 = `Assignment3.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 95.
-LaTeX Font Info:    ... okay on input line 95.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 95.
-LaTeX Font Info:    ... okay on input line 95.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 95.
-LaTeX Font Info:    ... okay on input line 95.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 95.
-LaTeX Font Info:    ... okay on input line 95.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 95.
-LaTeX Font Info:    ... okay on input line 95.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 95.
-LaTeX Font Info:    ... okay on input line 95.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 95.
-LaTeX Font Info:    ... okay on input line 95.
-LaTeX Font Info:    Try loading font information for OT1+phv on input line 95.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 98.
+LaTeX Font Info:    ... okay on input line 98.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 98.
+LaTeX Font Info:    ... okay on input line 98.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 98.
+LaTeX Font Info:    ... okay on input line 98.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 98.
+LaTeX Font Info:    ... okay on input line 98.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 98.
+LaTeX Font Info:    ... okay on input line 98.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 98.
+LaTeX Font Info:    ... okay on input line 98.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 98.
+LaTeX Font Info:    ... okay on input line 98.
+LaTeX Font Info:    Try loading font information for OT1+phv on input line 98.
  (/usr/share/texlive/texmf-dist/tex/latex/psnfss/ot1phv.fd
 File: ot1phv.fd 2001/06/04 scalable font definitions for OT1/phv.
 )
@@ -1827,16 +2044,16 @@ File: ot1phv.fd 2001/06/04 scalable font definitions for OT1/phv.
 
 (/usr/share/texlive/texmf-dist/tex/context/base/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count308
+\scratchcounter=\count427
 \scratchdimen=\dimen317
 \scratchbox=\box140
-\nofMPsegments=\count309
-\nofMParguments=\count310
+\nofMPsegments=\count428
+\nofMParguments=\count429
 \everyMPshowfont=\toks54
-\MPscratchCnt=\count311
+\MPscratchCnt=\count430
 \MPscratchDim=\dimen318
-\MPnumerator=\count312
-\makeMPintoPDFobject=\count313
+\MPnumerator=\count431
+\makeMPintoPDFobject=\count432
 \everyMPtoPDFconversion=\toks55
 ) (/usr/share/texlive/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
 Package: epstopdf-base 2010/02/09 v2.5 Base part for package epstopdf
@@ -1855,7 +2072,7 @@ e
 ))
 ABD: EveryShipout initializing macros
 \AtBeginShipoutBox=\box141
-Package hyperref Info: Link coloring OFF on input line 95.
+Package hyperref Info: Link coloring OFF on input line 98.
 
 (/usr/share/texlive/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2012/10/27 v2.43 Cross-referencing by name of section
@@ -1863,70 +2080,70 @@ Package: nameref 2012/10/27 v2.43 Cross-referencing by name of section
 (/usr/share/texlive/texmf-dist/tex/generic/oberdiek/gettitlestring.sty
 Package: gettitlestring 2010/12/03 v1.4 Cleanup title references (HO)
 )
-\c@section@level=\count314
+\c@section@level=\count433
 )
-LaTeX Info: Redefining \ref on input line 95.
-LaTeX Info: Redefining \pageref on input line 95.
-LaTeX Info: Redefining \nameref on input line 95.
+LaTeX Info: Redefining \ref on input line 98.
+LaTeX Info: Redefining \pageref on input line 98.
+LaTeX Info: Redefining \nameref on input line 98.
 
 (./Assignment3.out) (./Assignment3.out)
-\@outlinefile=\write8
-\openout8 = `Assignment3.out'.
+\@outlinefile=\write9
+\openout9 = `Assignment3.out'.
 
 LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
-(Font)                  OT1/cmr/m/n --> OT1/cmss/m/n on input line 95.
+(Font)                  OT1/cmr/m/n --> OT1/cmss/m/n on input line 98.
 LaTeX Font Info:    Overwriting symbol font `operators' in version `bold'
-(Font)                  OT1/cmr/bx/n --> OT1/cmss/bx/n on input line 95.
+(Font)                  OT1/cmr/bx/n --> OT1/cmss/bx/n on input line 98.
 \symnumbers=\mathgroup11
-LaTeX Font Info:    Redeclaring symbol font `pureletters' on input line 95.
+LaTeX Font Info:    Redeclaring symbol font `pureletters' on input line 98.
 LaTeX Font Info:    Overwriting symbol font `pureletters' in version `normal'
-(Font)                  OT1/mathkerncmss/m/sl --> OT1/phv/m/it on input line 95
+(Font)                  OT1/mathkerncmss/m/sl --> OT1/phv/m/it on input line 98
 .
 LaTeX Font Info:    Overwriting symbol font `pureletters' in version `bold'
 (Font)                  OT1/mathkerncmss/bx/sl --> OT1/phv/m/it on input line 9
-5.
+8.
 LaTeX Font Info:    Overwriting math alphabet `\mathrm' in version `normal'
-(Font)                  OT1/cmss/m/n --> OT1/cmr/m/n on input line 95.
-LaTeX Font Info:    Redeclaring math alphabet \mathbf on input line 95.
-LaTeX Font Info:    Redeclaring math alphabet \mathsf on input line 95.
+(Font)                  OT1/cmss/m/n --> OT1/cmr/m/n on input line 98.
+LaTeX Font Info:    Redeclaring math alphabet \mathbf on input line 98.
+LaTeX Font Info:    Redeclaring math alphabet \mathsf on input line 98.
 LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `normal'
-(Font)                  OT1/cmss/m/n --> OT1/phv/m/n on input line 95.
+(Font)                  OT1/cmss/m/n --> OT1/phv/m/n on input line 98.
 LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `bold'
-(Font)                  OT1/cmss/bx/n --> OT1/phv/m/n on input line 95.
-LaTeX Font Info:    Redeclaring math alphabet \mathit on input line 95.
+(Font)                  OT1/cmss/bx/n --> OT1/phv/m/n on input line 98.
+LaTeX Font Info:    Redeclaring math alphabet \mathit on input line 98.
 LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `normal'
-(Font)                  OT1/cmr/m/it --> OT1/phv/m/it on input line 95.
+(Font)                  OT1/cmr/m/it --> OT1/phv/m/it on input line 98.
 LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
-(Font)                  OT1/cmr/bx/it --> OT1/phv/m/it on input line 95.
-LaTeX Font Info:    Redeclaring math alphabet \mathtt on input line 95.
+(Font)                  OT1/cmr/bx/it --> OT1/phv/m/it on input line 98.
+LaTeX Font Info:    Redeclaring math alphabet \mathtt on input line 98.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `normal'
-(Font)                  OT1/cmtt/m/n --> OT1/cmtt/m/n on input line 95.
+(Font)                  OT1/cmtt/m/n --> OT1/cmtt/m/n on input line 98.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
-(Font)                  OT1/cmtt/m/n --> OT1/cmtt/m/n on input line 95.
+(Font)                  OT1/cmtt/m/n --> OT1/cmtt/m/n on input line 98.
 LaTeX Font Info:    Overwriting symbol font `numbers' in version `bold'
-(Font)                  OT1/phv/m/n --> OT1/phv/bx/n on input line 95.
+(Font)                  OT1/phv/m/n --> OT1/phv/bx/n on input line 98.
 LaTeX Font Info:    Overwriting symbol font `pureletters' in version `bold'
-(Font)                  OT1/phv/m/it --> OT1/phv/bx/it on input line 95.
+(Font)                  OT1/phv/m/it --> OT1/phv/bx/it on input line 98.
 LaTeX Font Info:    Overwriting math alphabet `\mathrm' in version `bold'
-(Font)                  OT1/cmss/bx/n --> OT1/cmr/bx/n on input line 95.
+(Font)                  OT1/cmss/bx/n --> OT1/cmr/bx/n on input line 98.
 LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `bold'
-(Font)                  OT1/phv/bx/n --> OT1/phv/bx/n on input line 95.
+(Font)                  OT1/phv/bx/n --> OT1/phv/bx/n on input line 98.
 LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `bold'
-(Font)                  OT1/phv/m/n --> OT1/phv/bx/n on input line 95.
+(Font)                  OT1/phv/m/n --> OT1/phv/bx/n on input line 98.
 LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
-(Font)                  OT1/phv/m/it --> OT1/phv/bx/it on input line 95.
+(Font)                  OT1/phv/m/it --> OT1/phv/bx/it on input line 98.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
-(Font)                  OT1/cmtt/m/n --> OT1/cmtt/bx/n on input line 95.
-LaTeX Font Info:    Redeclaring symbol font `boldpureletters' on input line 95.
+(Font)                  OT1/cmtt/m/n --> OT1/cmtt/bx/n on input line 98.
+LaTeX Font Info:    Redeclaring symbol font `boldpureletters' on input line 98.
 
 LaTeX Font Info:    Overwriting symbol font `boldpureletters' in version `norma
 l'
 (Font)                  OT1/mathkerncmss/bx/sl --> OT1/phv/bx/it on input line 
-95.
+98.
 LaTeX Font Info:    Overwriting symbol font `boldpureletters' in version `bold'
 
 (Font)                  OT1/mathkerncmss/bx/sl --> OT1/phv/bx/it on input line 
-95.
+98.
 
 (/usr/share/texlive/texmf-dist/tex/latex/beamer/translator/dicts/translator-bas
 ic-dictionary/translator-basic-dictionary-English.dict
@@ -1952,7 +2169,7 @@ Dictionary: translator-numbers-dictionary, Language: English
 orem-dictionary/translator-theorem-dictionary-English.dict
 Dictionary: translator-theorem-dictionary, Language: English 
 )
-LaTeX Info: Redefining \includegraphics on input line 95.
+LaTeX Info: Redefining \includegraphics on input line 98.
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: Incompatible package detected (regarding \caption).
 (caption)             \caption = macro:->\ifx \@captype \@undefined \@latex@err
@@ -1971,21 +2188,31 @@ Package caption Info: End \AtBeginDocument code.
 Package pgfplots notification 'compat/show suggested version=true': document ha
 s been generated with the most recent feature set (\pgfplotsset{compat=1.11}).
 
-\c@lstlisting=\count315
-(./Assignment3.nav)
-LaTeX Font Info:    Font shape `OT1/phv/bx/n' in size <5> not available
-(Font)              Font shape `OT1/phv/b/n' tried instead on input line 95.
+\c@lstlisting=\count434
+Package biblatex Info: Input encoding 'utf8' detected.
+Package biblatex Info: Automatic encoding selection.
+(biblatex)             Assuming data encoding 'utf8'.
+\openout8 = `Assignment3.bcf'.
 
-Overfull \hbox (1.05998pt too wide) detected at line 95
+Package biblatex Info: Trying to load bibliographic data...
+Package biblatex Info: ... file 'Assignment3.bbl' found.
+(./Assignment3.bbl)
+Package biblatex Info: Reference section=0 on input line 98.
+Package biblatex Info: Reference segment=0 on input line 98.
+ (./Assignment3.nav)
+LaTeX Font Info:    Font shape `OT1/phv/bx/n' in size <5> not available
+(Font)              Font shape `OT1/phv/b/n' tried instead on input line 98.
+
+Overfull \hbox (1.05998pt too wide) detected at line 98
 []  
  []
 
 LaTeX Font Info:    Font shape `OT1/phv/bx/n' in size <9> not available
-(Font)              Font shape `OT1/phv/b/n' tried instead on input line 96.
+(Font)              Font shape `OT1/phv/b/n' tried instead on input line 99.
 LaTeX Font Info:    Font shape `OT1/phv/bx/n' in size <10.95> not available
-(Font)              Font shape `OT1/phv/b/n' tried instead on input line 96.
+(Font)              Font shape `OT1/phv/b/n' tried instead on input line 99.
 LaTeX Font Info:    Font shape `OT1/phv/bx/n' in size <4> not available
-(Font)              Font shape `OT1/phv/b/n' tried instead on input line 96.
+(Font)              Font shape `OT1/phv/b/n' tried instead on input line 99.
 
 Overfull \hbox (1.05998pt too wide) has occurred while \output is active
 []  
@@ -2008,23 +2235,63 @@ Overfull \hbox (1.05998pt too wide) has occurred while \output is active
 
 [3
 
-]
-LaTeX Font Info:    Font shape `OT1/phv/bx/n' in size <8> not available
-(Font)              Font shape `OT1/phv/b/n' tried instead on input line 115.
-LaTeX Font Info:    Try loading font information for OMS+phv on input line 115.
+] <Pictures/Cannon.png, id=157, 788.9475pt x 397.485pt>
+File: Pictures/Cannon.png Graphic file (type png)
 
- (/usr/share/texlive/texmf-dist/tex/latex/psnfss/omsphv.fd
+<use Pictures/Cannon.png>
+Package pdftex.def Info: Pictures/Cannon.png used on input line 125.
+(pdftex.def)             Requested size: 199.73653pt x 100.62648pt.
+LaTeX Font Info:    Font shape `OT1/phv/bx/n' in size <8> not available
+(Font)              Font shape `OT1/phv/b/n' tried instead on input line 125.
+LaTeX Font Info:    Try loading font information for U+msa on input line 125.
+
+(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd
+File: umsa.fd 2013/01/14 v3.01 AMS symbols A
+)
+LaTeX Font Info:    Try loading font information for U+msb on input line 125.
+
+(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
+File: umsb.fd 2013/01/14 v3.01 AMS symbols B
+)
+LaTeX Font Info:    Font shape `OT1/phv/m/it' in size <8> not available
+(Font)              Font shape `OT1/phv/m/sl' tried instead on input line 125.
+LaTeX Font Info:    Font shape `OT1/phv/m/it' in size <6> not available
+(Font)              Font shape `OT1/phv/m/sl' tried instead on input line 125.
+LaTeX Font Info:    Font shape `OT1/phv/m/it' in size <5> not available
+(Font)              Font shape `OT1/phv/m/sl' tried instead on input line 125.
+LaTeX Font Info:    Font shape `OT1/phv/bx/it' in size <8> not available
+(Font)              Font shape `OT1/phv/b/it' tried instead on input line 125.
+LaTeX Font Info:    Font shape `OT1/phv/b/it' in size <8> not available
+(Font)              Font shape `OT1/phv/b/sl' tried instead on input line 125.
+LaTeX Font Info:    Font shape `OT1/phv/bx/it' in size <6> not available
+(Font)              Font shape `OT1/phv/b/it' tried instead on input line 125.
+LaTeX Font Info:    Font shape `OT1/phv/b/it' in size <6> not available
+(Font)              Font shape `OT1/phv/b/sl' tried instead on input line 125.
+LaTeX Font Info:    Font shape `OT1/phv/bx/it' in size <5> not available
+(Font)              Font shape `OT1/phv/b/it' tried instead on input line 125.
+LaTeX Font Info:    Font shape `OT1/phv/b/it' in size <5> not available
+(Font)              Font shape `OT1/phv/b/sl' tried instead on input line 125.
+LaTeX Font Info:    Font shape `OT1/phv/m/it' in size <7> not available
+(Font)              Font shape `OT1/phv/m/sl' tried instead on input line 125.
+LaTeX Font Info:    Font shape `OT1/phv/bx/it' in size <7> not available
+(Font)              Font shape `OT1/phv/b/it' tried instead on input line 125.
+LaTeX Font Info:    Font shape `OT1/phv/b/it' in size <7> not available
+(Font)              Font shape `OT1/phv/b/sl' tried instead on input line 125.
+LaTeX Font Info:    Try loading font information for OMS+phv on input line 125.
+
+
+(/usr/share/texlive/texmf-dist/tex/latex/psnfss/omsphv.fd
 File: omsphv.fd 
 )
 
 LaTeX Font Warning: Font shape `OMS/phv/bx/n' undefined
 (Font)              using `OMS/phv/m/n' instead
-(Font)              for symbol `textbullet' on input line 115.
+(Font)              for symbol `textbullet' on input line 125.
 
 LaTeX Font Info:    Font shape `OMS/phv/m/n' in size <8> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 115.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 125.
 LaTeX Font Info:    Font shape `OMS/phv/bx/n' in size <8> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 115.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 125.
 
 Overfull \hbox (1.05998pt too wide) has occurred while \output is active
 []  
@@ -2032,21 +2299,40 @@ Overfull \hbox (1.05998pt too wide) has occurred while \output is active
 
 [4
 
-]
+ <./Pictures/Cannon.png>]
+(/usr/share/texlive/texmf-dist/tex/latex/listings/lstlang1.sty
+File: lstlang1.sty 2014/09/06 1.5e listings language file
+)
+(/usr/share/texlive/texmf-dist/tex/latex/listings/lstlang1.sty
+File: lstlang1.sty 2014/09/06 1.5e listings language file
+)
 Overfull \hbox (1.05998pt too wide) has occurred while \output is active
 []  
  []
 
 [5
 
-]
+] <Pictures/Task3SB.pdf, id=186, 500.87125pt x 396.48125pt>
+File: Pictures/Task3SB.pdf Graphic file (type pdf)
+
+<use Pictures/Task3SB.pdf>
+Package pdftex.def Info: Pictures/Task3SB.pdf used on input line 158.
+(pdftex.def)             Requested size: 153.64493pt x 121.6193pt.
+
+<Pictures/Task3HW.pdf, id=187, 500.87125pt x 396.48125pt>
+File: Pictures/Task3HW.pdf Graphic file (type pdf)
+
+<use Pictures/Task3HW.pdf>
+Package pdftex.def Info: Pictures/Task3HW.pdf used on input line 158.
+(pdftex.def)             Requested size: 153.64493pt x 121.6193pt.
+
 Overfull \hbox (1.05998pt too wide) has occurred while \output is active
 []  
  []
 
 [6
 
-] (./Assignment3.toc)
+ <./Pictures/Task3SB.pdf> <./Pictures/Task3HW.pdf>] (./Assignment3.toc)
 Overfull \hbox (1.05998pt too wide) has occurred while \output is active
 []  
  []
@@ -2055,11 +2341,11 @@ Overfull \hbox (1.05998pt too wide) has occurred while \output is active
 
 ]
 LaTeX Font Info:    Font shape `OT1/phv/bx/n' in size <7> not available
-(Font)              Font shape `OT1/phv/b/n' tried instead on input line 154.
+(Font)              Font shape `OT1/phv/b/n' tried instead on input line 182.
 LaTeX Font Info:    Font shape `OMS/phv/bx/n' in size <7> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 154.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 182.
 LaTeX Font Info:    Font shape `OT1/phv/bx/n' in size <6> not available
-(Font)              Font shape `OT1/phv/b/n' tried instead on input line 154.
+(Font)              Font shape `OT1/phv/b/n' tried instead on input line 182.
 
 Overfull \hbox (1.05998pt too wide) has occurred while \output is active
 []  
@@ -2068,33 +2354,12 @@ Overfull \hbox (1.05998pt too wide) has occurred while \output is active
 [8
 
 ]
-LaTeX Font Info:    Try loading font information for U+msa on input line 171.
- (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd
-File: umsa.fd 2013/01/14 v3.01 AMS symbols A
-)
-LaTeX Font Info:    Try loading font information for U+msb on input line 171.
-
-(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
-File: umsb.fd 2013/01/14 v3.01 AMS symbols B
-)
 LaTeX Font Info:    Font shape `OT1/phv/m/it' in size <9> not available
-(Font)              Font shape `OT1/phv/m/sl' tried instead on input line 171.
-LaTeX Font Info:    Font shape `OT1/phv/m/it' in size <6> not available
-(Font)              Font shape `OT1/phv/m/sl' tried instead on input line 171.
-LaTeX Font Info:    Font shape `OT1/phv/m/it' in size <5> not available
-(Font)              Font shape `OT1/phv/m/sl' tried instead on input line 171.
+(Font)              Font shape `OT1/phv/m/sl' tried instead on input line 199.
 LaTeX Font Info:    Font shape `OT1/phv/bx/it' in size <9> not available
-(Font)              Font shape `OT1/phv/b/it' tried instead on input line 171.
+(Font)              Font shape `OT1/phv/b/it' tried instead on input line 199.
 LaTeX Font Info:    Font shape `OT1/phv/b/it' in size <9> not available
-(Font)              Font shape `OT1/phv/b/sl' tried instead on input line 171.
-LaTeX Font Info:    Font shape `OT1/phv/bx/it' in size <6> not available
-(Font)              Font shape `OT1/phv/b/it' tried instead on input line 171.
-LaTeX Font Info:    Font shape `OT1/phv/b/it' in size <6> not available
-(Font)              Font shape `OT1/phv/b/sl' tried instead on input line 171.
-LaTeX Font Info:    Font shape `OT1/phv/bx/it' in size <5> not available
-(Font)              Font shape `OT1/phv/b/it' tried instead on input line 171.
-LaTeX Font Info:    Font shape `OT1/phv/b/it' in size <5> not available
-(Font)              Font shape `OT1/phv/b/sl' tried instead on input line 171.
+(Font)              Font shape `OT1/phv/b/sl' tried instead on input line 199.
 
 Overfull \hbox (1.05998pt too wide) has occurred while \output is active
 []  
@@ -2103,27 +2368,72 @@ Overfull \hbox (1.05998pt too wide) has occurred while \output is active
 [9
 
 ]
+\openout4 = `Assignment3.vrb'.
+
+ (./Assignment3.vrb
+LaTeX Font Info:    Try loading font information for OML+phv on input line 11.
+
+(/usr/share/texlive/texmf-dist/tex/latex/psnfss/omlphv.fd
+File: omlphv.fd 
+)
+LaTeX Font Info:    Font shape `OML/phv/m/n' in size <6> not available
+(Font)              Font shape `OML/cmm/m/it' tried instead on input line 11.
+LaTeX Font Info:    Font shape `OMS/phv/m/n' in size <6> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 11.
+)
+Overfull \vbox (3.25772pt too high) detected at line 230
+ []
+
+
 Overfull \hbox (1.05998pt too wide) has occurred while \output is active
 []  
  []
 
 [10
 
-]
+] <Pictures/Task4SB.pdf, id=273, 500.87125pt x 396.48125pt>
+File: Pictures/Task4SB.pdf Graphic file (type pdf)
+
+<use Pictures/Task4SB.pdf>
+Package pdftex.def Info: Pictures/Task4SB.pdf used on input line 243.
+(pdftex.def)             Requested size: 153.64493pt x 121.6193pt.
+
+<Pictures/Task4HW.pdf, id=274, 500.87125pt x 396.48125pt>
+File: Pictures/Task4HW.pdf Graphic file (type pdf)
+
+<use Pictures/Task4HW.pdf>
+Package pdftex.def Info: Pictures/Task4HW.pdf used on input line 243.
+(pdftex.def)             Requested size: 153.64493pt x 121.6193pt.
+
 Overfull \hbox (1.05998pt too wide) has occurred while \output is active
 []  
  []
 
 [11
 
-] (./Assignment3.toc)
+ <./Pictures/Task4SB.pdf> <./Pictures/Task4HW.pdf>]
+<Pictures/Task4SBprobe.pdf, id=296, 500.87125pt x 396.48125pt>
+File: Pictures/Task4SBprobe.pdf Graphic file (type pdf)
+
+<use Pictures/Task4SBprobe.pdf>
+Package pdftex.def Info: Pictures/Task4SBprobe.pdf used on input line 256.
+(pdftex.def)             Requested size: 153.64493pt x 121.6193pt.
+
+<Pictures/Task4HWprobe.pdf, id=297, 500.87125pt x 396.48125pt>
+File: Pictures/Task4HWprobe.pdf Graphic file (type pdf)
+
+<use Pictures/Task4HWprobe.pdf>
+Package pdftex.def Info: Pictures/Task4HWprobe.pdf used on input line 256.
+(pdftex.def)             Requested size: 153.64493pt x 121.6193pt.
+
 Overfull \hbox (1.05998pt too wide) has occurred while \output is active
 []  
  []
 
 [12
 
-]
+ <./Pictures/Task4SBprobe.pdf> <./Pictures/Task4HWprobe.pdf>]
+(./Assignment3.toc)
 Overfull \hbox (1.05998pt too wide) has occurred while \output is active
 []  
  []
@@ -2138,55 +2448,113 @@ Overfull \hbox (1.05998pt too wide) has occurred while \output is active
 [14
 
 ]
+\openout4 = `Assignment3.vrb'.
+
+ (./Assignment3.vrb)
 Overfull \hbox (1.05998pt too wide) has occurred while \output is active
 []  
  []
 
 [15
 
-]
-\tf@nav=\write9
-\openout9 = `Assignment3.nav'.
+] <Pictures/Task5SB.pdf, id=365, 500.87125pt x 396.48125pt>
+File: Pictures/Task5SB.pdf Graphic file (type pdf)
 
-\tf@toc=\write10
-\openout10 = `Assignment3.toc'.
+<use Pictures/Task5SB.pdf>
+Package pdftex.def Info: Pictures/Task5SB.pdf used on input line 330.
+(pdftex.def)             Requested size: 153.64493pt x 121.6193pt.
 
-\tf@snm=\write11
-\openout11 = `Assignment3.snm'.
+<Pictures/Task5HW.pdf, id=366, 500.87125pt x 396.48125pt>
+File: Pictures/Task5HW.pdf Graphic file (type pdf)
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 235.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 235.
- (./Assignment3.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 235.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 235.
+<use Pictures/Task5HW.pdf>
+Package pdftex.def Info: Pictures/Task5HW.pdf used on input line 330.
+(pdftex.def)             Requested size: 153.64493pt x 121.6193pt.
+
+Overfull \hbox (1.05998pt too wide) has occurred while \output is active
+[]  
+ []
+
+[16
+
+ <./Pictures/Task5SB.pdf> <./Pictures/Task5HW.pdf>] (./Assignment3.toc)
+Overfull \hbox (1.05998pt too wide) has occurred while \output is active
+[]  
+ []
+
+[17
+
+] <Pictures/comparisonSB.pdf, id=409, 490.83376pt x 395.4775pt>
+File: Pictures/comparisonSB.pdf Graphic file (type pdf)
+
+<use Pictures/comparisonSB.pdf>
+Package pdftex.def Info: Pictures/comparisonSB.pdf used on input line 351.
+(pdftex.def)             Requested size: 153.64493pt x 123.79158pt.
+
+<Pictures/comparisonHW.pdf, id=410, 490.83376pt x 395.4775pt>
+File: Pictures/comparisonHW.pdf Graphic file (type pdf)
+
+<use Pictures/comparisonHW.pdf>
+Package pdftex.def Info: Pictures/comparisonHW.pdf used on input line 351.
+(pdftex.def)             Requested size: 153.64493pt x 123.79158pt.
+
+Overfull \hbox (1.05998pt too wide) has occurred while \output is active
+[]  
+ []
+
+[18
+
+ <./Pictures/comparisonSB.pdf> <./Pictures/comparisonHW.pdf>]
+\tf@nav=\write10
+\openout10 = `Assignment3.nav'.
+
+\tf@toc=\write11
+\openout11 = `Assignment3.toc'.
+
+\tf@snm=\write12
+\openout12 = `Assignment3.snm'.
+
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 354.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 354.
+
+(./Assignment3.aux)
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 354.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 354.
 Package rerunfilecheck Info: File `Assignment3.out' has not changed.
-(rerunfilecheck)             Checksum: 4C597B4CCE402B78EEB399B9CA6414A5;779.
+(rerunfilecheck)             Checksum: AFA5ECE62DD1643B20F465FF9615B84F;829.
 
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 235.
+Package logreq Info: Writing requests to 'Assignment3.run.xml'.
+\openout1 = `Assignment3.run.xml'.
+
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 354.
  ) 
 Here is how much of TeX's memory you used:
- 43084 strings out of 493105
- 978640 string characters out of 6137073
- 1156850 words of memory out of 5000000
- 45696 multiletter control sequences out of 15000+600000
- 31817 words of font info for 68 fonts, out of 8000000 for 9000
+ 48256 strings out of 493105
+ 1072137 string characters out of 6137073
+ 1664832 words of memory out of 5000000
+ 50766 multiletter control sequences out of 15000+600000
+ 44759 words of font info for 96 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 56i,18n,83p,10433b,1384s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 56i,18n,83p,10433b,1652s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/share/texliv
 e/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmex9.pfb></usr/share/texlive/
-texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></usr/share/texlive/texmf-d
-ist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texlive/texmf-dist/fon
-ts/type1/public/amsfonts/cm/cmsy8.pfb></usr/share/texlive/texmf-dist/fonts/type
-1/public/amsfonts/cm/cmsy9.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/h
-elvetic/uhvb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvr
-8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvro8a.pfb>
-Output written on Assignment3.pdf (15 pages, 350894 bytes).
+texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/share/texlive/texmf-d
+ist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></usr/share/texlive/texmf-dist/fon
+ts/type1/public/amsfonts/cm/cmsy6.pfb></usr/share/texlive/texmf-dist/fonts/type
+1/public/amsfonts/cm/cmsy7.pfb></usr/share/texlive/texmf-dist/fonts/type1/publi
+c/amsfonts/cm/cmsy8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfo
+nts/cm/cmsy9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/
+cmtt8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt9.p
+fb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvb8a.pfb></usr/sha
+re/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb></usr/share/texlive/t
+exmf-dist/fonts/type1/urw/helvetic/uhvro8a.pfb>
+Output written on Assignment3.pdf (18 pages, 483485 bytes).
 PDF statistics:
- 351 PDF objects out of 1000 (max. 8388607)
- 271 compressed objects within 3 object streams
- 43 named destinations out of 1000 (max. 500000)
- 154 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 484 PDF objects out of 1000 (max. 8388607)
+ 370 compressed objects within 4 object streams
+ 50 named destinations out of 1000 (max. 500000)
+ 217 words of extra memory for PDF output out of 10000 (max. 10000000)
 

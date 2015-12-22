@@ -1,0 +1,46 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 2.4 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \sortlist{nty}{nty}
+    \entry{Xu2014}{article}{}
+      \name{labelname}{1}{}{%
+        {{hash=8332ae4e5fde702758fdfc6290088b88}{Xu}{X\bibinitperiod}{Zhiliang}{Z\bibinitperiod}{}{}{}{}}%
+      }
+      \name{author}{1}{}{%
+        {{hash=8332ae4e5fde702758fdfc6290088b88}{Xu}{X\bibinitperiod}{Zhiliang}{Z\bibinitperiod}{}{}{}{}}%
+      }
+      \strng{namehash}{8332ae4e5fde702758fdfc6290088b88}
+      \strng{fullhash}{8332ae4e5fde702758fdfc6290088b88}
+      \field{sortinit}{X}
+      \field{sortinithash}{bb66100cf530dab7b8d70298d37d7bec}
+      \field{labeltitle}{{Lecture Notes: Advanced Scientific Computing (Lecture 5 part 3)}}
+      \field{title}{{Lecture Notes: Advanced Scientific Computing (Lecture 5 part 3)}}
+      \field{year}{2014}
+      \verb{file}
+      \verb :home/benjamin/Downloads/Lec-07-3.pdf:pdf
+      \endverb
+      \verb{url}
+      \verb http://www3.nd.edu/%7B~%7Dzxu2/acms60212-40212/Lec-06-3.pdf
+      \endverb
+    \endentry
+  \endsortlist
+\endrefsection
+\endinput
+

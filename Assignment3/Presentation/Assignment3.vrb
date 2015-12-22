@@ -1,0 +1,26 @@
+\frametitle{\insertsubsection }
+\begin{block}{Was communication and computation overlap achieved?}
+\begin{lstlisting}[language=C, basicstyle=\scriptsize, keepspaces=true, columns=flexible]
+// cannon's algorithm
+...
+MPI_Win_fence(0,win_A_even);
+...
+for(cannon_block_cycle = 0; cannon_block_cycle < sqrt_size; cannon_block_cycle++){
+    ...
+    if(cannon_block_cycle%2==0){
+        MPI_Win_fence(0,win_A_even);
+        A_local_block = A_local_block_even;
+        MPI_Win_fence(0,win_B_even);
+        B_local_block = B_local_block_even;
+        //Horizontal communication
+        MPI_Put(..., win_A_odd);
+        //Vertical communication
+        MPI_Put(..., win_B_odd);
+    }else{
+        ... // odd and even are exchanged
+    }
+    ...
+    // computation heavy part
+}
+\end{lstlisting}
+\end{block}

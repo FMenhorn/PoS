@@ -1,54 +1,121 @@
+\defcounter {refsection}{0}\relax 
 \beamer@endinputifotherversion {3.33pt}
+\defcounter {refsection}{0}\relax 
 \headcommand {\slideentry {0}{0}{1}{1/1}{}{0}}
+\defcounter {refsection}{0}\relax 
 \headcommand {\beamer@framepages {1}{1}}
+\defcounter {refsection}{0}\relax 
 \headcommand {\slideentry {0}{0}{2}{2/2}{}{0}}
+\defcounter {refsection}{0}\relax 
 \headcommand {\beamer@framepages {2}{2}}
+\defcounter {refsection}{0}\relax 
 \headcommand {\sectionentry {1}{Provided Implementation and Baseline}{3}{Provided Implementation and Baseline}{0}}
+\defcounter {refsection}{0}\relax 
 \headcommand {\beamer@sectionpages {1}{2}}
+\defcounter {refsection}{0}\relax 
 \headcommand {\beamer@subsectionpages {1}{2}}
+\defcounter {refsection}{0}\relax 
 \headcommand {\slideentry {1}{0}{3}{3/3}{}{0}}
+\defcounter {refsection}{0}\relax 
 \headcommand {\beamer@framepages {3}{3}}
+\defcounter {refsection}{0}\relax 
 \headcommand {\beamer@subsectionentry {0}{1}{1}{4}{Cannon\IeC {\textquoteright }s algorithm}}\headcommand {\beamer@subsectionpages {3}{3}}
+\defcounter {refsection}{0}\relax 
 \headcommand {\slideentry {1}{1}{1}{4/4}{Cannon\IeC {\textquoteright }s algorithm}{0}}
+\defcounter {refsection}{0}\relax 
 \headcommand {\beamer@framepages {4}{4}}
+\defcounter {refsection}{0}\relax 
 \headcommand {\beamer@subsectionentry {0}{1}{2}{5}{Baseline}}\headcommand {\beamer@subsectionpages {4}{4}}
+\defcounter {refsection}{0}\relax 
 \headcommand {\slideentry {1}{2}{1}{5/5}{Baseline}{0}}
+\defcounter {refsection}{0}\relax 
 \headcommand {\beamer@framepages {5}{5}}
-\headcommand {\beamer@subsectionentry {0}{1}{3}{6}{Scalability}}\headcommand {\beamer@subsectionpages {5}{5}}
-\headcommand {\slideentry {1}{3}{1}{6/6}{Scalability}{0}}
+\defcounter {refsection}{0}\relax 
+\headcommand {\beamer@subsectionentry {0}{1}{3}{6}{Scaling}}\headcommand {\beamer@subsectionpages {5}{5}}
+\defcounter {refsection}{0}\relax 
+\headcommand {\slideentry {1}{3}{1}{6/6}{Scaling}{0}}
+\defcounter {refsection}{0}\relax 
 \headcommand {\beamer@framepages {6}{6}}
+\defcounter {refsection}{0}\relax 
 \headcommand {\sectionentry {2}{MPI Point-to-Point Communication}{7}{MPI Point-to-Point Communication}{0}}
+\defcounter {refsection}{0}\relax 
 \headcommand {\beamer@sectionpages {3}{6}}
+\defcounter {refsection}{0}\relax 
 \headcommand {\beamer@subsectionpages {6}{6}}
+\defcounter {refsection}{0}\relax 
 \headcommand {\slideentry {2}{0}{2}{7/7}{}{0}}
+\defcounter {refsection}{0}\relax 
 \headcommand {\beamer@framepages {7}{7}}
+\defcounter {refsection}{0}\relax 
 \headcommand {\beamer@subsectionentry {0}{2}{1}{8}{MPI Non-Blocking Operations}}\headcommand {\beamer@subsectionpages {7}{7}}
+\defcounter {refsection}{0}\relax 
 \headcommand {\slideentry {2}{1}{1}{8/8}{MPI Non-Blocking Operations}{0}}
+\defcounter {refsection}{0}\relax 
 \headcommand {\beamer@framepages {8}{8}}
+\defcounter {refsection}{0}\relax 
 \headcommand {\beamer@subsectionentry {0}{2}{2}{9}{Optimizations}}\headcommand {\beamer@subsectionpages {8}{8}}
+\defcounter {refsection}{0}\relax 
 \headcommand {\slideentry {2}{2}{1}{9/9}{Optimizations}{0}}
+\defcounter {refsection}{0}\relax 
 \headcommand {\beamer@framepages {9}{9}}
+\defcounter {refsection}{0}\relax 
 \headcommand {\slideentry {2}{2}{2}{10/10}{Optimizations}{0}}
+\defcounter {refsection}{0}\relax 
 \headcommand {\beamer@framepages {10}{10}}
+\defcounter {refsection}{0}\relax 
 \headcommand {\beamer@subsectionentry {0}{2}{3}{11}{Scaling}}\headcommand {\beamer@subsectionpages {9}{10}}
+\defcounter {refsection}{0}\relax 
 \headcommand {\slideentry {2}{3}{1}{11/11}{Scaling}{0}}
+\defcounter {refsection}{0}\relax 
 \headcommand {\beamer@framepages {11}{11}}
-\headcommand {\sectionentry {3}{MPI One-Sided Communication}{12}{MPI One-Sided Communication}{0}}
-\headcommand {\beamer@sectionpages {7}{11}}
-\headcommand {\beamer@subsectionpages {11}{11}}
-\headcommand {\slideentry {3}{0}{2}{12/12}{}{0}}
+\defcounter {refsection}{0}\relax 
+\headcommand {\slideentry {2}{3}{2}{12/12}{Scaling}{0}}
+\defcounter {refsection}{0}\relax 
 \headcommand {\beamer@framepages {12}{12}}
-\headcommand {\beamer@subsectionentry {0}{3}{1}{13}{MPI One-Sided Operations}}\headcommand {\beamer@subsectionpages {12}{12}}
-\headcommand {\slideentry {3}{1}{1}{13/13}{MPI One-Sided Operations}{0}}
+\defcounter {refsection}{0}\relax 
+\headcommand {\sectionentry {3}{MPI One-Sided Communication}{13}{MPI One-Sided Communication}{0}}
+\defcounter {refsection}{0}\relax 
+\headcommand {\beamer@sectionpages {7}{12}}
+\defcounter {refsection}{0}\relax 
+\headcommand {\beamer@subsectionpages {11}{12}}
+\defcounter {refsection}{0}\relax 
+\headcommand {\slideentry {3}{0}{3}{13/13}{}{0}}
+\defcounter {refsection}{0}\relax 
 \headcommand {\beamer@framepages {13}{13}}
-\headcommand {\beamer@subsectionentry {0}{3}{2}{14}{Optimizations}}\headcommand {\beamer@subsectionpages {13}{13}}
-\headcommand {\slideentry {3}{2}{1}{14/14}{Optimizations}{0}}
+\defcounter {refsection}{0}\relax 
+\headcommand {\beamer@subsectionentry {0}{3}{1}{14}{MPI One-Sided Operations}}\headcommand {\beamer@subsectionpages {13}{13}}
+\defcounter {refsection}{0}\relax 
+\headcommand {\slideentry {3}{1}{1}{14/14}{MPI One-Sided Operations}{0}}
+\defcounter {refsection}{0}\relax 
 \headcommand {\beamer@framepages {14}{14}}
-\headcommand {\beamer@subsectionentry {0}{3}{3}{15}{Scaling}}\headcommand {\beamer@subsectionpages {14}{14}}
-\headcommand {\slideentry {3}{3}{1}{15/15}{Scaling}{0}}
+\defcounter {refsection}{0}\relax 
+\headcommand {\beamer@subsectionentry {0}{3}{2}{15}{Optimizations}}\headcommand {\beamer@subsectionpages {14}{14}}
+\defcounter {refsection}{0}\relax 
+\headcommand {\slideentry {3}{2}{1}{15/15}{Optimizations}{0}}
+\defcounter {refsection}{0}\relax 
 \headcommand {\beamer@framepages {15}{15}}
-\headcommand {\beamer@partpages {1}{15}}
-\headcommand {\beamer@subsectionpages {15}{15}}
-\headcommand {\beamer@sectionpages {12}{15}}
-\headcommand {\beamer@documentpages {15}}
-\headcommand {\def \inserttotalframenumber {15}}
+\defcounter {refsection}{0}\relax 
+\headcommand {\beamer@subsectionentry {0}{3}{3}{16}{Scaling}}\headcommand {\beamer@subsectionpages {15}{15}}
+\defcounter {refsection}{0}\relax 
+\headcommand {\slideentry {3}{3}{1}{16/16}{Scaling}{0}}
+\defcounter {refsection}{0}\relax 
+\headcommand {\beamer@framepages {16}{16}}
+\defcounter {refsection}{0}\relax 
+\headcommand {\sectionentry {4}{Overall Comparison}{17}{Overall Comparison}{0}}
+\defcounter {refsection}{0}\relax 
+\headcommand {\beamer@sectionpages {13}{16}}
+\defcounter {refsection}{0}\relax 
+\headcommand {\beamer@subsectionpages {16}{16}}
+\defcounter {refsection}{0}\relax 
+\headcommand {\slideentry {4}{0}{2}{17/17}{}{0}}
+\defcounter {refsection}{0}\relax 
+\headcommand {\beamer@framepages {17}{17}}
+\defcounter {refsection}{0}\relax 
+\headcommand {\slideentry {4}{0}{3}{18/18}{}{0}}
+\defcounter {refsection}{0}\relax 
+\headcommand {\beamer@framepages {18}{18}}
+\headcommand {\beamer@partpages {1}{18}}
+\headcommand {\beamer@subsectionpages {17}{18}}
+\headcommand {\beamer@sectionpages {17}{18}}
+\headcommand {\beamer@documentpages {18}}
+\headcommand {\def \inserttotalframenumber {18}}

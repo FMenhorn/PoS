@@ -92,6 +92,9 @@
 \institute{Technische Universität München}
 \newtheorem*{rem}{Remark}
 
+\usepackage[backend=biber]{biblatex}
+\bibliography{References/refs}
+
 \begin{document}
 \frame{\maketitle}
 
@@ -108,24 +111,49 @@
 
 \subsection{Cannon’s algorithm}
 \begin{frame}{\insertsubsection}
+\begin{center}
+\begin{figure}
+\includegraphics[width=.65\textwidth]{Pictures/Cannon.png}
+\caption{Cannons's algorithm. Figure from \footfullcite{Xu2014}.}
+\end{figure}
+\end{center}
 \begin{itemize}
-\item explain algorithm
-\item provided implementation
+\item good and simple on homogeneous 2D grid topology
+\item provided implementation with blocking \lstinline{MPI_Send/MPI_Recv}
+\item no initial alignment in provided implementation
 \end{itemize}
 \end{frame}
 
-
 \subsection{Baseline}
 \begin{frame}{\insertsubsection}
-Challenges in getting an accurate baseline and changes to the Load-Leveler batch script.
+\begin{block}{Challenges:}
+\begin{itemize}
+	\item variance of test runs
+	\item any more???
+\end{itemize}
+\end{block}
+
+\begin{block}{Batch Script:}
+\begin{itemize}
+	\item writing output to file
+		\lstinline[language=bash]{mpiexec -n 64 ./cannon$arch_ending $cannon_matrices_path/64x64-1.in $cannon_matrices_path/64x64-2.in | tee 64_$JOB_ID.out}
+	\item postprocessing \lstinline{.out} files into \lstinline{.csv} files
+	\item automation of job submission for multiple test runs	
+\end{itemize}
+\end{block}
+
 \end{frame}
 
-\subsection{Scalability}
+\subsection{Scaling}
 \begin{frame}{\insertsubsection}
+\begin{figure}
+\includegraphics[width=.5\textwidth]{Pictures/Task3SB}
+\hfill
+\includegraphics[width=.5\textwidth]{Pictures/Task3HW}
+\end{figure}
 \begin{itemize}
-\item Compute time scalability with fixed 64 processes and varying size of input files.
-\item MPI time scalability with fixed 64 processes and varying size of input files.
-\item Differences in scalability between the Sandy Bridge and Haswell architectures.
+\item Communication and computation time match well with theoretical complexity.
+\item Sandybride and Haswell similar, but Haswell has higher variance
 \end{itemize}
 \end{frame}
 
@@ -147,40 +175,83 @@ Challenges in getting an accurate baseline and changes to the Load-Leveler batch
 	\item Synchronization
 	\begin{itemize}
 	\item \lstinline[basicstyle=\scriptsize\bf]{MPI_Wait}
-	\item \lstinline[basicstyle=\scriptsize]{MPI_Probe}
+	\item \lstinline[basicstyle=\scriptsize\bf]{MPI_Probe}
 	\end{itemize}
 	
 \end{itemize}
 \end{frame}
 \subsection{Optimizations}
 \begin{frame}{\insertsubsection}
-\begin{itemize}
-\item \textbf{What is overlap?}\\
-	We do not wait for either task to be completed, but try to do communication and computation at the same time. We are hiding communication time by doing computation in the meantime.
-\item \textbf{What is the theoretical maximum overlap that can be achieved?}\\
-Bounds for pure communication time: $$\max\left(0, T_\text{MPI}^\text{blocking} - T_\text{computation}\right) \leq T_\text{MPI}^\text{non-blocking} \leq T_\text{MPI}^\text{blocking}$$
-Overheads:
+\begin{block}{What is overlap?}
+We do not wait for either task to be completed, but try to do communication and computation at the same time. Therefore blocking communication cannot result in any overlap.
+\end{block}
+\begin{block}{What is the theoretical maximum overlap that can be achieved?}
+Bounds for pure communication time: 
+$$\max\left(0, T_\text{MPI}^\text{blocking} - T_\text{computation}\right) \leq T_\text{MPI}^\text{non-blocking} \leq T_\text{MPI}^\text{blocking}$$
+As soon as $T_\text{computation}>T_\text{MPI}^\text{blocking}$, we can theoretically achieve 100\% overlap.
+\end{block}
+\begin{block}{Overheads}
 \begin{itemize}
 \item Copying into and from buffers
 \item Initialization
 \end{itemize}
-Maximum overlap depends on amount of $T_\text{computation}$. As soon as $T_\text{computation}>T_\text{MPI}^\text{blocking}$, we can theoretically achieve 100\% overlap.
-
-\end{itemize}
-
+\end{block}
 \end{frame}
 
-\begin{frame}{\insertsubsection \ (cond.)}
-\begin{itemize}
-\item \textbf{Was communication and computation overlap achieved?}
-\end{itemize}
+\begin{frame}[fragile]{\insertsubsection \ (contd.)}
+\begin{block}{Was communication and computation overlap achieved?}
+\begin{lstlisting}[language=C, basicstyle=\scriptsize, keepspaces=true, columns=flexible]
+// cannon's algorithm
+...
+MPI_Request send_row_request;
+MPI_Request send_column_request;
+MPI_Request recv_row_request;
+MPI_Request recv_column_request;
+...
+for(cannon_block_cycle = 0; cannon_block_cycle < sqrt_size; cannon_block_cycle++){
+    ...
+    // Horizontal communication
+    MPI_Isend(...,row_communicator, &send_row_request);		
+    MPI_Irecv(...,row_communicator, &recv_row_request);
+    // Vertical communication
+    MPI_Isend(...,column_communicator, &send_column_request);
+    MPI_Irecv(...,column_communicator, &recv_column_request);
+    ...		
+    // computation heavy part 
+    ...		
+    MPI_Wait(&send_row_request, &status);
+    MPI_Wait(&send_column_request, &status);
+    MPI_Wait(&recv_row_request, &status);
+    MPI_Wait(&recv_column_request, &status);
+    ...		
+}
+\end{lstlisting}
+\end{block}
 \end{frame}
 
 \subsection{Scaling}
 \begin{frame}{\insertsubsection}
+\begin{figure}
+\includegraphics[width=.5\textwidth]{Pictures/Task4SB}
+\hfill
+\includegraphics[width=.5\textwidth]{Pictures/Task4HW}
+\end{figure}
 \begin{itemize}
-\item Was a speedup observed versus the baseline?
-\item Were there any differences between Sandy Bridge and Haswell nodes?
+\item Only Little speedup.
+\item No big differences between Haswell and Sandybridge.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{\insertsubsection \ (contd.)}
+\begin{figure}
+\includegraphics[width=.5\textwidth]{Pictures/Task4SBprobe}
+\hfill
+\includegraphics[width=.5\textwidth]{Pictures/Task4HWprobe}
+\end{figure}
+\begin{itemize}
+\item using \lstinline{MPI_Probe}
+\item big speedup
+\item no big differences
 \end{itemize}
 \end{frame}
 
@@ -217,19 +288,67 @@ Maximum overlap depends on amount of $T_\text{computation}$. As soon as $T_\text
 
 
 \subsection{Optimizations}
-\begin{frame}{\insertsubsection}
-\begin{itemize}
-\item Was communication and computation overlap achieved?
-\end{itemize}
+\begin{frame}[fragile]{\insertsubsection}
+\begin{block}{Was communication and computation overlap achieved?}
+\begin{lstlisting}[language=C, basicstyle=\scriptsize, keepspaces=true, columns=flexible]
+// cannon's algorithm
+...
+MPI_Win_fence(0,win_A_even); 
+...
+for(cannon_block_cycle = 0; cannon_block_cycle < sqrt_size; cannon_block_cycle++){
+    ...
+    if(cannon_block_cycle%2==0){
+        MPI_Win_fence(0,win_A_even);
+        A_local_block = A_local_block_even;
+        MPI_Win_fence(0,win_B_even);
+        B_local_block = B_local_block_even;
+        //Horizontal communication
+        MPI_Put(..., win_A_odd);
+        //Vertical communication
+        MPI_Put(..., win_B_odd);
+    }else{
+        ... // odd and even are exchanged
+    }
+    ...
+    // computation heavy part
+}
+\end{lstlisting}
+\end{block}
 \end{frame}
 
 \subsection{Scaling}
 \begin{frame}{\insertsubsection}
+\begin{figure}
+\includegraphics[width=.5\textwidth]{Pictures/Task5SB}
+\hfill
+\includegraphics[width=.5\textwidth]{Pictures/Task5HW}
+\end{figure}
 \begin{itemize}
-\item Was a speedup observed versus the baseline?
-\item Was a speedup observed versus the non-blocking version?
-\item Were there any differences between Sandy Bridge and Haswell nodes?
+\item Good speedup for big size, very high overhead for small size.
+\item No big differences between Haswell and Sandybridge.
 \end{itemize}
 \end{frame}
+
+\section{Overall Comparison}
+\begin{frame}{\phantom{Contents}}
+\tableofcontents[
+  currentsection  
+]
+\end{frame}
+
+\begin{frame}{Speedup of communication time}
+\begin{figure}
+\includegraphics[width=.5\textwidth]{Pictures/comparisonSB}
+\hfill
+\includegraphics[width=.5\textwidth]{Pictures/comparisonHW}
+\end{figure}
+\begin{itemize}
+\item \textbf{Nonblocking:} Usually little speedup, but big speedup for $2048\times2048$.
+\item \textbf{Nonblocking with probing:} High speedup for big problems.
+\item \textbf{DMA:} High overhead, but good speedup for big problems.
+\end{itemize}
+
+\end{frame}
+
 
 \end{document}
