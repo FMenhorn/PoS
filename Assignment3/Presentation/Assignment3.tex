@@ -122,6 +122,7 @@
 \item provided implementation with blocking \lstinline{MPI_Send/MPI_Recv}
 \item no initial alignment in provided implementation
 \end{itemize}
+\footnotetext[2]{\href{https://www.youtube.com/watch?v=sB-Dh4DsOy0}{Cannon's algorithm on Youtube}}
 \end{frame}
 
 \subsection{Baseline}
@@ -129,7 +130,12 @@
 \begin{block}{Challenges:}
 \begin{itemize}
 	\item variance of test runs
-	\item any more???
+\end{itemize}
+\end{block}
+
+\begin{block}{In Code:}
+\begin{itemize}
+\item MPI{\_}Reduce and average over all processors for computation time and mpi time
 \end{itemize}
 \end{block}
 
@@ -168,14 +174,34 @@
 \begin{itemize}
 	\item Send/Receive
 	\begin{itemize}
-	\item \lstinline[basicstyle=\scriptsize\bf]{MPI_Isend}
-	\item \lstinline[basicstyle=\scriptsize\bf]{MPI_Irecv}
+	\alert{\item \lstinline[basicstyle=\scriptsize\bf]{MPI_Isend}}
+		\begin{itemize}
+		\item {Standard-mode, nonblocking send}
+		\item {Nonblocking calls allocate a communication request object and associate it with the request handle.}
+		\item {A nonblocking send call indicates that the system may start copying data out of the send buffer}
+		\end{itemize}
+	\alert{\item \lstinline[basicstyle=\scriptsize\bf]{MPI_Irecv}}
+		\begin{itemize}
+		\item {Standard-mode, nonblocking receive}
+		\item {Nonblocking calls allocate a communication request object and associate it with the request handle}
+		\item {A nonblocking receive call indicates that the system may start writing data into the receive buffer}
+		\end{itemize}
 	\end{itemize}
 
 	\item Synchronization
 	\begin{itemize}
-	\item \lstinline[basicstyle=\scriptsize\bf]{MPI_Wait}
+	\alert{\item \lstinline[basicstyle=\scriptsize\bf]{MPI_Wait}}
+		\begin{itemize}
+		\item {Waits for an MPI send or receive to complete.}
+		\end{itemize}
 	\item \lstinline[basicstyle=\scriptsize\bf]{MPI_Probe}
+		\begin{itemize}
+		\item {Blocking test for a message}
+		\end{itemize}
+	\alert{\item \lstinline[basicstyle=\scriptsize\bf]{MPI_Test}}
+		\begin{itemize}
+		\item {Tests for the completion of a specific send or receive.}
+		\end{itemize}
 	\end{itemize}
 	
 \end{itemize}
@@ -203,26 +229,24 @@ As soon as $T_\text{computation}>T_\text{MPI}^\text{blocking}$, we can theoretic
 \begin{lstlisting}[language=C, basicstyle=\scriptsize, keepspaces=true, columns=flexible]
 // cannon's algorithm
 ...
-MPI_Request send_row_request;
-MPI_Request send_column_request;
-MPI_Request recv_row_request;
-MPI_Request recv_column_request;
+MPI_Request send_row_request, send_column_request, recv_row_request, recv_column_request;
+double *A_local_block_copy = (double *) malloc (A_local_block_size * sizeof(double));
+double* tmp_pointer = NULL;
 ...
 for(cannon_block_cycle = 0; cannon_block_cycle < sqrt_size; cannon_block_cycle++){
     ...
     // Horizontal communication
-    MPI_Isend(...,row_communicator, &send_row_request);		
-    MPI_Irecv(...,row_communicator, &recv_row_request);
-    // Vertical communication
-    MPI_Isend(...,column_communicator, &send_column_request);
-    MPI_Irecv(...,column_communicator, &recv_column_request);
-    ...		
+    MPI_Isend(A_local_block,...(coordinates[1] + sqrt_size - 1) % sqrt_size,...,row_communicator, &send_row_request);		
+    MPI_Irecv(A_local_block_copy,...,(coordinates[1] + 1) % sqrt_size,...,row_communicator, &recv_row_request);
     // computation heavy part 
     ...		
+    // Horizontal wait
     MPI_Wait(&send_row_request, &status);
-    MPI_Wait(&send_column_request, &status);
     MPI_Wait(&recv_row_request, &status);
-    MPI_Wait(&recv_column_request, &status);
+    // Horizontal swap
+    tmp_pointer = A_local_block;
+    A_local_block = A_local_block_copy;
+    A_local_block_copy = tmp_pointer;
     ...		
 }
 \end{lstlisting}
@@ -249,7 +273,7 @@ for(cannon_block_cycle = 0; cannon_block_cycle < sqrt_size; cannon_block_cycle++
 \includegraphics[width=.5\textwidth]{Pictures/Task4HWprobe}
 \end{figure}
 \begin{itemize}
-\item using \lstinline{MPI_Probe}
+\item using \lstinline{MPI_Test}
 \item big speedup
 \item no big differences
 \end{itemize}
@@ -266,22 +290,35 @@ for(cannon_block_cycle = 0; cannon_block_cycle < sqrt_size; cannon_block_cycle++
 \begin{itemize}
 	\item Initialization
 	\begin{itemize}
-		\item \lstinline[basicstyle=\scriptsize\bf]{MPI_Win_create}
-		\item \lstinline[basicstyle=\scriptsize\bf]{MPI_Win_free}
+		\alert{\item \lstinline[basicstyle=\scriptsize\bf]{MPI_Win_create}}
+			\begin{itemize}
+			\item One-sided MPI call that returns a window object for RMA operations.
+			\end{itemize}
+		\alert{\item \lstinline[basicstyle=\scriptsize\bf]{MPI_Win_free}}
+			\begin{itemize}
+			\item Frees the window object and returns a null handle.
+			\end{itemize}
 	\end{itemize}
 	
 	\item Remote Memory Access
 	\begin{itemize}
-		\item \lstinline[basicstyle=\scriptsize\bf]{MPI_Put}
-		\item \lstinline[basicstyle=\scriptsize]{MPI_Get}
-		\item \lstinline[basicstyle=\scriptsize]{MPI_Accumulate}                 
+		\alert{\item \lstinline[basicstyle=\scriptsize\bf]{MPI_Put}}
+			\begin{itemize}
+			\item Copies data from the origin memory to the target.
+			\end{itemize}
+		\item \lstinline[basicstyle=\scriptsize\bf]{MPI_Get}
+		\item \lstinline[basicstyle=\scriptsize\bf]{MPI_Accumulate}                 
 	\end{itemize}
 
 	\item Synchronization
 	\begin{itemize}
-		\item \lstinline[basicstyle=\scriptsize\bf]{MPI_Win_fence}
-		\item \lstinline[basicstyle=\scriptsize]{MPI_Win_post  /  MPI_Win_start /  MPI_Win_complete  / MPI_Win_wait}
-		\item \lstinline[basicstyle=\scriptsize]{MPI_Win_lock / MPI_Win_unlock}
+		\alert{\item \lstinline[basicstyle=\scriptsize\bf]{MPI_Win_fence}}
+		\begin{itemize}
+		\item Synchronizes RMA calls on a window.
+		\item  All RMA operations on win originating at a given process and started before the fence call will complete at that process before the fence call returns
+		\end{itemize}
+		\item \lstinline[basicstyle=\scriptsize\bf]{MPI_Win_post  /  MPI_Win_start /  MPI_Win_complete  / MPI_Win_wait}
+		\item \lstinline[basicstyle=\scriptsize\bf]{MPI_Win_lock / MPI_Win_unlock}
 	\end{itemize}
 \end{itemize}
 \end{frame}
@@ -336,18 +373,65 @@ for(cannon_block_cycle = 0; cannon_block_cycle < sqrt_size; cannon_block_cycle++
 ]
 \end{frame}
 
-\begin{frame}{Speedup of communication time}
+\begin{frame}{Comparison of communication time}
+\only<1>{
 \begin{figure}
 \includegraphics[width=.5\textwidth]{Pictures/comparisonSB}
 \hfill
 \includegraphics[width=.5\textwidth]{Pictures/comparisonHW}
 \end{figure}
+}
+\only<2>{
+\begin{figure}
+\includegraphics[width=.5\textwidth]{Pictures/speedupSB}
+\hfill
+\includegraphics[width=.5\textwidth]{Pictures/speedupHW}
+\end{figure}
+}
 \begin{itemize}
 \item \textbf{Nonblocking:} Usually little speedup, but big speedup for $2048\times2048$.
 \item \textbf{Nonblocking with probing:} High speedup for big problems.
-\item \textbf{DMA:} High overhead, but good speedup for big problems.
+\item \textbf{RMA:} High overhead, but good speedup for big problems.
 \end{itemize}
 
+\end{frame}
+
+\begin{frame}{Vampir}
+\only<1>{
+Blocking SendRecv
+\begin{figure}
+\includegraphics[width=1\textwidth]{Pictures/Blocking_full.png}
+\end{figure}
+}
+\only<2>{
+Nonblocking ISend/IRecv
+\begin{figure}
+\includegraphics[width=1\textwidth]{Pictures/Nonblocking_algorithm.png}
+\end{figure}
+}
+\only<3>{
+Nonblocking ISend/IRecv with probing (MPI{\_}Test)
+\begin{figure}
+\includegraphics[width=1\textwidth]{Pictures/Nonblocking_algorithm_probe.png}
+\end{figure}
+}
+\only<4>{
+Remote memory access MPI{\_}Put
+\begin{figure}
+\includegraphics[width=1\textwidth]{Pictures/RMA_algorithm.png}
+\end{figure}
+}
+\end{frame}
+
+\begin{frame}{Summary}
+\begin{itemize}
+\item[\textcolor{green}{$\bigoplus$}] Nonblocking communication is an efficient way to speed up your parallel program
+\item[\textcolor{green}{$\bigoplus$}] Exploit overlap of communication and computation
+\item[\textcolor{green}{$\bigoplus$}] Use tools to visualize bottlenecks
+\item[\textcolor{green}{$\bigoplus$}] Probing can speed up the communication part even furthermore
+\item[\textcolor{green}{$\bigoplus$}] Also RMA calls can further decrease the communication time
+\item[\textcolor{red}{$\bigotimes$}] Be aware of introduced overhead
+\end{itemize}
 \end{frame}
 
 
