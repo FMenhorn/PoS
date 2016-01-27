@@ -184,8 +184,28 @@ int main (int argc, char **argv) {
 	} 
 
 	// send a block to each process
-	MPI_Scatter(A_array, A_local_block_size, MPI_DOUBLE, A_local_block, A_local_block_size, MPI_DOUBLE, 0, cartesian_grid_communicator);
-	MPI_Scatter(B_array, B_local_block_size, MPI_DOUBLE, B_local_block, B_local_block_size, MPI_DOUBLE, 0, cartesian_grid_communicator);
+
+	int *send_count= (int *) malloc(size * sizeof(int));
+	int *displs_A = (int *) malloc(size * sizeof(int));
+	int *displs_B = (int *) malloc(size * sizeof(int));
+
+	int displ_coord_A_col = (coordinates[1] + sqrt_size - coordinates[0]) % sqrt_size; // A Column Switch
+	int displ_coord_B_row = (coordinates[0] + sqrt_size - coordinates[1]) % sqrt_size; // B Row Switch
+
+	int displs_local_A = coordinates[0]*sqrt_size*A_local_block_size + displ_coord_A_col*A_local_block_size;
+	int displs_local_B = displ_coord_B_row*sqrt_size*B_local_block_size + coordinates[1]*B_local_block_size;
+
+	MPI_Gather(&displs_local_A, 1, MPI_INT, displs_A, 1, MPI_INT, 0, cartesian_grid_communicator);
+	MPI_Gather(&displs_local_B, 1, MPI_INT, displs_B, 1, MPI_INT, 0, cartesian_grid_communicator);    
+	for(i = 0; i < size; i++){
+		send_count[i] = A_local_block_size;
+	}
+	
+	//MPI_Scatter(A_array, A_local_block_size, MPI_DOUBLE, A_local_block, A_local_block_size, MPI_DOUBLE, 0, cartesian_grid_communicator);
+	//MPI_Scatter(B_array, B_local_block_size, MPI_DOUBLE, B_local_block, B_local_block_size, MPI_DOUBLE, 0, cartesian_grid_communicator);
+
+	MPI_Scatterv(A_array, send_count, displs_A, MPI_DOUBLE, A_local_block, A_local_block_size, MPI_DOUBLE, 0, cartesian_grid_communicator);
+	MPI_Scatterv(B_array, send_count, displs_B, MPI_DOUBLE, B_local_block, B_local_block_size, MPI_DOUBLE, 0, cartesian_grid_communicator);
 	/*if(rank == 0) {
 		int i;
 		for(i = 1; i < size; i++){
@@ -205,7 +225,7 @@ int main (int argc, char **argv) {
 
 	// fix initial arrangements before the core algorithm starts
 	//TODO MAYBE SOMETHING HERE
-	if(coordinates[0] != 0){
+	/*if(coordinates[0] != 0){
 		MPI_Sendrecv_replace(A_local_block, A_local_block_size, MPI_DOUBLE, 
 				(coordinates[1] + sqrt_size - coordinates[0]) % sqrt_size, 0, 
 				(coordinates[1] + coordinates[0]) % sqrt_size, 0, row_communicator, &status);
@@ -214,7 +234,7 @@ int main (int argc, char **argv) {
 		MPI_Sendrecv_replace(B_local_block, B_local_block_size, MPI_DOUBLE, 
 				(coordinates[0] + sqrt_size - coordinates[1]) % sqrt_size, 0, 
 				(coordinates[0] + coordinates[1]) % sqrt_size, 0, column_communicator, &status);
-	}
+	}*/
 
 	//stop data scattering counter
 	scatter_time = MPI_Wtime() - scatter_time;
