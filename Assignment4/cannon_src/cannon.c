@@ -13,6 +13,9 @@ int main (int argc, char **argv) {
 	int rank, size, sqrt_size, matrices_a_b_dimensions[4];
 	MPI_Comm cartesian_grid_communicator, row_communicator, column_communicator;
 	MPI_Status status; 
+	
+	double reading_time, dimensions_time, scatter_time, gather_time, writing_time;
+	
 
 	// used to manage the cartesian grid
 	int dimensions[2], periods[2], coordinates[2], remain_dims[2];
@@ -43,6 +46,9 @@ int main (int argc, char **argv) {
 	remain_dims[0] = 1;
 	remain_dims[1] = 0;
 	MPI_Cart_sub(cartesian_grid_communicator, remain_dims, &column_communicator);
+
+	//Start I/O reading counter!
+	reading_time = MPI_Wtime();
 
 	// getting matrices from files at rank 0 only
 	// example: mpiexec -n 64 ./cannon matrix1 matrix2 [test]
@@ -98,6 +104,12 @@ int main (int argc, char **argv) {
 			MPI_Abort(MPI_COMM_WORLD, -1);
 		}
 	}
+	
+	//stop I/O reading counter
+	reading_time = MPI_Wtime() - reading_time;
+	
+	//Start dimensions sending counter
+	dimensions_time = MPI_Wtime();
 
 	// send dimensions to all peers
 	if(rank == 0) {
@@ -108,6 +120,9 @@ int main (int argc, char **argv) {
 	} else {
 		MPI_Recv(matrices_a_b_dimensions, 4, MPI_INT, 0, 0, cartesian_grid_communicator, &status);
 	}
+	
+	//stop dimensions sending counter
+	dimensions_time = MPI_Wtime() - dimensions_time;
 
 	A_rows = matrices_a_b_dimensions[0];
 	A_columns = matrices_a_b_dimensions[1];
@@ -133,6 +148,9 @@ int main (int argc, char **argv) {
 	for(i=0; i < A_local_block_rows * B_local_block_columns; i++){
 		C_local_block[i] = 0;
 	}
+	
+	//Start data scattering counter
+	scatter_time = MPI_Wtime();
 
 	// full arrays only needed at root
 	if(rank == 0){
@@ -193,6 +211,9 @@ int main (int argc, char **argv) {
 				(coordinates[0] + sqrt_size - coordinates[1]) % sqrt_size, 0, 
 				(coordinates[0] + coordinates[1]) % sqrt_size, 0, column_communicator, &status);
 	}
+	
+	//stop data scattering counter
+	scatter_time = MPI_Wtime() - scatter_time;
 
 	// cannon's algorithm
 	int cannon_block_cycle;
@@ -221,7 +242,10 @@ int main (int argc, char **argv) {
 				(coordinates[0] + 1) % sqrt_size, 0, column_communicator, &status);
 		mpi_time += MPI_Wtime() - start;
 	}
-
+	
+	//Start data gathering counter
+	gather_time = MPI_Wtime();
+	
 	// get C parts from other processes at rank 0
 	if(rank == 0) {
 		for(i = 0; i < A_local_block_rows * B_local_block_columns; i++){
@@ -235,9 +259,18 @@ int main (int argc, char **argv) {
 	} else {
 		MPI_Send(C_local_block, A_local_block_rows * B_local_block_columns, MPI_DOUBLE, 0, 0, cartesian_grid_communicator);
 	}
+	
+	//stop data gathering counter
+	gather_time = MPI_Wtime() - gather_time;
+	
+	
 
 	// generating output at rank 0
 	if (rank == 0) {
+		
+		//Start I/O writing counter
+		writing_time = MPI_Wtime();
+		
 		// convert the ID array into the actual C matrix 
 		int i, j, k, row, column;
 		for (i = 0; i < sqrt_size; i++){  // block row index
@@ -251,10 +284,23 @@ int main (int argc, char **argv) {
 				}
 			}
 		}
-
+		
+		//stop I/O writing counter
+		writing_time = MPI_Wtime() - writing_time;
+		
+		
+		//Print metrics
 		printf("(%d,%d)x(%d,%d)=(%d,%d)\n", A_rows, A_columns, B_rows, B_columns, A_rows, B_columns);
 		printf("Computation time: %lf\n", compute_time);
 		printf("MPI time:         %lf\n", mpi_time);
+		printf("Reading time:     %lf\n", reading_time);
+		printf("Dimensions time:  %lf\n", dimensions_time);
+		printf("Scattering time:  %lf\n", scatter_time);
+		printf("Gathering time:   %lf\n", gather_time);
+		printf("Writing time:     %lf\n", writing_time);
+		
+		printf("Total non-computational MPI time: %lf\n", dimensions_time + scatter_time + gather_time);
+		printf("Total IO time:    %lf\n", reading_time + writing_time);
 
 		if (argc == 4){
 			// present results on the screen
@@ -299,6 +345,8 @@ int main (int argc, char **argv) {
 			else printf("Consistency check: FAIL\n");
 		}	
 	}
+
+
 
 	// free all memory
 	if(rank == 0){
