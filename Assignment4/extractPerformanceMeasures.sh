@@ -9,13 +9,13 @@
 #	b.) strip off ',' followed by any number of any character (rest of line)
 #	c.) load next line
 #	d.) strip of newline followed by 'Computation time: ' and replace with a ,
-#	e.) repeat c-d for 'MPI time:        '.
+#	e.) repeat c-d for 'MPI time:        ' and all the other metrics.
 
 # Reads this from argument #1 and puts in standard output.
 
 
 sed -e '{
-	/^([1-9]\|^Computation\|^MPI/!d
+	/^([1-9]\| time:/!d
 	/^([1-9]/{
 		s/^(//
 		s/,.*//
@@ -23,6 +23,20 @@ sed -e '{
 		s/\nComputation time: /,/
 		N
 		s/\nMPI time:         /,/
+		N
+		s/\nReading time:     /,/
+		N
+		s/\nDimensions time:  /,/
+		N
+		s/\nScattering time:  /,/
+		N
+		s/\nGathering time:   /,/
+		N
+		s/\nWriting time:     /,/
+		N
+		s/\nTotal non-computational MPI time: /,/
+		N
+		s/\nTotal IO time:    /,/
 		}
 	}' $1
 
