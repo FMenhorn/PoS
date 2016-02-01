@@ -10,8 +10,8 @@ int main (int argc, char **argv) {
 	double *A_local_block = NULL, *A_local_block_other = NULL,
 		 *B_local_block = NULL, *B_local_block_other = NULL, *C_local_block = NULL;
 	char *A_local_block_read = NULL,  *B_local_block_read = NULL;
-	int A_rows, A_columns, A_local_block_rows, A_local_block_columns, A_local_block_size;
-	int B_rows, B_columns, B_local_block_rows, B_local_block_columns, B_local_block_size;
+	int A_rows, A_columns, A_local_block_rows, A_local_block_columns, A_local_block_size, A_file_header_size;
+	int B_rows, B_columns, B_local_block_rows, B_local_block_columns, B_local_block_size, B_file_header_size;
 	int rank, size, sqrt_size, matrices_a_b_dimensions[6];
 	MPI_Comm cartesian_grid_communicator, row_communicator, column_communicator;
 	MPI_Status status; 
@@ -140,6 +140,9 @@ int main (int argc, char **argv) {
 	A_columns = matrices_a_b_dimensions[1];
 	B_rows = matrices_a_b_dimensions[2];
 	B_columns = matrices_a_b_dimensions[3];
+	A_file_header_size = matrices_a_b_dimensions[4];
+	B_file_header_size = matrices_a_b_dimensions[5];
+	
 
 	// local metadata for A
 	A_local_block_rows = A_rows / sqrt_size;
@@ -158,10 +161,11 @@ int main (int argc, char **argv) {
 	B_local_block_other = (double *) malloc (B_local_block_size * sizeof(double));
 
 	// local metadata for C
-	C_local_block = (double *) malloc (A_local_block_rows * B_local_block_columns * sizeof(double));
+	int C_local_block_size = A_local_block_rows * B_local_block_columns;
+	C_local_block = (double *) malloc (C_local_block_size * sizeof(double));
 	// C needs to be initialized at 0 (accumulates partial dot-products)
 	int i;
-	for(i=0; i < A_local_block_rows * B_local_block_columns; i++){
+	for(i=0; i < C_local_block_size; i++){
 		C_local_block[i] = 0;
 	}
 	
@@ -216,6 +220,18 @@ int main (int argc, char **argv) {
 		MPI_Recv(A_local_block, A_local_block_size, MPI_DOUBLE, 0, 0, cartesian_grid_communicator, &status);
 		MPI_Recv(B_local_block, B_local_block_size, MPI_DOUBLE, 0, 0, cartesian_grid_communicator, &status);
 	}*/
+	
+	MPI_Info readInfo;
+	MPI_Info writeInfo;
+	MPI_Info_create(&readInfo);
+	MPI_Info_create(&writeInfo);
+	
+	MPI_Info_set(readInfo, "romio_cb_read", "enable");
+	MPI_Info_set(readInfo, "romio_ds_read", "enable");
+	
+	MPI_Info_set(writeInfo, "romio_cb_write", "enable");
+	MPI_Info_set(writeInfo, "romio_ds_write", "enable");
+	
 
 	int ierr;
 	int blocksize_A[2] = {A_rows, A_columns*characters_per_number};
@@ -225,7 +241,7 @@ int main (int argc, char **argv) {
     int subsize_A[2] = {A_local_block_rows, A_local_block_columns*characters_per_number};
     int subsize_B[2] = {B_local_block_rows, B_local_block_columns*characters_per_number};    
     int array_of_starts_A[2] = {coordinates[0]*A_local_block_rows,((coordinates[1] + coordinates[0]) % sqrt_size)*A_local_block_columns*characters_per_number};    //This shifts the starting coordinate according to the original shift in Cannon's algorithm!
-    int array_of_starts_B[2] = {((coordinates[1] + coordinates[0]) % sqrt_size)*A_local_block_rows,coordinates[1]*A_local_block_columns*characters_per_number};    //This shifts the starting coordinate according to the original shift in Cannon's algorithm!
+    int array_of_starts_B[2] = {((coordinates[1] + coordinates[0]) % sqrt_size)*B_local_block_rows,coordinates[1]*B_local_block_columns*characters_per_number};    //This shifts the starting coordinate according to the original shift in Cannon's algorithm!
     
     ierr = MPI_Type_create_subarray(2,                  //int ndims,
                            blocksize_A,                 //const int array_of_sizes[],
@@ -235,6 +251,8 @@ int main (int argc, char **argv) {
                            MPI_CHAR,                    //MPI_Datatype oldtype,
                            &datatype_blocks_A);          //MPI_Datatype *newtype);
                            
+    MPI_Type_commit(&datatype_blocks_A);
+    
     ierr = MPI_Type_create_subarray(2,                  //int ndims,
                            blocksize_B,                 //const int array_of_sizes[],
                            subsize_B,                   //const int array_of_subsizes[],
@@ -243,11 +261,19 @@ int main (int argc, char **argv) {
                            MPI_CHAR,                    //MPI_Datatype oldtype,
                            &datatype_blocks_B);          //MPI_Datatype *newtype);                
 	
+    MPI_Type_commit(&datatype_blocks_B);
+		
+	//stop data scattering counter
+	scatter_time = MPI_Wtime() - scatter_time;
+	
+	//Start I/O reading counter!
+	reading_time = MPI_Wtime();
+	
 	MPI_File mpi_file_matrixA;
 	
 	ierr=MPI_File_open(MPI_COMM_WORLD,
 		argv[1],
-		MPI_MODE_RDONLY,
+		MPI_MODE_RDONLY | MPI_MODE_UNIQUE_OPEN,
 		MPI_INFO_NULL, &mpi_file_matrixA);
 	
 	
@@ -255,25 +281,24 @@ int main (int argc, char **argv) {
 		printf(" Cannot open file\n");
 	}      
    
-    MPI_Type_commit(&datatype_blocks_A);
           
-	MPI_File_set_view(mpi_file_matrixA, matrices_a_b_dimensions[4], MPI_BYTE, 
-		datatype_blocks_A, "native", MPI_INFO_NULL);
-	
-	//Start I/O reading counter!
-	reading_time = MPI_Wtime();
+	MPI_File_set_view(mpi_file_matrixA, A_file_header_size, MPI_CHAR, 
+		datatype_blocks_A, "native", readInfo);
 	
 	MPI_File_read_all(mpi_file_matrixA, A_local_block_read, A_local_block_size * characters_per_number,
-		MPI_BYTE, MPI_STATUS_IGNORE);
+		MPI_CHAR, MPI_STATUS_IGNORE);
 		
+	MPI_File_close(&mpi_file_matrixA);
+	
 	//stop I/O reading counter
 	reading_time = MPI_Wtime() - reading_time;
-	//Convert read chars from matrices into doubles
 	
+	
+	//Convert read chars from matrices into doubles
 	for(i = 0; i < A_local_block_size; ++i)
 	{
 	    char tempString[4];
-	    strncpy(tempString,&A_local_block_read[i*characters_per_number],4);
+	    strncpy(tempString,&A_local_block_read[i*characters_per_number],characters_per_number);
 		sscanf(tempString, "%lf", &A_local_block_other[i]);
 		
 		
@@ -292,40 +317,39 @@ int main (int argc, char **argv) {
 		}*/
 	}
 	
-    
-	MPI_File_close(&mpi_file_matrixA);
+	//Start I/O reading counter!
+	double start_read = MPI_Wtime();
 	
 	//Do same for B
 	MPI_File mpi_file_matrixB;
 	
-	
 	ierr=MPI_File_open(MPI_COMM_WORLD,
 		argv[2],
-		MPI_MODE_RDONLY,
+		MPI_MODE_RDONLY | MPI_MODE_UNIQUE_OPEN,
 		MPI_INFO_NULL, &mpi_file_matrixB);
 	
 	if (ierr!=MPI_SUCCESS) {
 		printf("Cannot open file\n");
 	}
     
-    MPI_Type_commit(&datatype_blocks_B);
     
-    MPI_File_set_view(mpi_file_matrixB, matrices_a_b_dimensions[5], MPI_BYTE, 
-		datatype_blocks_B, "native", MPI_INFO_NULL);
-		
-	//Start I/O reading counter!
-	reading_time -= MPI_Wtime();
+    MPI_File_set_view(mpi_file_matrixB, B_file_header_size, MPI_CHAR, 
+		datatype_blocks_B, "native", readInfo);
 	
 	MPI_File_read_all(mpi_file_matrixB, B_local_block_read, B_local_block_size * characters_per_number,
 		MPI_BYTE, MPI_STATUS_IGNORE);
 		
 	//stop I/O reading counter
-	reading_time += MPI_Wtime();
+	reading_time += MPI_Wtime() - start_read;
+	
+	
+	
 	//Convert read chars from matrices into doubles
 	for(i = 0; i < B_local_block_size; ++i)
 	{
-	    char tempString[4];
-	    strncpy(tempString,&B_local_block_read[i*characters_per_number],4);
+	    char tempString[4]; //make a copy to not make sscanf try to check the whole string for terminating character
+	                        //(is SUPER SLOW if one doesn't do this)
+	    strncpy(tempString,&B_local_block_read[i*characters_per_number],characters_per_number);
 		sscanf(tempString, "%lf", &B_local_block_other[i]);
 	}
 	
@@ -344,8 +368,7 @@ int main (int argc, char **argv) {
 				(coordinates[0] + coordinates[1]) % sqrt_size, 0, column_communicator, &status);
 	}*/
 	
-	//stop data scattering counter
-	scatter_time = MPI_Wtime() - scatter_time;
+	
 
 	// cannon's algorithm
 	int cannon_block_cycle;
@@ -375,50 +398,97 @@ int main (int argc, char **argv) {
 		mpi_time += MPI_Wtime() - start;
 	}
 	
-	//Start data gathering counter
-	gather_time = MPI_Wtime();
 	
 	// get C parts from other processes at rank 0
-	if(rank == 0) {
-		for(i = 0; i < A_local_block_rows * B_local_block_columns; i++){
-			C_array[i] = C_local_block[i];
-		}
-		int i;
-		for(i = 1; i < size; i++){
-			MPI_Recv(C_array + (i * A_local_block_rows * B_local_block_columns), A_local_block_rows * B_local_block_columns, 
-				MPI_DOUBLE, i, 0, cartesian_grid_communicator, &status);
-		}
-	} else {
-		MPI_Send(C_local_block, A_local_block_rows * B_local_block_columns, MPI_DOUBLE, 0, 0, cartesian_grid_communicator);
-	}
+	//if(rank == 0) {
+	//	for(i = 0; i < A_local_block_rows * B_local_block_columns; i++){
+	//		C_array[i] = C_local_block[i];
+	//	}
+	//	int i;
+	//	for(i = 1; i < size; i++){
+	//		MPI_Recv(C_array + (i * A_local_block_rows * B_local_block_columns), A_local_block_rows * B_local_block_columns, 
+	//			MPI_DOUBLE, i, 0, cartesian_grid_communicator, &status);
+	//	}
+	//} else {
+	//	MPI_Send(C_local_block, A_local_block_rows * B_local_block_columns, MPI_DOUBLE, 0, 0, cartesian_grid_communicator);
+	//}
+	
+	
+	
+	
+	//Start data gathering counter
+	gather_time = MPI_Wtime();
+    int blocksize_C[2] = {A_rows, B_columns};
+    MPI_Datatype datatype_blocks_C;
+    int subsize_C[2] = {A_local_block_rows, B_local_block_columns};
+    int array_of_starts_C[2] = {coordinates[0]*A_local_block_rows, coordinates[1]*B_local_block_columns};    //This shifts the starting coordinate according to the original shift in Cannon's algorithm!
+                           
+    ierr = MPI_Type_create_subarray(2,                  //int ndims,
+                           blocksize_C,                 //const int array_of_sizes[],
+                           subsize_C,                   //const int array_of_subsizes[],
+                           array_of_starts_C,           //const int array_of_starts[],
+                           MPI_ORDER_C,                 //int order,
+                           MPI_DOUBLE,                  //MPI_Datatype oldtype,
+                           &datatype_blocks_C);         //MPI_Datatype *newtype);                
+	
+    MPI_Type_commit(&datatype_blocks_C);
+	MPI_File mpi_file_matrixC;
+	
+	char output_filename[50];
+	
+	sprintf(output_filename,"output%dx%d.out",A_rows,B_columns);
 	
 	//stop data gathering counter
 	gather_time = MPI_Wtime() - gather_time;
 	
+	//Start I/O writing counter
+	writing_time = MPI_Wtime();
 	
+	ierr=MPI_File_open(MPI_COMM_WORLD,
+		output_filename,
+		MPI_MODE_WRONLY | MPI_MODE_CREATE | MPI_MODE_UNIQUE_OPEN,
+		MPI_INFO_NULL, &mpi_file_matrixC);
+	
+	
+	if (ierr!=MPI_SUCCESS) {
+		printf(" Cannot open file\n");
+	}      
+   
+          
+	MPI_File_set_view(mpi_file_matrixC, 0, MPI_DOUBLE, 
+		datatype_blocks_C, "native", writeInfo);
+	
+	
+	MPI_File_write_all(mpi_file_matrixC, C_local_block, C_local_block_size,
+		MPI_DOUBLE, MPI_STATUS_IGNORE);
+		
+	MPI_File_close(&mpi_file_matrixC);
+	
+	//stop I/O writing counter
+	writing_time = MPI_Wtime() - writing_time;
 
 	// generating output at rank 0
 	if (rank == 0) {
 		
-		//Start I/O writing counter
-		writing_time = MPI_Wtime();
+		
+		
+		
+		
 		
 		// convert the ID array into the actual C matrix 
 		int i, j, k, row, column;
-		for (i = 0; i < sqrt_size; i++){  // block row index
-			for (j = 0; j < sqrt_size; j++){ // block column index
-				for (row = 0; row < A_local_block_rows; row++){
-					for (column = 0; column < B_local_block_columns; column++){
-						C[i * A_local_block_rows + row] [j * B_local_block_columns + column] = 
-							C_array[((i * sqrt_size + j) * A_local_block_rows * B_local_block_columns) 
-							+ (row * B_local_block_columns) + column];
-					}
-				}
-			}
-		}
+		//for (i = 0; i < sqrt_size; i++){  // block row index
+		//	for (j = 0; j < sqrt_size; j++){ // block column index
+		//		for (row = 0; row < A_local_block_rows; row++){
+		//			for (column = 0; column < B_local_block_columns; column++){
+		//				C[i * A_local_block_rows + row] [j * B_local_block_columns + column] = 
+		//					C_array[((i * sqrt_size + j) * A_local_block_rows * B_local_block_columns) 
+		//					+ (row * B_local_block_columns) + column];
+		//			}
+		//		}
+		//	}
+		//}
 		
-		//stop I/O writing counter
-		writing_time = MPI_Wtime() - writing_time;
 		
 		
 		//Print metrics
@@ -454,7 +524,17 @@ int main (int argc, char **argv) {
 					printf("%7.3f ",C[row][column]);
 				printf("\n");
 			}
-
+            //create array for comparing result
+            double * C_array_other;
+            if ((fp = fopen (output_filename, "rb")) != NULL){
+                printf("Reading output from %s...", output_filename);
+                C_array_other = (double*) malloc(A_rows * B_columns * sizeof(double));
+	            fread(C_array_other, sizeof(double), A_rows * B_columns, fp);
+	            fclose(fp);
+            } else {
+	            if(rank == 0) fprintf(stderr, "error opening file for matrix C (%s)\n", output_filename);
+	            MPI_Abort(MPI_COMM_WORLD, -1);
+            }
 
 			printf("\nPerforming serial consistency check. Be patient...\n");
 			fflush(stdout);
@@ -467,12 +547,13 @@ int main (int argc, char **argv) {
 						temp += A[i][k] * B[k][j];
 					}
 					printf("%7.3f ", temp);
-					if(temp != C[i][j]){
+					if(temp != C_array_other[i * B_columns + j]){
 						pass = 0;
 					}
 				}
 				printf("\n");
 			}
+			free(C_array_other);
 			if (pass) printf("Consistency check: PASS\n");
 			else printf("Consistency check: FAIL\n");
 		}	
@@ -502,6 +583,8 @@ int main (int argc, char **argv) {
 	free(A_local_block);
 	free(B_local_block);
 	free(C_local_block);
+	MPI_Info_free(&readInfo);
+	MPI_Info_free(&writeInfo);
 
 	// finalize MPI
 	MPI_Finalize();
