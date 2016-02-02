@@ -9,6 +9,7 @@
 \usepackage[bf,small, format=plain]{caption}
 \usepackage{color}
 \usepackage{bbding}
+\usepackage{bm} %bold math
 
 %\usepackage[usenames,dvipsnames]{xcolor}
 \usepackage{graphicx}
@@ -263,8 +264,10 @@ int C_local_block_size = A_local_block_size;
 \begin{frame}{\insertsubsection \ (contd.)}
 \begin{block}{Expectations}
 \begin{itemize}
-\item \textbf{Performance:} Higher performance due to highly optimized MPI collectives (might also consider network topology etc.) vs. naive implementation via \lstinline[basicstyle=\ttfamily]{MPI_Send/MPI_Recv}.
-\item \textbf{Scaling:} Efficient implementation of Broadcast, Gather, Scatter use treelike distribution of values, $\mathcal{O}\left(n\right) \rightarrow \mathcal{O}\left(\log(n)\right)$. This means we also benefit with respect to scalability.
+\item \textbf{Performance:\\}
+Higher performance due to highly optimized MPI collectives (might also consider network topology etc.) vs. naive implementation via \lstinline[basicstyle=\ttfamily]{MPI_Send/MPI_Recv}.
+\item \textbf{Scaling:\\}
+Efficient implementation of Broadcast, Gather, Scatter use treelike distribution of values, $\mathcal{O}\left(n\right) \rightarrow \mathcal{O}\left(\log(n)\right)$. This means we also benefit with respect to scalability.
 \end{itemize}
 \end{block}
 \end{frame}
@@ -273,15 +276,15 @@ int C_local_block_size = A_local_block_size;
 \begin{frame}{\insertsubsection \ (contd.)}
 \begin{block}{Readability and Maintainability}
 \begin{itemize}
-\item[\textcolor{green}{\Checkmark}] Sending dimensions with \lstinline[basicstyle=\ttfamily]{MPI_Bcast}
-\item[\textcolor{green}{\Checkmark}] Distributing matrix blocks \lstinline[basicstyle=\ttfamily]{MPI_Scatter}
-\item[\textcolor{red}{\XSolidBrush}]
+\item[\textcolor{YellowGreen}{$\bm\oplus$}] Sending dimensions with \lstinline[basicstyle=\ttfamily]{MPI_Bcast}
+\item[\textcolor{YellowGreen}{$\bm\oplus$}] Distributing matrix blocks \lstinline[basicstyle=\ttfamily]{MPI_Scatter}
+\item[\textcolor{red}{$\bm\ominus$}]
 Distributing matrix blocks and initial alignment with \lstinline[basicstyle=\ttfamily]{MPI_Scatterv} 
 	\begin{itemize}
 	\item[$\rightarrow$] introduces complicated offsets 
 	\item[$\rightarrow$] hard to see what actually happens (distribution \& rotation)
 	\end{itemize} 
-\item[\textcolor{green}{\Checkmark}] Collecting results using \lstinline[basicstyle=\ttfamily]{MPI_Gather}
+\item[\textcolor{YellowGreen}{$\bm{\oplus}$}] Collecting results using \lstinline[basicstyle=\ttfamily]{MPI_Gather}
 \end{itemize}
 \end{block}
 \end{frame}
