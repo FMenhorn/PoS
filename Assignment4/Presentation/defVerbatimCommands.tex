@@ -1,0 +1,64 @@
+\defverbatim[colored]\ioBaselineCodeRead{%
+\begin{lstlisting}[basicstyle=\tiny\ttfamily]
+if (rank == 0){
+   int row, column;
+   if ((fp = fopen (argv[1], "r")) != NULL){
+       fscanf(fp, "%d %d\n", &matrices_a_b_dimensions[0], &matrices_a_b_dimensions[1]);
+       A = (double **) malloc (matrices_a_b_dimensions[0] * sizeof(double *));
+       for (row = 0; row < matrices_a_b_dimensions[0]; row++){
+            A[row] = (double *) malloc(matrices_a_b_dimensions[1] * sizeof(double));
+            for (column = 0; column < matrices_a_b_dimensions[1]; column++)
+                fscanf(fp, "%lf", &A[row][column]);
+        }
+        fclose(fp);
+    } else {
+        if(rank == 0) fprintf(stderr, "error opening file for matrix A (%s)\n", argv[1]);
+        MPI_Abort(MPI_COMM_WORLD, -1);
+    }
+    /* Here same for B matrix */
+
+    // need to check that the multiplication is possible given dimensions 
+    /* Checks for right dimensions */
+}
+\end{lstlisting}}%
+
+\defverbatim[colored]\ioMPICodeRead{%
+\begin{lstlisting}[basicstyle=\tiny\ttfamily]
+MPI_Info readInfo;
+MPI_Info_create(&readInfo);
+int ierr;
+int blocksize_A[2] = {A_rows, A_columns*characters_per_number};
+MPI_Datatype datatype_blocks_A;
+int subsize_A[2] = {A_local_block_rows, A_local_block_columns*characters_per_number};
+int array_of_starts_A[2] = {coordinates[0]*A_local_block_rows,((coordinates[1] + coordinates[0]) % sqrt_size)*A_local_block_columns*characters_per_number};    //This shifts the starting coordinate according to the original shift in Cannon's algorithm!
+ierr = MPI_Type_create_subarray(2, blocksize_A, subsize_A, array_of_starts_A, MPI_ORDER_C, MPI_CHAR, &datatype_blocks_A);          
+MPI_Type_commit(&datatype_blocks_A);
+MPI_File mpi_file_matrixA;
+ierr=MPI_File_open(MPI_COMM_WORLD, argv[1], MPI_MODE_RDONLY | MPI_MODE_UNIQUE_OPEN, MPI_INFO_NULL, &mpi_file_matrixA);
+if (ierr!=MPI_SUCCESS) {printf(" Cannot open file\n");}
+MPI_File_set_view(mpi_file_matrixA, A_file_header_size, MPI_CHAR, datatype_blocks_A, "native", readInfo);
+	
+MPI_File_read_all(mpi_file_matrixA, A_local_block_read, A_local_block_size * characters_per_number, MPI_CHAR, MPI_STATUS_IGNORE);
+		
+MPI_File_close(&mpi_file_matrixA);
+\end{lstlisting}}%
+
+\defverbatim[colored]\ioMPICodeWrite{%
+\begin{lstlisting}[basicstyle=\tiny\ttfamily]
+int blocksize_C[2] = {A_rows, B_columns};
+MPI_Datatype datatype_blocks_C;
+int subsize_C[2] = {A_local_block_rows, B_local_block_columns};
+int array_of_starts_C[2] = {coordinates[0]*A_local_block_rows, coordinates[1]*B_local_block_columns};    //This shifts the starting coordinate according to the original shift in Cannon's algorithm!
+                           
+ierr = MPI_Type_create_subarray(2, blocksize_C, subsize_C, array_of_starts_C, MPI_ORDER_C, MPI_DOUBLE, &datatype_blocks_C);
+	
+MPI_Type_commit(&datatype_blocks_C);
+MPI_File mpi_file_matrixC;
+ierr=MPI_File_open(MPI_COMM_WORLD, output_filename, MPI_MODE_WRONLY | MPI_MODE_CREATE | MPI_MODE_UNIQUE_OPEN, MPI_INFO_NULL, &mpi_file_matrixC);
+if (ierr!=MPI_SUCCESS) {printf(" Cannot open file\n");} 
+MPI_File_set_view(mpi_file_matrixC, 0, MPI_DOUBLE, datatype_blocks_C, "native", writeInfo);
+	
+MPI_File_write_all(mpi_file_matrixC, C_local_block, C_local_block_size, MPI_DOUBLE, MPI_STATUS_IGNORE);
+		
+MPI_File_close(&mpi_file_matrixC);
+\end{lstlisting}}%
