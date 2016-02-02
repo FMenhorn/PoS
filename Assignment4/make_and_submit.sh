@@ -1,9 +1,10 @@
 #!/bin/bash
 
 
-if ((argc < 2))
+if (($# != 1))
 then 
     echo "Usage: <$0> <arch_ending>"
+    #echo "current number of arguments: $#"
     exit
 fi 
 
