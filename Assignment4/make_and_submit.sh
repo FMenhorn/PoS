@@ -1,0 +1,19 @@
+#!/bin/bash
+
+
+if ((argc < 2))
+then 
+    echo "Usage: <$0> <arch_ending>"
+    exit
+fi 
+
+echo "starting"
+
+for basefolder in "Task*"
+do
+    cd $basefolder/cannon_src
+    make clean; make
+    mv cannon cannon_$1
+    ./submitFileNTimes.sh ./ll-64-ibm_$1.sh 50 &
+done
+echo "done!"
