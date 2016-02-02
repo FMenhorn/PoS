@@ -117,16 +117,16 @@ int main (int argc, char **argv) {
 	//Start dimensions sending counter
 	dimensions_time = MPI_Wtime();
 
-	// send dimensions to all peers
-	if(rank == 0) {
-		int i;
-		for(i = 1; i < size; i++){
-			MPI_Send(matrices_a_b_dimensions, 6, MPI_INT, i, 0, cartesian_grid_communicator);
-		}
-	} else {
-		MPI_Recv(matrices_a_b_dimensions, 6, MPI_INT, 0, 0, cartesian_grid_communicator, &status);
-	}
-	
+    // send dimensions to all peers
+	MPI_Bcast(matrices_a_b_dimensions, 6, MPI_INT, 0, cartesian_grid_communicator);
+	//if(rank == 0) {
+	//	int i;
+	//	for(i = 1; i < size; i++){
+	//		MPI_Send(matrices_a_b_dimensions, 6, MPI_INT, i, 0, cartesian_grid_communicator);
+	//	}
+	//} else {
+	//	MPI_Recv(matrices_a_b_dimensions, 6, MPI_INT, 0, 0, cartesian_grid_communicator, &status);
+	//}
 	
 	//stop dimensions sending counter
 	dimensions_time = MPI_Wtime() - dimensions_time;
