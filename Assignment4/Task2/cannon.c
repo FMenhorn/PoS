@@ -183,7 +183,7 @@ int main (int argc, char **argv) {
 		}
 	} 
 
-	// send a block to each process
+	// send a block to each process and fix initial arrangements before the core algorithm starts
 
 	int *send_count= (int *) malloc(size * sizeof(int));
 	int *displs_A = (int *) malloc(size * sizeof(int));

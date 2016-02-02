@@ -1,4 +1,4 @@
-\documentclass[9pt,pdftex]{beamer}
+\documentclass[9pt,pdftex,xcolor=dvipsnames]{beamer}
 \setbeamertemplate{section in toc}[sections numbered]
 \setbeamertemplate{subsection in toc}%
 {\leavevmode\leftskip=3em\rlap{\hskip-2em\inserttocsectionnumber.\inserttocsubsectionnumber}\inserttocsubsection\par}
@@ -8,6 +8,7 @@
 \usepackage{amsfonts, amsmath, amssymb}
 \usepackage[bf,small, format=plain]{caption}
 \usepackage{color}
+\usepackage{bbding}
 
 %\usepackage[usenames,dvipsnames]{xcolor}
 \usepackage{graphicx}
@@ -34,16 +35,19 @@
 \pgfdeclarelayer{bg}
 \pgfsetlayers{bg,main}
 
+\definecolor{grey}{rgb}{0.9,0.9,0.9}
 \usepackage{listings}
 \lstset{language=C++,
 				breaklines=true,
 				tabsize=8,
 				showtabs=true,
-                basicstyle=\ttfamily,
+                basicstyle=\scriptsize\ttfamily,
                 keywordstyle=\color{blue}\ttfamily,
                 stringstyle=\color{red}\ttfamily,
-                commentstyle=\color{green}\ttfamily,
-                morecomment=[l][\color{magenta}]{\#}
+                commentstyle=\color{OliveGreen}\ttfamily,
+                morecomment=[l][\color{magenta}]{\#},
+                frame = single,
+                backgroundcolor=\color{grey} 
 }
 \usepackage{mdframed}
 \usepackage{multicol}
@@ -112,12 +116,176 @@
 
 
 \subsection{Optimizations}
-\begin{frame}{\insertsubsection}
-\begin{itemize}
-\item Would you expect performance or scalability benefits from the changes in this application? Explain.
-\item Is the resulting code easier to understand and maintain after the changes? If yes, why?
-\end{itemize}
+\begin{frame}[fragile]{\insertsubsection}
+Sending the dimensions of the matrix to all processes:
+\begin{columns}
+\column[t]{.5\textwidth}
+\begin{block}{Original code:}
+\begin{lstlisting}
+// send dimensions to all peers
+if(rank == 0) {
+    int i;
+    for(i = 1; i < size; i++){
+        MPI_Send(matrices_a_b_dimensions, 4, MPI_INT, i, 0, cartesian_grid_communicator);
+    }
+} else {
+    MPI_Recv(matrices_a_b_dimensions, 4, MPI_INT, 0, 0, cartesian_grid_communicator, &status);
+}
+\end{lstlisting}
+\end{block}
+
+\column[t]{.5\textwidth}
+\begin{block}{With collective operation:}
+\begin{lstlisting}	
+// send dimensions to all peers
+MPI_Bcast(matrices_a_b_dimensions, 4, MPI_INT, 0, cartesian_grid_communicator);
+\end{lstlisting}
+\end{block}
+\end{columns}
 \end{frame}
+
+\begin{frame}[fragile]{\insertsubsection \ (contd.)}
+Distribute matrix blocks among all processes:
+\begin{columns}
+\column[t]{.5\textwidth}
+\begin{block}{Original code:}
+\begin{lstlisting}
+// send a block to each process
+if(rank == 0) {
+    int i;
+    for(i = 1; i < size; i++){
+        MPI_Send(A_array, ...);
+        MPI_Send(B_array, ...);
+    }
+    for(i = 0; i < A_local_block_size; i++){
+        A_local_block[i] = A_array[i];
+    }
+    for(i = 0; i < B_local_block_size; i++){
+        B_local_block[i] = B_array[i];
+    }
+} else {
+    MPI_Recv(A_local_block, ...);
+    MPI_Recv(B_local_block, ...);
+}
+\end{lstlisting}
+\end{block}
+
+\column[t]{.5\textwidth}
+\begin{block}{With collective operation:}
+\begin{lstlisting}	
+// send a block to each process
+MPI_Scatter(A_array, A_local_block_size, MPI_DOUBLE, A_local_block, A_local_block_size, MPI_DOUBLE, 0, cartesian_grid_communicator);
+MPI_Scatter(B_array, B_local_block_size, MPI_DOUBLE, B_local_block, B_local_block_size, MPI_DOUBLE, 0, cartesian_grid_communicator);
+\end{lstlisting}
+\end{block}
+\end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{\insertsubsection \ (contd.)}
+Distribute matrix blocks among all processes and do initial rotation of blocks:
+\begin{columns}
+\column[t]{.5\textwidth}
+\begin{block}{Original code:}
+\begin{lstlisting}
+// send a block to each process
+...
+// fix initial arrangements before the core algorithm starts
+if(coordinates[0] != 0){
+    MPI_Sendrecv_replace(A_local_block, ...);
+}
+if(coordinates[1] != 0){
+    MPI_Sendrecv_replace(B_local_block, ...);
+}
+\end{lstlisting}
+\end{block}
+
+\column[t]{.5\textwidth}
+\begin{block}{With collective operation:}
+\begin{lstlisting}	
+// send a block to each process and fix initial arrangements before the core algorithm starts
+int *send_count= (int *) malloc(...);
+int *displs_A = (int *) malloc(...);
+int *displs_B = (int *) malloc(...);
+int displ_coord_A_col = ... 
+int displ_coord_B_row = ...
+int displs_local_A = ...
+int displs_local_B = ...
+
+MPI_Gather(&displs_local_A, ...);
+MPI_Gather(&displs_local_B, ...);  
+  
+for(i = 0; i < size; i++){
+	send_count[i] = A_local_block_size;
+}
+
+MPI_Scatterv(A_array, ...);
+MPI_Scatterv(B_array, ...);
+\end{lstlisting}
+\end{block}
+\end{columns}
+\end{frame}
+
+
+\begin{frame}[fragile]{\insertsubsection \ (contd.)}
+Collect results after computation loop:
+\begin{columns}
+\column[t]{.5\textwidth}
+\begin{block}{Original code:}
+\begin{lstlisting}
+// get C parts from other processes at rank 0
+if(rank == 0) {
+    for(i = 0; i < A_local_block_rows * B_local_block_columns; i++){
+        C_array[i] = C_local_block[i];
+    }
+    int i;
+    for(i = 1; i < size; i++){
+        MPI_Recv(....);
+    }
+} else {
+    MPI_Send(...);
+}
+\end{lstlisting}
+\end{block}
+
+\column[t]{.5\textwidth}
+\begin{block}{With collective operation:}
+\begin{lstlisting}	
+// get C parts from other processes at rank 0
+int C_local_block_size = A_local_block_size;
+	MPI_Gather(C_local_block, C_local_block_size, MPI_DOUBLE, C_array, C_local_block_size, MPI_DOUBLE, 0, cartesian_grid_communicator);
+\end{lstlisting}
+\end{block}
+\end{columns}
+\end{frame}
+	
+
+
+\begin{frame}{\insertsubsection \ (contd.)}
+\begin{block}{Expectations}
+\begin{itemize}
+\item \textbf{Performance:} Higher performance due to highly optimized MPI collectives (might also consider network topology etc.) vs. naive implementation via \lstinline[basicstyle=\ttfamily]{MPI_Send/MPI_Recv}.
+\item \textbf{Scaling:} Efficient implementation of Broadcast, Gather, Scatter use treelike distribution of values, $\mathcal{O}\left(n\right) \rightarrow \mathcal{O}\left(\log(n)\right)$. This means we also benefit with respect to scalability.
+\end{itemize}
+\end{block}
+\end{frame}
+
+
+\begin{frame}{\insertsubsection \ (contd.)}
+\begin{block}{Readability and Maintainability}
+\begin{itemize}
+\item[\textcolor{green}{\Checkmark}] Sending dimensions with \lstinline[basicstyle=\ttfamily]{MPI_Bcast}
+\item[\textcolor{green}{\Checkmark}] Distributing matrix blocks \lstinline[basicstyle=\ttfamily]{MPI_Scatter}
+\item[\textcolor{red}{\XSolidBrush}]
+Distributing matrix blocks and initial alignment with \lstinline[basicstyle=\ttfamily]{MPI_Scatterv} 
+	\begin{itemize}
+	\item[$\rightarrow$] introduces complicated offsets 
+	\item[$\rightarrow$] hard to see what actually happens (distribution \& rotation)
+	\end{itemize} 
+\item[\textcolor{green}{\Checkmark}] Collecting results using \lstinline[basicstyle=\ttfamily]{MPI_Gather}
+\end{itemize}
+\end{block}
+\end{frame}
+
 
 
 \subsection{Performance Measurements}
