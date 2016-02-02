@@ -64,7 +64,7 @@ int main (int argc, char **argv) {
 			for (row = 0; row < matrices_a_b_dimensions[0]; row++){
 				A[row] = (double *) malloc(matrices_a_b_dimensions[1] * sizeof(double));
 				for (column = 0; column < matrices_a_b_dimensions[1]; column++)
-					fscanf(fp, "%lf", &Agi;
+					fscanf(fp, "%lf", &A[row][column]);
 			}
 			fclose(fp);
 		} else {
@@ -436,7 +436,7 @@ int main (int argc, char **argv) {
 	
 	char output_filename[50];
 	
-	sprintf(output_filename,"output%dx%d_%d.out",A_rows,B_columns,atoi(arvg[3]));
+	sprintf(output_filename,"output%dx%d_%d.out",A_rows,B_columns,atoi(argv[3]));
 	
 	//stop data gathering counter
 	gather_time = MPI_Wtime() - gather_time;
