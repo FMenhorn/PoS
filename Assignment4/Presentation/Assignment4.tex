@@ -333,8 +333,23 @@ What is "Data Sieving" and "2-Phase IO"? How do they help improve IO performance
 \subsection{Scalability of original application}
 \begin{frame}{\insertsubsection}
 \begin{itemize}
-\item Was the original implementation scalable in terms of IO performance?
-\item Was the original implementation scalable in terms of RAM storage?
+	\item Was the original implementation scalable in terms of IO performance?
+	\begin{itemize}
+		\item[\textcolor{YellowGreen}{$\bm\oplus$}] With constant \#cores: yes -- with matrix sizes $N \times N$, reading times scaled as $\mathcal{O}\left(N^2\right)$\\
+		$\rightarrow$ scales better than matrix-matrix multiplication with fixed number of processes $\mathcal{O}\left(N^3\right)$
+		\item[\textcolor{red}{$\bm\ominus$}] Weak scaling no: then local matrix-matrix size and comp. time is fixed, but IO time increases
+		\begin{itemize}
+			\item[\textcolor{YellowGreen}{$\bm\oplus$}] New application is however weak scalable since IO time only depends on local matrix size
+		\end{itemize}
+	\end{itemize}
+	\item Was the original implementation scalable in terms of RAM storage?
+	\begin{itemize}
+		\item[\textcolor{red}{$\bm\ominus$}] No - matrices get bigger and bigger, but RAM size fixed
+		\item[\textcolor{red}{$\bm\ominus$}] With constant \#cores: Neither is new application -- since local matrix sizes also increase
+		\begin{itemize}
+			\item[\textcolor{YellowGreen}{$\bm\oplus$}] New application is weakly scalable: matrix size constant		
+		\end{itemize}
+	\end{itemize}
 \end{itemize}
 \end{frame}
 
