@@ -16,5 +16,6 @@ do
     make clean; make
     mv cannon cannon_$1
     ./submitFileNTimes.sh ./ll-64-ibm_$1.sh 50 2>>submittedFiles.txt 1>>submittedFiles.txt &
+    cd ../../
 done
 echo "done!"
