@@ -64,7 +64,7 @@ int main (int argc, char **argv) {
 			for (row = 0; row < matrices_a_b_dimensions[0]; row++){
 				A[row] = (double *) malloc(matrices_a_b_dimensions[1] * sizeof(double));
 				for (column = 0; column < matrices_a_b_dimensions[1]; column++)
-					fscanf(fp, "%lf", &A[row][column]);
+					fscanf(fp, "%lf", &Agi;
 			}
 			fclose(fp);
 		} else {
@@ -436,7 +436,7 @@ int main (int argc, char **argv) {
 	
 	char output_filename[50];
 	
-	sprintf(output_filename,"output%dx%d.out",A_rows,B_columns);
+	sprintf(output_filename,"output%dx%d_%d.out",A_rows,B_columns,atoi(arvg[3]));
 	
 	//stop data gathering counter
 	gather_time = MPI_Wtime() - gather_time;
@@ -504,7 +504,7 @@ int main (int argc, char **argv) {
 		printf("Total non-computational MPI time: %lf\n", dimensions_time + scatter_time + gather_time);
 		printf("Total IO time:    %lf\n", reading_time + writing_time);
 
-		if (argc == 4){
+		if (argc == 5){
 			// present results on the screen
 			/*printf("\nA( %d x %d ):\n", A_rows, A_columns);
 			for(row = 0; row < A_rows; row++) {
