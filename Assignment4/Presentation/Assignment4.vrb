@@ -1,0 +1,5 @@
+\frametitle{\insertsubsection --\insertsubsubsection }
+How much of the communication in the application was replaced with MPI-IO operations? \\
+\begin{block}{Original code (line 55-106):}
+\ioMPICodeWrite
+\end{block}

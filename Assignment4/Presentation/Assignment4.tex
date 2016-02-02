@@ -319,9 +319,29 @@ What is "Data Sieving" and "2-Phase IO"? How do they help improve IO performance
 \end{itemize}
 \end{frame}
 
-
+\input{defVerbatimCommands}
 \subsection{Impact of parallel IO}
-\begin{frame}{\insertsubsection}
-How much of the communication in the application was replaced with MPI-IO operations?
+
+\subsubsection{Reading Data}
+\begin{frame}[fragile]{\insertsubsection--\insertsubsubsection}
+How much of the communication in the application was replaced with MPI-IO operations? \\
+\only<1>{
+\begin{block}{Original code (line 55-106):}
+\ioBaselineCodeRead
+\end{block}
+}
+\only<2>{
+\begin{block}{Using MPI IO:}
+\ioMPICodeRead
+\end{block}
+}
+\end{frame}
+
+\subsubsection{Writing Data}
+\begin{frame}[fragile]{\insertsubsection--\insertsubsubsection}
+How much of the communication in the application was replaced with MPI-IO operations? \\
+\begin{block}{Original code (line 55-106):}
+\ioMPICodeWrite
+\end{block}
 \end{frame}
 \end{document}
