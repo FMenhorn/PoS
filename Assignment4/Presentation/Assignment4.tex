@@ -294,7 +294,19 @@ Distributing matrix blocks and initial alignment with \lstinline[basicstyle=\ttf
 
 \subsection{Performance Measurements}
 \begin{frame}{\insertsubsection}
-Show some measurements for falsification/verification of our guess
+\begin{minipage}{0.45\textwidth}
+\begin{figure}
+\centering
+\includegraphics[scale=0.3]{img/comparison_hw_collectives.pdf}
+\end{figure}
+\end{minipage}
+\hspace{0.2cm}
+\begin{minipage}{0.45\textwidth}
+\begin{figure}
+\centering
+\includegraphics[scale=0.3]{img/comparison_sb_collectives.pdf}
+\end{figure}
+\end{minipage}
 \end{frame}
 
 
@@ -333,23 +345,8 @@ What is "Data Sieving" and "2-Phase IO"? How do they help improve IO performance
 \subsection{Scalability of original application}
 \begin{frame}{\insertsubsection}
 \begin{itemize}
-	\item Was the original implementation scalable in terms of IO performance?
-	\begin{itemize}
-		\item[\textcolor{YellowGreen}{$\bm\oplus$}] With constant \#cores: yes -- with matrix sizes $N \times N$, reading times scaled as $\mathcal{O}\left(N^2\right)$\\
-		$\rightarrow$ scales better than matrix-matrix multiplication with fixed number of processes $\mathcal{O}\left(N^3\right)$
-		\item[\textcolor{red}{$\bm\ominus$}] Weak scaling no: then local matrix-matrix size and comp. time is fixed, but IO time increases
-		\begin{itemize}
-			\item[\textcolor{YellowGreen}{$\bm\oplus$}] New application is however weak scalable since IO time only depends on local matrix size
-		\end{itemize}
-	\end{itemize}
-	\item Was the original implementation scalable in terms of RAM storage?
-	\begin{itemize}
-		\item[\textcolor{red}{$\bm\ominus$}] No - matrices get bigger and bigger, but RAM size fixed
-		\item[\textcolor{red}{$\bm\ominus$}] With constant \#cores: Neither is new application -- since local matrix sizes also increase
-		\begin{itemize}
-			\item[\textcolor{YellowGreen}{$\bm\oplus$}] New application is weakly scalable: matrix size constant		
-		\end{itemize}
-	\end{itemize}
+\item Was the original implementation scalable in terms of IO performance?
+\item Was the original implementation scalable in terms of RAM storage?
 \end{itemize}
 \end{frame}
 
@@ -382,4 +379,34 @@ How much of the communication in the application was replaced with MPI-IO operat
 \end{block}
 \end{overlayarea}
 \end{frame}
+
+\subsection{Performance Measurements}
+\begin{frame}{\insertsubsection}
+\only<1>{
+Total IO time = read (+ scatter) (+ gather) + write \\
+\begin{figure}
+\centering
+\includegraphics[scale=0.3]{img/comparison_hw_io_all.pdf}
+\end{figure}
+}
+\only<2>{
+Setup time = read (+ scatter) \\
+Teardown time = write (+ gather) \\
+\begin{minipage}{0.45\textwidth}
+\begin{figure}
+\centering
+\includegraphics[scale=0.3]{img/comparison_hw_io_su.pdf}
+\end{figure}
+\end{minipage}
+\hspace{0.2cm}
+\begin{minipage}{0.45\textwidth}
+\begin{figure}
+\centering
+\includegraphics[scale=0.3]{img/comparison_hw_io_td.pdf}
+\end{figure}
+\end{minipage}
+}
+\end{frame}
+
+
 \end{document}
