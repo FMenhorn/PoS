@@ -1,0 +1,10 @@
+(128,128)x(128,128)=(128,128)
+Computation time: 0.006506
+MPI time:         0.000529
+Reading time:     0.013951
+Dimensions time:  0.000008
+Scattering time:  0.000754
+Gathering time:   0.000110
+Writing time:     0.000145
+Total non-computational MPI time: 0.000872
+Total IO time:    0.014096
