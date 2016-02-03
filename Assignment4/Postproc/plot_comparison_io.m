@@ -2,11 +2,14 @@ function [ ] = plot_comparison_io(idx)
 %PLOT_COMPARISON Summary of this function goes here
 %   Detailed explanation goes here
 
-PATH1 = ['../Task1/output_hw/'];
+PROCTYPESHORT='hw';
+%PROCTYPESHORT='sb';
+
+PATH1 = ['../Task1/output_',PROCTYPESHORT,'/'];
 data_1=all_csv_to_mat(PATH1);
-PATH2 = ['../Task2/output_hw/'];
+PATH2 = ['../Task2/output_',PROCTYPESHORT,'/'];
 data_2=all_csv_to_mat(PATH2);
-PATH3 = ['../Task3/output_hw/'];
+PATH3 = ['../Task3/output_',PROCTYPESHORT,'/'];
 data_3=all_csv_to_mat(PATH3);
 
 [x_1_io,y_1_io]=get_mean_data(data_1.size,data_1.total_IO_time);
@@ -26,6 +29,7 @@ data_3=all_csv_to_mat(PATH3);
 [x_3_tot,y_3_tot]=get_mean_data(data_3.size,data_3.total_non_computational_mpi_time+data_3.total_IO_time+data_3.computation_time+data_3.mpi_time);
 
 PROCTYPEFULL = 'Haswell';
+%PROCTYPEFULL = 'Sandybridge';
   
 if idx == 1
 figure(1)
@@ -38,6 +42,7 @@ set(gca,'yScale','log')
 xlabel('problem size')
 ylabel('time in seconds')
 ylim([10^-3,10^1])
+xlim([64,4096])
 title(['comparison of total IO time on ',PROCTYPEFULL])
 legend('baseline IO time','collective IO time','MPI-IO IO time',...
        'Location','southoutside')
@@ -57,6 +62,7 @@ set(gca,'yScale','log')
 xlabel('problem size')
 ylabel('time in seconds')
 ylim([10^-3,10^1])
+xlim([64,4096])
 title(['comparison of total setup time on ',PROCTYPEFULL])
 legend('baseline setup time','collective setup time','MPI-IO setup time',...
        'Location','southoutside')  
@@ -76,6 +82,7 @@ set(gca,'yScale','log')
 xlabel('problem size')
 ylabel('time in seconds')
 ylim([10^-5,10^1])
+xlim([64,4096])
 title(['comparison of total teardown time on ',PROCTYPEFULL])
 legend('baseline teardown time','collective teardown time','MPI-IO teardown time',...
        'Location','southoutside')   
@@ -95,6 +102,7 @@ set(gca,'yScale','log')
 xlabel('problem size')
 ylabel('time in seconds')
 ylim([10^-3,10^1])
+xlim([64,4096])
 title(['comparison of total time on ',PROCTYPEFULL])
 legend('total time','collective time','MPI-IO time',...
        'Location','southoutside')   
